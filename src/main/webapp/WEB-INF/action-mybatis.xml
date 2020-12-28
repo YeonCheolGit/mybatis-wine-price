@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 마이바티스 관련 빈들을 생성 RAC-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <bean id="propertyPlaceholderConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations" value="/WEB-INF/jdbc.properties"/>
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/MVC?characterEncoding=UTF-8&amp;serverTimezone=UTC" />
+        <property name="username" value="root" />
+        <property name="password" value="duscjf135*" />
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:model/mybatis-model.xml"/>
+        <property name="mapperLocations">
+            <array>
+                <value>classpath:mapper/wine-mappers.xml</value>
+                <value>classpath:mapper/member-mappers.xml</value>
+            </array>
+        </property>
+    </bean>
+
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactory"/>
+    </bean>
+
+</beans>
