@@ -12,14 +12,26 @@
     </resultMap>
 
     <select id="selectAllMembers" resultMap="memberResult">
-        select *
-        from MVC.t_member
-        order by regDate;
+        <![CDATA[
+            select *
+            from MVC.t_member
+            order by regDate;
+        ]]>
     </select>
 
     <select id="registerMember" resultMap="memberResult">
-        insert into MVC.t_member(id, pwd, name)
-        VALUES (#{id}, #{pwd}, #{name});
+        <![CDATA[
+            insert into MVC.t_member(id, pwd, name)
+            VALUES (#{id}, #{pwd}, #{name});
+        ]]>
     </select>
 
+    <select id="login" resultMap="memberResult">
+        <![CDATA[
+        select id, pwd
+        from MVC.t_member
+        where id = #{id}
+          and pwd = #{pwd};
+        ]]>
+    </select>
 </mapper>

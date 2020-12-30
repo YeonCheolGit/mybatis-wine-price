@@ -17,10 +17,12 @@
     </resultMap>
 
     <select id="selectAllWines" resultMap="wineResult">
-        select * from MVC.wine order by name
+        <![CDATA[
+            select * from MVC.wine order by name
+        ]]>
     </select>
-    
-    <select id="selectWineByName" resultType="wineDTO" parameterType="String">
+
+    <select id="selectWineByName" resultMap="wineResult" >
         <![CDATA[
             select * from MVC.wine WHERE name=#{name}
         ]]>

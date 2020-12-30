@@ -17,4 +17,9 @@ public class MemberServiceImpl implements MemberService {
     public void registerMember(MemberDTO memberDTO) {
         memberDAO.registerMember(memberDTO);
     }
+
+    @Override
+    public MemberDTO login(MemberDTO memberDTO) {
+        return memberDAO.login(memberDTO);
+    }
 }

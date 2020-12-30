@@ -1,37 +1,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <html>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#logoutBtn").on("click", function(){
+            location.href="${contextPath}/member/logout";
+        })
+    })
+</script>
 <body>
-    <table>
-        <thead>
-            <tr>
-                <th>이름</th>
-                <th>생산지</th>
-                <th>종류</th>
-                <th>도수</th>
-                <th>당도</th>
-                <th>산도</th>
-                <th>바디감</th>
-                <th>어울리는 음식</th>
-                <th>가격</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach items="${allWineList}" var="wineList">
-                <tr>
-                    <td>${wineList.name}</td>
-                    <td>${wineList.origin}</td>
-                    <td>${wineList.type}</td>
-                    <td>${wineList.alcohol}</td>
-                    <td>${wineList.sweetness}</td>
-                    <td>${wineList.acid}</td>
-                    <td>${wineList.body}</td>
-                    <td>${wineList.food}</td>
-                    <td>${wineList.price}</td>
-                </tr>
-            </c:forEach>
-        </tbody>
-    </table>
+    <form name='homeForm' method="post" action="${contextPath}/member/login">
+        <c:if test="${member == null}">
+            <div>
+                <label for="id"></label>
+                <input type="text" id="id" name="id">
+            </div>
+            <div>
+                <label for="pwd"></label>
+                <input type="password" id="pwd" name="pwd">
+            </div>
+            <div>
+                <button type="submit">로그인</button>
+                <button type="button">회원가입</button>
+            </div>
+        </c:if>
+        <c:if test="${member != null }">
+            <div>
+                <p>${member.id}님 환영 합니다.</p>
+                <button id="logoutBtn" type="button">로그아웃</button>
+            </div>
+        </c:if>
+        <c:if test="${msg == false}">
+            <p style="color: red;">로그인 실패! 아이디와 비밀번호 확인해주세요.</p>
+        </c:if>
+    </form>
 </body>
 </html>
