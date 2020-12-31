@@ -28,6 +28,9 @@
             </div>
         </c:if>
         <c:if test="${member != null }">
+            <ul>
+                <li><a href="${contextPath}/wine/allWineList">와인 목록</a></li>
+            </ul>
             <div>
                 <p>${member.id}님 환영 합니다.</p>
                 <button id="logoutBtn" type="button">로그아웃</button>

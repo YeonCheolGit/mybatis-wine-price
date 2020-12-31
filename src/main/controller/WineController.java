@@ -20,10 +20,13 @@ public class WineController {
         this.wineService = wineService;
     }
 
+    /*
+    All wine list
+     */
     @GetMapping(value = "/allWineList")
     public String allWineList(Model model) {
         List<WineDTO> allWineList = wineService.selectAllWine();
         model.addAttribute("allWineList", allWineList);
-        return "wine/wine";
+        return "wine/wineList";
     }
 }

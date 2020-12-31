@@ -23,22 +23,30 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+    /*
+    @GetMapping
+    Move to member register form
+    registerMember.jsp
+     */
     @GetMapping(value = "/registerMember")
     public String goRegisterMemberForm() {
         return "member/registerMember";
     }
 
+    /*
+    @PostMapping
+    Do register member
+     */
     @PostMapping(value = "/registerMember")
     public String registerMember(MemberDTO memberDTO) {
         memberService.registerMember(memberDTO);
         return "redirect:/wine/allWineList";
     }
 
-    @GetMapping(value = "/main")
-    public String goMain() {
-        return "main";
-    }
-
+    /*
+    Do login
+    If login data doesn't come from view <-- null
+     */
     @RequestMapping(value = "/login")
     public String login(MemberDTO memberDTO, HttpServletRequest req, RedirectAttributes rttr) {
         session = req.getSession();
@@ -51,16 +59,16 @@ public class MemberController {
         if(login == null) {
             session.setAttribute("member", null);
             rttr.addFlashAttribute("msg", false);
-        }else {
+        } else {
             session.setAttribute("member", login);
         }
-        return "redirect:/member/main";
+        return "redirect:/main";
     }
 
     @RequestMapping(value = "/logout")
     public String logout() {
         session.invalidate();
-        return "redirect:/member/main";
+        return "redirect:/main";
     }
 
 }
