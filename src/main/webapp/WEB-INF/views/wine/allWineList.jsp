@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+
 <html>
 <body>
     <table>
         <thead>
             <tr>
+                <th></th>
                 <th>이름</th>
                 <th>생산지</th>
                 <th>종류</th>
@@ -20,7 +23,8 @@
         <tbody>
             <c:forEach items="${allWineList}" var="wineList">
                 <tr>
-                    <td>${wineList.name}</td>
+                    <td>${wineList.number}</td>
+                    <td><a href="${contextPath}/wine/readOneWine?number=${wineList.number}">${wineList.name}</a></td>
                     <td>${wineList.origin}</td>
                     <td>${wineList.type}</td>
                     <td>${wineList.alcohol}</td>

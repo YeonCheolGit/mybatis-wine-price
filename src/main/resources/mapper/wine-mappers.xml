@@ -5,6 +5,7 @@
 
 <mapper namespace="mapper.wine">
     <resultMap id="wineResult" type="wineDTO">
+        <result property="number" column="number" />
         <result property="name" column="name" />
         <result property="origin" column="origin" />
         <result property="type" column="type" />
@@ -25,6 +26,12 @@
     <select id="selectWineByName" resultMap="wineResult" >
         <![CDATA[
             select * from MVC.wine WHERE name=#{name}
+        ]]>
+    </select>
+
+    <select id="readOneWine" resultMap="wineResult" parameterType="int">
+        <![CDATA[
+            select * from MVC.wine where number=#{number}
         ]]>
     </select>
 </mapper>

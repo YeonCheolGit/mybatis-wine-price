@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Getter @Setter
 public class WineDTO {
+
+    int number;
     String name;
     String origin;
     String type;
@@ -20,7 +22,8 @@ public class WineDTO {
     public WineDTO() {
     }
 
-    public WineDTO(String name, String origin, String type, int alcohol, int sweetness, int acid, int body, String food, int price) {
+    public WineDTO(int number, String name, String origin, String type, int alcohol, int sweetness, int acid, int body, String food, int price) {
+        this.number = number;
         this.name = name;
         this.origin = origin;
         this.type = type;

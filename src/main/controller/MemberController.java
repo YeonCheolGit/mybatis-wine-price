@@ -40,7 +40,7 @@ public class MemberController {
     @PostMapping(value = "/registerMember")
     public String registerMember(MemberDTO memberDTO) {
         memberService.registerMember(memberDTO);
-        return "redirect:/wine/allWineList";
+        return "redirect:/main";
     }
 
     /*

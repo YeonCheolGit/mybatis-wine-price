@@ -1,5 +1,6 @@
 package main.DAO.wine;
 
+import main.DTO.MemberDTO;
 import main.DTO.WineDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -20,5 +21,10 @@ public class WineDAOImpl implements WineDAO {
     @Override
     public List<WineDTO> selectAllWine() {
         return sqlSession.selectList(nameSpace + ".selectAllWines");
+    }
+
+    @Override
+    public WineDTO readOneWine(int number) {
+        return sqlSession.selectOne(nameSpace + ".readOneWine", number);
     }
 }
