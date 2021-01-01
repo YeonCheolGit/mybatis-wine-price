@@ -4,7 +4,9 @@
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <html>
 <head>
-    <title>Title</title>
+    <head>
+        <jsp:include page="../header/nav.jsp" />
+    </head>
 </head>
 <body>
     <div>
@@ -25,33 +27,15 @@
             </thead>
             <tbody>
             <tr>
-                <td>
-                    ${readOneWine.number}
-                </td>
-                <td>
-                    ${readOneWine.name}
-                <td>
-                    ${readOneWine.origin}
-                </td>
-                <td>
-                    ${readOneWine.alcohol}
-                </td>
-                <td>
-                    ${readOneWine.sweetness}
-                </td>
-                <td>
-                    ${readOneWine.acid}
-                </td>
-                <td>
-                    ${readOneWine.body}
-                </td>
-                <td>
-                    ${readOneWine.food}
-                </td>
-                <td>
-                    ${readOneWine.price}
-                </td>
-
+                <td>${readOneWine.number}</td>
+                <td>${readOneWine.name}<td>
+                <td>${readOneWine.origin}</td>
+                <td>${readOneWine.alcohol}</td>
+                <td>${readOneWine.sweetness}</td>
+                <td>${readOneWine.acid}</td>
+                <td>${readOneWine.body}</td>
+                <td>${readOneWine.food}</td>
+                <td>${readOneWine.price}</td>
             </tr>
             </tbody>
         </table>

@@ -37,7 +37,7 @@
             </div>
         </c:if>
         <c:if test="${msg == false}">
-            <p style="color: red;">로그인 실패! 아이디와 비밀번호 확인해주세요.</p>
+            <p style="color: red;">아이디와 비밀번호를 다시 확인해주세요.</p>
         </c:if>
     </form>
 </body>
