@@ -28,7 +28,7 @@ public class MemberController {
     Move to member register form
     registerMember.jsp
      */
-    @GetMapping(value = "/registerMember")
+    @GetMapping(value = "/goRegisterMemberForm")
     public String goRegisterMemberForm() {
         return "member/registerMember";
     }
@@ -40,14 +40,22 @@ public class MemberController {
     @PostMapping(value = "/registerMember")
     public String registerMember(MemberDTO memberDTO) {
         memberService.registerMember(memberDTO);
-        return "redirect:/main";
+        return "redirect:/";
+    }
+
+    /*
+    Go Login Form
+     */
+    @GetMapping(value = "/loginForm")
+    public String goLoginForm() {
+        return "member/loginForm";
     }
 
     /*
     Do login
     If login data doesn't come from view <-- null
      */
-    @RequestMapping(value = "/login")
+    @PostMapping(value = "/login")
     public String login(MemberDTO memberDTO, HttpServletRequest req, RedirectAttributes rttr) {
         session = req.getSession();
         MemberDTO login = memberService.login(memberDTO);
@@ -62,13 +70,13 @@ public class MemberController {
         } else {
             session.setAttribute("member", login);
         }
-        return "redirect:/main";
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/logout")
     public String logout() {
         session.invalidate();
-        return "redirect:/main";
+        return "redirect:/";
     }
 
 }

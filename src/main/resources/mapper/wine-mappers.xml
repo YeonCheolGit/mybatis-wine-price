@@ -19,19 +19,31 @@
 
     <select id="selectAllWines" resultMap="wineResult">
         <![CDATA[
-            select * from MVC.wine order by name
-        ]]>
-    </select>
-
-    <select id="selectWineByName" resultMap="wineResult" >
-        <![CDATA[
-            select * from MVC.wine WHERE name=#{name}
+        select *
+        from MVC.wine
+        order by number;
         ]]>
     </select>
 
     <select id="readOneWine" resultMap="wineResult" parameterType="int">
         <![CDATA[
-            select * from MVC.wine where number=#{number}
+        select *
+        from MVC.wine
+        where number = #{number};
+        ]]>
+    </select>
+
+    <select id="searchWineByName" resultMap="wineResult">
+        select * from MVC.t_member where name like concat('%' || #{name} || '%')
+    </select>
+
+    <select id="listPaging" resultMap="wineResult">
+        <![CDATA[
+        select *
+        from MVC.wine
+        where number > 0
+        order by number desc
+        limit #{pageStart}, #{perPageNum};
         ]]>
     </select>
 </mapper>

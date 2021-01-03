@@ -30,6 +30,10 @@
                     <td>${wineList.alcohol}</td>
                 </tr>
             </c:forEach>
+            <form action="${contextPath}/wine/searchWineByName">
+                <input type="text" name="keyword" id="keyword" value="${name}" />
+                <button>검색</button>
+            </form>
         </tbody>
     </table>
 </div>

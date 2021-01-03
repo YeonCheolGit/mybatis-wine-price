@@ -1,6 +1,7 @@
 package main.service.wine;
 
 import main.DAO.wine.WineDAO;
+import main.DTO.Criteria;
 import main.DTO.MemberDTO;
 import main.DTO.WineDTO;
 import org.springframework.stereotype.Service;
@@ -23,5 +24,15 @@ public class WineServiceImpl implements WineService {
     @Override
     public WineDTO readOneWine(int number) {
         return wineDAO.readOneWine(number);
+    }
+
+    @Override
+    public List<WineDTO> searchWineByName(String name) {
+        return wineDAO.searchWineByName(name);
+    }
+
+    @Override
+    public List<WineDTO> listPaging(Criteria criteria) {
+        return wineDAO.listPaging(criteria);
     }
 }

@@ -1,5 +1,6 @@
 package main.DAO.wine;
 
+import main.DTO.Criteria;
 import main.DTO.MemberDTO;
 import main.DTO.WineDTO;
 import org.apache.ibatis.session.SqlSession;
@@ -26,5 +27,15 @@ public class WineDAOImpl implements WineDAO {
     @Override
     public WineDTO readOneWine(int number) {
         return sqlSession.selectOne(nameSpace + ".readOneWine", number);
+    }
+
+    @Override
+    public List<WineDTO> searchWineByName(String name) {
+        return sqlSession.selectList(nameSpace + ".searchWineByName", name);
+    }
+
+    @Override
+    public List<WineDTO> listPaging(Criteria criteria) {
+        return sqlSession.selectList(nameSpace + ".listPaging", criteria);
     }
 }

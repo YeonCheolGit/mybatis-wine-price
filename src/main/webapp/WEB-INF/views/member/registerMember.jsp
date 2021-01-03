@@ -4,7 +4,36 @@
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <html>
 <head>
-    <title>Title</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>\</title>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".cancel").on("click", function(){
+                location.href = "/";
+            })
+
+            $("#submit").on("click", function(){
+                if($("#id").val()==""){
+                    alert("아이디를 입력해주세요.");
+                    $("#id").focus();
+                    return false;
+                }
+                if($("#pwd").val()==""){
+                    alert("비밀번호를 입력해주세요.");
+                    $("#pwd").focus();
+                    return false;
+                }
+                if($("#name").val()==""){
+                    alert("성명을 입력해주세요.");
+                    $("#name").focus();
+                    return false;
+                }
+            });
+
+
+
+        })
+    </script>
 </head>
 <body>
     <section id="container">
@@ -23,7 +52,7 @@
             </div>
             <div>
                 <button type="submit" id="submit">회원가입</button>
-                <button type="button">취소</button>
+                <button class="cancel" type="button">취소</button>
             </div>
         </form>
     </section>
