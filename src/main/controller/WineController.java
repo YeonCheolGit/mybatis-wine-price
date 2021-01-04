@@ -2,6 +2,7 @@ package main.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import main.DTO.Criteria;
+import main.DTO.PageMaker;
 import main.DTO.WineDTO;
 import main.service.wine.WineService;
 import org.slf4j.Logger;
@@ -50,21 +51,31 @@ public class WineController {
         return "/wine/allWineList";
     }
 
+//    @GetMapping(value = "/listPaging")
+//    public String listPaging(Model model) {
+//        logger.info("listPaging");
+//
+//        Criteria criteria = new Criteria();
+//        criteria.setPage(0);
+//        criteria.setPerPageNum(10);
+//
+//        List<WineDTO> listPaging = wineService.listPaging(criteria);
+//
+//        model.addAttribute("allWineList", listPaging);
+//        return "/wine/allWineList";
+//    }
+
     @GetMapping(value = "/listPaging")
-    public String listPaging(Model model) {
+    public String listPaging(Model model, Criteria cri) {
         logger.info("listPaging");
 
-        Criteria criteria = new Criteria();
-        criteria.setPage(0);
-        criteria.setPerPageNum(10);
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCri(cri);
+        pageMaker.setTotalCount(1000);
 
-        List<WineDTO> listPaging = wineService.listPaging(criteria);
+        model.addAttribute("allWineList", wineService.listPaging(cri));
+        model.addAttribute("pageMaker", pageMaker);
 
-        for (WineDTO wineDTO : listPaging) {
-            logger.info(wineDTO.getName() + ":" + wineDTO.getNumber());
-        }
-
-        model.addAttribute("allWineList", listPaging);
-        return "/wine/allWineList";
+        return "/wine/allWineListTest";
     }
 }

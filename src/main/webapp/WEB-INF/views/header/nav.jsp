@@ -11,7 +11,7 @@
 <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
     <form class="container-fluid justify-content-start">
         <button class="btn btn-outline-success me-2" type="button">
-            <a class="navbar-brand" href="${contextPath}/wine/allWineList">목록</a>
+            <a class="navbar-brand" href="${contextPath}/wine/listPaging">목록</a>
         </button>
         <button class="btn btn-outline-success me-2" type="button">
             <c:if test="${member != null}"><a href="${contextPath}/member/logout">로그아웃</a></c:if>
