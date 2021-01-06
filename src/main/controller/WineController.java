@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-
 @Controller
 @Slf4j
 @RequestMapping(value = "/wine")
@@ -27,16 +25,19 @@ public class WineController {
         this.wineService = wineService;
     }
 
-    /*
-    All wine list
-     */
-//    @GetMapping(value = "/allWineList")
-//    public String allWineList(Model model) {
-//        logger.info("allWineList");
-//        List<WineDTO> allWineList = wineService.selectAllWine();
-//        model.addAttribute("allWineList", allWineList);
-//        return "/wine/allWineList";
-//    }
+    @GetMapping(value = "/allWineList")
+    public String allWineList(Model model, Criteria criteria) {
+        logger.info("allWineList");
+
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCriteria(criteria);
+        pageMaker.setTotalCount(wineService.countWines(criteria));
+
+        model.addAttribute("allWineList", wineService.listPaging(criteria));
+        model.addAttribute("pageMaker", pageMaker);
+
+        return "/wine/allWineList";
+    }
 
     @RequestMapping(value = "/readOneWine")
     public String readOneWine(WineDTO wineDTO, Model model) {
@@ -49,33 +50,5 @@ public class WineController {
     public String searchWineByName(Model model, @ModelAttribute("name") WineDTO wineDTO) {
         model.addAttribute("searchWineByName", wineService.searchWineByName("name"));
         return "/wine/allWineList";
-    }
-
-//    @GetMapping(value = "/listPaging")
-//    public String listPaging(Model model) {
-//        logger.info("listPaging");
-//
-//        Criteria criteria = new Criteria();
-//        criteria.setPage(0);
-//        criteria.setPerPageNum(10);
-//
-//        List<WineDTO> listPaging = wineService.listPaging(criteria);
-//
-//        model.addAttribute("allWineList", listPaging);
-//        return "/wine/allWineList";
-//    }
-
-    @GetMapping(value = "/listPaging")
-    public String listPaging(Model model, Criteria cri) {
-        logger.info("listPaging");
-
-        PageMaker pageMaker = new PageMaker();
-        pageMaker.setCri(cri);
-        pageMaker.setTotalCount(1000);
-
-        model.addAttribute("allWineList", wineService.listPaging(cri));
-        model.addAttribute("pageMaker", pageMaker);
-
-        return "/wine/allWineListTest";
     }
 }

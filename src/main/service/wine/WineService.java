@@ -14,4 +14,6 @@ public interface WineService {
     public List<WineDTO> searchWineByName(String name);
 
     public List<WineDTO> listPaging(Criteria criteria);
+
+    public int countWines(Criteria criteria);
 }

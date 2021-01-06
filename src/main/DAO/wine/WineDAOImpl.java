@@ -38,4 +38,9 @@ public class WineDAOImpl implements WineDAO {
     public List<WineDTO> listPaging(Criteria criteria) {
         return sqlSession.selectList(nameSpace + ".listPaging", criteria);
     }
+
+    @Override
+    public int countWines(Criteria criteria) {
+        return sqlSession.selectOne(nameSpace + ".countWines", criteria);
+    }
 }

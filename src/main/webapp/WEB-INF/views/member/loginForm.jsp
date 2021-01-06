@@ -15,7 +15,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form name='homeForm' method="post" action="${contextPath}/member/login">
+    <form name='loginForm' method="post" action="${contextPath}/member/login">
         <div>
             <label for="id"></label>
             <input type="text" id="id" name="id">

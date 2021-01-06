@@ -35,4 +35,9 @@ public class WineServiceImpl implements WineService {
     public List<WineDTO> listPaging(Criteria criteria) {
         return wineDAO.listPaging(criteria);
     }
+
+    @Override
+    public int countWines(Criteria criteria) {
+        return wineDAO.countWines(criteria);
+    }
 }

@@ -15,4 +15,6 @@ public interface WineDAO {
     public List<WineDTO> searchWineByName(String name);
 
     public List<WineDTO> listPaging(Criteria criteria);
+
+    public int countWines(Criteria criteria);
 }

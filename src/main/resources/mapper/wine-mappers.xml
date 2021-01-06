@@ -46,4 +46,12 @@
         limit #{pageStart}, #{perPageNum};
         ]]>
     </select>
+
+    <select id="countWines" resultType="int">
+        <![CDATA[
+        select COUNT(number)
+        from MVC.wine
+        where number > 0;
+        ]]>
+    </select>
 </mapper>
