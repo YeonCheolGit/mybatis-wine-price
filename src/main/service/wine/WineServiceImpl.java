@@ -1,8 +1,7 @@
 package main.service.wine;
 
 import main.DAO.wine.WineDAO;
-import main.DTO.Criteria;
-import main.DTO.MemberDTO;
+import main.paging.Criteria;
 import main.DTO.WineDTO;
 import org.springframework.stereotype.Service;
 

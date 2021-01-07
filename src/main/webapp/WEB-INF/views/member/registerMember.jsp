@@ -40,7 +40,7 @@
         <form method="post" action="${contextPath}/member/registerMember">
             <div>
                 <label for="id">아이디</label>
-                <input type="text" id="id" name="id" />
+                <input type="email" id="id" name="id" />
             </div>
             <div>
                 <label for="pwd">비밀번호</label>

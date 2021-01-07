@@ -1,8 +1,8 @@
 package main.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import main.DTO.Criteria;
-import main.DTO.PageMaker;
+import main.paging.Criteria;
+import main.paging.PageMaker;
 import main.DTO.WineDTO;
 import main.service.wine.WineService;
 import org.slf4j.Logger;

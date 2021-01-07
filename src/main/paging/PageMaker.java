@@ -1,4 +1,4 @@
-package main.DTO;
+package main.paging;
 
 public class PageMaker {
 

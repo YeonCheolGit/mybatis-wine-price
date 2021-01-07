@@ -49,30 +49,17 @@ public class MemberController {
     }
 
     /*
-    Go Login Form
-     */
-    @GetMapping(value = "/loginForm")
-    public String goLoginForm() {
-        logger.debug("goLoginForm");
-        return "member/loginFormTest";
-    }
-
-    /*
     Do login
     If login data doesn't come from view <-- null
      */
     @PostMapping(value = "/login")
     public String login(MemberDTO memberDTO, HttpServletRequest req, RedirectAttributes rttr) {
-        logger.debug("login");
+        logger.info("login");
 
         session = req.getSession();
         MemberDTO login = memberService.login(memberDTO);
 
-        /*
-        로그인 시도를 안했으니, 찾은 것도 null then return 'main'
-        로그인 후 session에 member 이름으로 로그인 정보 then return 'main'
-         */
-        if(login == null) {
+        if (login == null) {
             session.setAttribute("member", null);
             rttr.addFlashAttribute("msg", false);
         } else {
@@ -86,5 +73,4 @@ public class MemberController {
         session.invalidate();
         return "redirect:/";
     }
-
 }

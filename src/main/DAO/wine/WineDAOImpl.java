@@ -1,7 +1,6 @@
 package main.DAO.wine;
 
-import main.DTO.Criteria;
-import main.DTO.MemberDTO;
+import main.paging.Criteria;
 import main.DTO.WineDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
