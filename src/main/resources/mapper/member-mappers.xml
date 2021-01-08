@@ -28,7 +28,7 @@
 
     <select id="login" resultMap="memberResult">
         <![CDATA[
-        select id, pwd
+        select id, pwd, name
         from MVC.t_member
         where id = #{id}
           and pwd = #{pwd};
