@@ -7,7 +7,4 @@ public interface MemberDAO {
     void registerMember(MemberDTO memberDTO);
 
     MemberDTO login(MemberDTO memberDTO);
-
-
-
 }

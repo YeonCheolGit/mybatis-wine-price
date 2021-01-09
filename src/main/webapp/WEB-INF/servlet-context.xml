@@ -9,8 +9,7 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/mvc
-        https://www.springframework.org/schema/mvc/spring-mvc.xsd"
->
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <mvc:annotation-driven />
     <mvc:resources mapping="/resources/**" location="/main/resources/"/>
@@ -20,5 +19,9 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <context:component-scan base-package="main"/>
+    <context:component-scan base-package="main.controller"/>
+    <context:component-scan base-package="main.DAO"/>
+    <context:component-scan base-package="main.DTO"/>
+    <context:component-scan base-package="main.paging"/>
+    <context:component-scan base-package="main.service"/>
 </beans>
