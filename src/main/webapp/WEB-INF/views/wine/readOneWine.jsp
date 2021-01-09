@@ -4,9 +4,8 @@
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <html>
 <head>
-    <head>
-        <jsp:include page="../header/nav.jsp" />
-    </head>
+    <title></title>
+    <jsp:include page="../header/nav.jsp" />
 </head>
 <body>
     <div>

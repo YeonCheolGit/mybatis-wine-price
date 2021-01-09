@@ -43,7 +43,7 @@ public class WineController {
     public String readOneWine(WineDTO wineDTO, Model model) {
         logger.info("readOneWine");
         model.addAttribute("readOneWine", wineService.readOneWine(wineDTO.getNumber()));
-        return "wine/readOneWine";
+        return "/wine/readOneWine";
     }
 
     @GetMapping(value = "/searchWineByName")
