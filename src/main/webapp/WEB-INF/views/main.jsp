@@ -6,7 +6,7 @@
 <html>
 <head>
     <div>
-        <jsp:include page="../views/header/nav.jsp" />
+        <jsp:include page="commons/header.jsp" />
     </div>
     <title></title>
 </head>

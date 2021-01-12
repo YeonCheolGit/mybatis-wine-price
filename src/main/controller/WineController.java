@@ -27,7 +27,7 @@ public class WineController {
 
     @GetMapping(value = "/allWineList")
     public String allWineList(Model model, Criteria criteria) {
-        logger.info("allWineList");
+        logger.debug("allWineList debug >>> ");
 
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCriteria(criteria);
@@ -41,13 +41,14 @@ public class WineController {
 
     @RequestMapping(value = "/readOneWine")
     public String readOneWine(WineDTO wineDTO, Model model) {
-        logger.info("readOneWine");
+        logger.debug("readOneWine debugs >>> ");
         model.addAttribute("readOneWine", wineService.readOneWine(wineDTO.getNumber()));
         return "/wine/readOneWine";
     }
 
     @GetMapping(value = "/searchWineByName")
     public String searchWineByName(Model model, @ModelAttribute("name") WineDTO wineDTO) {
+        logger.debug("searchWineByName debugs >>> ");
         model.addAttribute("searchWineByName", wineService.searchWineByName("name"));
         return "/wine/allWineList";
     }

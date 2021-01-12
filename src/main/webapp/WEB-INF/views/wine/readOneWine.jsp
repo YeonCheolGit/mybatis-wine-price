@@ -5,7 +5,7 @@
 <html>
 <head>
     <title></title>
-    <jsp:include page="../header/nav.jsp" />
+    <jsp:include page="../commons/header.jsp" />
 </head>
 <body>
     <div>

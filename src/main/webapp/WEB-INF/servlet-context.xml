@@ -19,9 +19,5 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <context:component-scan base-package="main.controller"/>
-    <context:component-scan base-package="main.DAO"/>
-    <context:component-scan base-package="main.DTO"/>
-    <context:component-scan base-package="main.paging"/>
-    <context:component-scan base-package="main.service"/>
+    <context:component-scan base-package="main"/>
 </beans>
