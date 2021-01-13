@@ -5,11 +5,11 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <html>
 <head>
-    <div>
-        <jsp:include page="commons/header.jsp" />
-    </div>
     <title></title>
 </head>
 <body>
+    <header>
+        <jsp:include page="commons/header.jsp" />
+    </header>
 </body>
 </html>

@@ -7,8 +7,6 @@
 <head>
     <title>Title</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
         #modal_login,
         #modal_logout,
@@ -40,25 +38,51 @@
             $('#close_modal').click(function () {
                 $('#exampleModal').modal("hide");
             });
-
-            $("#submit").on("click", function(){
-                if($("#id").val()===""){
+            $("#login_submit").on("click", function () {
+                if ($("#login_id").val() === "") {
                     alert("아이디를 입력해주세요.");
-                    $("#userId").focus();
+                    $("#login_id").focus();
                     return false;
                 }
-                if($("#pwd").val()===""){
+                if ($("#login_pwd").val() === "") {
                     alert("비밀번호를 입력해주세요.");
-                    $("#userPass").focus();
-                    return false;
-                }
-                if($("#name").val()===""){
-                    alert("성명을 입력해주세요.");
-                    $("#userName").focus();
+                    $("#login_pwd").focus();
                     return false;
                 }
             });
-
+            $("#register_submit").on("click", function () {
+                if ($("#register_id").val() === "") {
+                    alert("아이디를 입력해주세요.");
+                    $("#register_id").focus();
+                    return false;
+                }
+                if ($("#register_pwd").val() === "") {
+                    alert("비밀번호를 입력해주세요.");
+                    $("#register_pwd").focus();
+                    return false;
+                }
+                if ($("#register_name").val() === "") {
+                    alert("성명을 입력해주세요.");
+                    $("#register_name").focus();
+                    return false;
+                }
+            });
+            $('#idChk').click(function () {
+                $.ajax({
+                    url: "${contextPath}/member/idChk",
+                    type: "post",
+                    dataType: "json",
+                    data: {"id" : $("#register_id").val()},
+                    success: function (data) {
+                        if (data === 1) {
+                            alert("중복된 아이디입니다.");
+                        } else if (data === 0) {
+                            $("#idChk").attr("value", "Y");
+                            alert("사용가능한 아이디입니다.");
+                        }
+                    }
+                })
+            });
         })
     </script>
 </head>
@@ -97,23 +121,23 @@
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="id" class="form-label">아이디</label>
-                                <input type="email" id="id" name="id" class="form-control" placeholder="example@email.com">
+                                <label for="login_id" class="form-label">아이디</label>
+                                <input type="email" id="login_id" name="id" class="form-control" placeholder="example@email.com">
                             </div>
                             <div class="mb-3">
-                                <label for="pwd" class="form-label">비밀번호</label>
-                                <input type="password" id="pwd" name="pwd" class="form-control">
+                                <label for="login_pwd" class="form-label">비밀번호</label>
+                                <input type="password" id="login_pwd" name="pwd" class="form-control">
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                            <button type="submit" class="btn btn-primary" id="submit">로그인</button>
+                            <button type="submit" class="btn btn-primary" id="login_submit">로그인</button>
                         </div>
                     </div>
                 </div>
             </div>
         </form>
-        <form class="container-fluid justify-content-start" method="post" action="${contextPath}/member/registerMember" name="registerForm">
+        <form class="container-fluid justify-content-start" method="post" action="${contextPath}/member/registerMember">
             <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -123,21 +147,22 @@
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="id" class="form-label">아이디</label>
-                                <input type="email" id="id" name="id" class="form-control" placeholder="example@email.com">
+                                <label for="register_id" class="form-label">아이디</label>
+                                <input type="email" id="register_id" name="id" class="form-control" placeholder="example@email.com">
+                                <button type="button" id="idChk" onclick="fn_idChk();" value="N">중복확인</button>
                             </div>
                             <div class="mb-3">
-                                <label for="pwd" class="form-label">비밀번호</label>
-                                <input type="password" id="pwd" name="pwd" class="form-control">
+                                <label for="register_pwd" class="form-label">비밀번호</label>
+                                <input type="password" id="register_pwd" name="pwd" class="form-control">
                             </div>
                             <div class="mb-3">
-                                <label for="name" class="form-label">이름</label>
-                                <input type="text" id="name" name="name" class="form-control">
+                                <label for="register_name" class="form-label">이름</label>
+                                <input type="text" id="register_name" name="name" class="form-control">
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                            <button type="submit" class="btn btn-primary" id="submit">회원가입</button>
+                            <button type="submit" class="btn btn-primary" id="register_submit">회원가입</button>
                         </div>
                     </div>
                 </div>
@@ -145,5 +170,7 @@
         </form>
     </nav>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </body>
 </html>

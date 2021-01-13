@@ -6,9 +6,7 @@ import main.service.member.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +32,13 @@ public class MemberController {
     @PostMapping(value = "/registerMember")
     public String registerMember(MemberDTO memberDTO) {
         logger.debug("registerMember debug >>> ");
-        memberService.registerMember(memberDTO);
+        int result = memberService.idChk(memberDTO);
+
+        if (result == 1) {
+            return "redirect:/";
+        } else if (result == 0) {
+            memberService.registerMember(memberDTO);
+        }
         return "redirect:/";
     }
 
@@ -63,5 +67,12 @@ public class MemberController {
         logger.debug("logout debug >>> ");
         session.invalidate();
         return "redirect:/";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/idChk", method = RequestMethod.POST)
+    public int idChk(MemberDTO memberDTO) {
+        logger.debug("idChk debug >>> ");
+        return memberService.idChk(memberDTO);
     }
 }

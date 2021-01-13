@@ -7,4 +7,6 @@ public interface MemberService {
     void registerMember(MemberDTO memberDTO);
 
     MemberDTO login(MemberDTO memberDTO);
+
+    int idChk(MemberDTO memberDTO);
 }

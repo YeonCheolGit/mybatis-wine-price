@@ -22,4 +22,9 @@ public class MemberServiceImpl implements MemberService {
     public MemberDTO login(MemberDTO memberDTO) {
         return memberDAO.login(memberDTO);
     }
+
+    @Override
+    public int idChk(MemberDTO memberDTO) {
+        return memberDAO.idChk(memberDTO);
+    }
 }

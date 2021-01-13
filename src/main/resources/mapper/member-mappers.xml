@@ -18,20 +18,25 @@
             order by regDate;
         ]]>
     </select>
-
     <select id="registerMember" resultMap="memberResult">
         <![CDATA[
             insert into MVC.t_member(id, pwd, name)
             VALUES (#{id}, #{pwd}, #{name});
         ]]>
     </select>
-
     <select id="login" resultMap="memberResult">
         <![CDATA[
         select id, pwd, name
         from MVC.t_member
         where id = #{id}
           and pwd = #{pwd};
+        ]]>
+    </select>
+    <select id="idChk" resultType="int">
+        <![CDATA[
+        select COUNT(id)
+        from MVC.t_member
+        where id = #{id};
         ]]>
     </select>
 </mapper>
