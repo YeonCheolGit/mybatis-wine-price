@@ -39,4 +39,12 @@
         where id = #{id};
         ]]>
     </select>
+    <update id="memberUpdate">
+        <![CDATA[
+        update MVC.t_member
+        set name = #{name},
+            pwd  = #{pwd}
+        where id = #{id};
+        ]]>
+    </update>
 </mapper>

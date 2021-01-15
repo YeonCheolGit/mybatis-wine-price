@@ -27,4 +27,9 @@ public class MemberServiceImpl implements MemberService {
     public int idChk(MemberDTO memberDTO) {
         return memberDAO.idChk(memberDTO);
     }
+
+    @Override
+    public int updateMember(MemberDTO memberDTO) {
+        return memberDAO.updateMember(memberDTO);
+    }
 }

@@ -29,4 +29,9 @@ public class MemberDAOImpl implements MemberDAO {
     public int idChk(MemberDTO memberDTO) {
         return sqlSession.selectOne(nameSpace + ".idChk", memberDTO);
     }
+
+    @Override
+    public int updateMember(MemberDTO memberDTO) {
+        return sqlSession.update(nameSpace + ".memberUpdate", memberDTO);
+    }
 }

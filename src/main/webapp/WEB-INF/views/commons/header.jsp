@@ -10,10 +10,11 @@
     <style>
         #modal_login,
         #modal_logout,
-        #modal_register {
+        #modal_register,
+        #modal_update {
             margin-left: 2px;
             border: 1px solid lightsalmon;
-            background-color: rgba(0,0,0,0);
+            background-color: rgba(0, 0, 0, 0);
             color: lightsalmon;
             padding-top: 5px;
             padding-bottom: 5px;
@@ -26,65 +27,17 @@
             color: white;
             background-color: lightsalmon;
         }
+        #idChk {
+            margin-top: 1px;
+            padding-top: 1px;
+            padding-bottom: 1px;
+            color: lightcoral;
+            font-weight: bold;
+        }
+        #idChk:hover{
+            color: white;
+        }
     </style>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#modal_login').click(function () {
-                $('#loginModal').modal("show");
-            });
-            $('#modal_register').click(function () {
-                $('#registerModal').modal("show");
-            });
-            $('#close_modal').click(function () {
-                $('#exampleModal').modal("hide");
-            });
-            $("#login_submit").on("click", function () {
-                if ($("#login_id").val() === "") {
-                    alert("아이디를 입력해주세요.");
-                    $("#login_id").focus();
-                    return false;
-                }
-                if ($("#login_pwd").val() === "") {
-                    alert("비밀번호를 입력해주세요.");
-                    $("#login_pwd").focus();
-                    return false;
-                }
-            });
-            $("#register_submit").on("click", function () {
-                if ($("#register_id").val() === "") {
-                    alert("아이디를 입력해주세요.");
-                    $("#register_id").focus();
-                    return false;
-                }
-                if ($("#register_pwd").val() === "") {
-                    alert("비밀번호를 입력해주세요.");
-                    $("#register_pwd").focus();
-                    return false;
-                }
-                if ($("#register_name").val() === "") {
-                    alert("성명을 입력해주세요.");
-                    $("#register_name").focus();
-                    return false;
-                }
-            });
-            $('#idChk').click(function () {
-                $.ajax({
-                    url: "${contextPath}/member/idChk",
-                    type: "post",
-                    dataType: "json",
-                    data: {"id" : $("#register_id").val()},
-                    success: function (data) {
-                        if (data === 1) {
-                            alert("중복된 아이디입니다.");
-                        } else if (data === 0) {
-                            $("#idChk").attr("value", "Y");
-                            alert("사용가능한 아이디입니다.");
-                        }
-                    }
-                })
-            });
-        })
-    </script>
 </head>
 <body>
 <div>
@@ -106,6 +59,7 @@
                         <a href="${contextPath}/member/logout">
                             <button class="btn btn-outline-success me-2" type="button" id="modal_logout">로그아웃</button>
                         </a>
+                        <button id="modal_update" type="button" class="btn btn-outline-success me-2">회원정보</button>
                         <p>${member.name}님 안녕하세요.</p>
                     </c:if>
                 </div>
@@ -133,6 +87,11 @@
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                             <button type="submit" class="btn btn-primary" id="login_submit">로그인</button>
                         </div>
+                        <c:if test="${msg == false}">
+                            <script>
+                                alert("아이디와 비밀번호를 확인해주세요.");
+                            </script>
+                        </c:if>
                     </div>
                 </div>
             </div>
@@ -149,14 +108,14 @@
                             <div class="mb-3">
                                 <label for="register_id" class="form-label">아이디</label>
                                 <input type="email" id="register_id" name="id" class="form-control" placeholder="example@email.com">
-                                <button type="button" id="idChk" onclick="fn_idChk();" value="N">중복확인</button>
+                                <button type="button" class="btn btn-outline-warning" id="idChk" value="N">중복확인</button>
                             </div>
                             <div class="mb-3">
                                 <label for="register_pwd" class="form-label">비밀번호</label>
                                 <input type="password" id="register_pwd" name="pwd" class="form-control">
                             </div>
                             <div class="mb-3">
-                                <label for="register_name" class="form-label">이름</label>
+                                <label for="register_name" class="form-label">회원명</label>
                                 <input type="text" id="register_name" name="name" class="form-control">
                             </div>
                         </div>
@@ -168,9 +127,100 @@
                 </div>
             </div>
         </form>
+        <form class="container-fluid justify-content-start" method="post" action="${contextPath}/member/updateMember">
+            <div class="modal fade" id="updateMemberModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updateMemberLabel">와인 검색 사이트</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="update_id" class="form-label">아이디</label>
+                                <input type="email" id="update_id" name="id" class="form-control" value="${member.id}" readonly="readonly">
+                            </div>
+                            <div class="mb-3">
+                                <label for="update_pwd" class="form-label">비밀번호</label>
+                                <input type="password" id="update_pwd" name="pwd" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="update_name" class="form-label">회원명</label>
+                                <input type="text" id="update_name" name="name" class="form-control" value="${member.name}">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                            <button type="submit" class="btn btn-primary" id="update_submit">회원정보 수정</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </nav>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#modal_login').click(function () {
+            $('#loginModal').modal("show");
+        });
+        $('#modal_register').click(function () {
+            $('#registerModal').modal("show");
+        });
+        $('#modal_update').click(function () {
+            $('#updateMemberModal').modal("show")
+        });
+        $('#close_modal').click(function () {
+            $('#exampleModal').modal("hide");
+        });
+        $("#login_submit").on("click", function () {
+            if ($("#login_id").val() === "") {
+                alert("아이디를 입력해주세요.");
+                $("#login_id").focus();
+                return false;
+            }
+            if ($("#login_pwd").val() === "") {
+                alert("비밀번호를 입력해주세요.");
+                $("#login_pwd").focus();
+                return false;
+            }
+        });
+        $("#register_submit").on("click", function () {
+            if ($("#register_id").val() === "") {
+                alert("아이디를 입력해주세요.");
+                $("#register_id").focus();
+                return false;
+            }
+            if ($("#register_pwd").val() === "") {
+                alert("비밀번호를 입력해주세요.");
+                $("#register_pwd").focus();
+                return false;
+            }
+            if ($("#register_name").val() === "") {
+                alert("회원명 입력해주세요.");
+                $("#register_name").focus();
+                return false;
+            }
+        });
+        $('#idChk').click(function () {
+            $.ajax({
+                url: "${contextPath}/member/idChk",
+                type: "post",
+                dataType: "json",
+                data: {"id" : $("#register_id").val()},
+                success: function (data) {
+                    if (data === 1) {
+                        alert("이미 사용하고 있는 이메일입니다.");
+                    } else if (data === 0) {
+                        $("#idChk").attr("value", "Y");
+                        alert("사용가능한 이메일입니다.");
+                    }
+                }
+            })
+        });
+    })
+</script>
 </body>
 </html>

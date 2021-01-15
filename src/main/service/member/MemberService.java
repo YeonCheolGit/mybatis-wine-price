@@ -9,4 +9,6 @@ public interface MemberService {
     MemberDTO login(MemberDTO memberDTO);
 
     int idChk(MemberDTO memberDTO);
+
+    int updateMember(MemberDTO memberDTO);
 }

@@ -7,7 +7,7 @@ public class PageMaker {
     private int endPage;
     private boolean prev;
     private boolean next;
-    private int displayPageNum = 5; //하단의 페이지 번호의 갯수
+    private int displayPageNum = 3; //하단의 페이지 번호의 갯수
     private Criteria criteria;
 
     public void setCriteria(Criteria cri) {

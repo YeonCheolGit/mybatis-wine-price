@@ -5,23 +5,22 @@
 
 <html>
 <head>
-    <div>
-        <jsp:include page="../commons/header.jsp" />
-    </div>
     <title></title>
-    <style type="text/css">
-        li {list-style: none; float: left; padding: 6px;}
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
+<header>
+    <jsp:include page="../commons/header.jsp" />
+</header>
 <div>
-    <table>
+    <table class="table table-hover">
         <thead>
         <tr>
-            <th>name</th>
-            <th>sweetness</th>
-            <th>food</th>
-            <th>acid</th>
+            <th>와인</th>
+            <th>당도</th>
+            <th>산도</th>
+            <th>어울리는 음식</th>
         </tr>
         </thead>
         <tbody>
@@ -29,8 +28,8 @@
             <tr>
                 <td><a href="${contextPath}/wine/readOneWine?number=${allWineList.number}">${allWineList.name}</a></td>
                 <td>${allWineList.sweetness}</td>
-                <td>${allWineList.food}</td>
                 <td>${allWineList.acid}</td>
+                <td>${allWineList.food}</td>
             </tr>
         </c:forEach>
         </tbody>
@@ -38,19 +37,25 @@
 </div>
 <div class="box-footer">
     <div class="text-center">
-        <ul class="pagination">
-            <c:if test="${pageMaker.prev}">
-                <li><a href="${contextPath}/wine/allWineList?page=${pageMaker.startPage - 1}">이전</a></li>
-            </c:if>
-            <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-                <li <c:out value="${pageMaker.cri.page == idx ? 'class=active' : ''}"/>>
-                    <a href="${contextPath}/wine/allWineList?page=${idx}">${idx}</a>
-                </li>
-            </c:forEach>
-            <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-                <li><a href="${contextPath}/wine/allWineList?page=${pageMaker.endPage + 1}">다음</a></li>
-            </c:if>
-        </ul>
+        <nav>
+            <ul class="pagination justify-content-center">
+                <c:if test="${pageMaker.prev}">
+                    <li class="page-item">
+                        <a class="page-link" href="${contextPath}/wine/allWineList?page=${pageMaker.startPage - 1}">이전</a>
+                    </li>
+                </c:if>
+                <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+                    <li class="page-item" aria-current="page" <c:out value="${pageMaker.cri.page == idx ? 'class=active' : ''}"/>>
+                        <a class="page-link" href="${contextPath}/wine/allWineList?page=${idx}">${idx}</a>
+                    </li>
+                </c:forEach>
+                <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+                    <li class="page-item">
+                        <a class="page-link" href="${contextPath}/wine/allWineList?page=${pageMaker.endPage + 1}">다음</a>
+                    </li>
+                </c:if>
+            </ul>
+        </nav>
     </div>
 </div>
 </body>

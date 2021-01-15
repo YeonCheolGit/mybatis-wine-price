@@ -14,6 +14,10 @@ public class MemberDTO {
     private String name;
     private Date regDate;
 
+    public boolean matchPassword(String pwd) {
+        return this.pwd.equals(pwd);
+    }
+
     public MemberDTO() {
     }
 
