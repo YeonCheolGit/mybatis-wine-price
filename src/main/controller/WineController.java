@@ -1,9 +1,9 @@
 package main.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import main.paging.Criteria;
-import main.paging.PageMaker;
 import main.DTO.WineDTO;
+import main.paging.PageMaker;
+import main.paging.SearchCriteria;
 import main.service.wine.WineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,20 +25,6 @@ public class WineController {
         this.wineService = wineService;
     }
 
-    @GetMapping(value = "/allWineList")
-    public String allWineList(Model model, Criteria criteria) {
-        logger.debug("allWineList debug >>> ");
-
-        PageMaker pageMaker = new PageMaker();
-        pageMaker.setCriteria(criteria);
-        pageMaker.setTotalCount(wineService.countWines(criteria));
-
-        model.addAttribute("allWineList", wineService.listPaging(criteria));
-        model.addAttribute("pageMaker", pageMaker);
-
-        return "/wine/allWineList";
-    }
-
     @RequestMapping(value = "/readOneWine")
     public String readOneWine(WineDTO wineDTO, Model model) {
         logger.debug("readOneWine debugs >>> ");
@@ -46,10 +32,18 @@ public class WineController {
         return "/wine/readOneWine";
     }
 
-    @GetMapping(value = "/searchWineByName")
-    public String searchWineByName(Model model, @ModelAttribute("name") WineDTO wineDTO) {
-        logger.debug("searchWineByName debugs >>> ");
-        model.addAttribute("searchWineByName", wineService.searchWineByName("name"));
-        return "/wine/allWineList";
+    @GetMapping(value = "/searchBar")
+    public String searchBar(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
+                            Model model) {
+        logger.debug("searchBar >>> ");
+
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCriteria(searchCriteria);
+        pageMaker.setTotalCount(wineService.countWines(searchCriteria));
+
+        model.addAttribute("articles", wineService.listPaging(searchCriteria));
+        model.addAttribute("pageMaker", pageMaker);
+
+        return "wine/allWineList";
     }
 }

@@ -46,14 +46,14 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <c:if test="${member == null}">
-                        <a href="${contextPath}/wine/allWineList">
+                        <a href="${contextPath}/wine/searchBar">
                             <button class="btn btn-outline-success me-2" type="button">목록</button>
                         </a>
                         <button id="modal_login" type="button" class="btn btn-primary" data-bs-toggle="modal">로그인</button>
                         <button id="modal_register" type="button" class="btn btn-primary" data-bs-toggle="modal">회원가입</button>
                     </c:if>
                     <c:if test="${member != null}">
-                        <a href="${contextPath}/wine/allWineList">
+                        <a href="${contextPath}/wine/searchBar">
                             <button class="btn btn-outline-success me-2" type="button">목록</button>
                         </a>
                         <a href="${contextPath}/member/logout">

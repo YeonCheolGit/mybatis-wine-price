@@ -1,8 +1,8 @@
 package main.service.wine;
 
 import main.DAO.wine.WineDAO;
-import main.paging.Criteria;
 import main.DTO.WineDTO;
+import main.paging.SearchCriteria;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,27 +16,17 @@ public class WineServiceImpl implements WineService {
     }
 
     @Override
-    public List<WineDTO> selectAllWine() {
-        return wineDAO.selectAllWine();
-    }
-
-    @Override
     public WineDTO readOneWine(int number) {
         return wineDAO.readOneWine(number);
     }
 
     @Override
-    public List<WineDTO> searchWineByName(String name) {
-        return wineDAO.searchWineByName(name);
+    public List<WineDTO> listPaging(SearchCriteria searchCriteria) {
+        return wineDAO.listPaging(searchCriteria);
     }
 
     @Override
-    public List<WineDTO> listPaging(Criteria criteria) {
-        return wineDAO.listPaging(criteria);
-    }
-
-    @Override
-    public int countWines(Criteria criteria) {
-        return wineDAO.countWines(criteria);
+    public int countWines(SearchCriteria searchCriteria) {
+        return wineDAO.countWines(searchCriteria);
     }
 }

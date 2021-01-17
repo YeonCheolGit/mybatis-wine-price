@@ -1,7 +1,7 @@
 package main.DAO.wine;
 
-import main.paging.Criteria;
 import main.DTO.WineDTO;
+import main.paging.SearchCriteria;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -19,27 +19,18 @@ public class WineDAOImpl implements WineDAO {
     private static final String nameSpace = "mapper.wine";
 
     @Override
-    public List<WineDTO> selectAllWine() {
-        return sqlSession.selectList(nameSpace + ".selectAllWines");
-    }
-
-    @Override
     public WineDTO readOneWine(int number) {
         return sqlSession.selectOne(nameSpace + ".readOneWine", number);
     }
 
+
     @Override
-    public List<WineDTO> searchWineByName(String name) {
-        return sqlSession.selectList(nameSpace + ".searchWineByName", name);
+    public List<WineDTO> listPaging(SearchCriteria searchCriteria) {
+        return sqlSession.selectList(nameSpace + ".listPaging", searchCriteria);
     }
 
     @Override
-    public List<WineDTO> listPaging(Criteria criteria) {
-        return sqlSession.selectList(nameSpace + ".listPaging", criteria);
-    }
-
-    @Override
-    public int countWines(Criteria criteria) {
-        return sqlSession.selectOne(nameSpace + ".countWines", criteria);
+    public int countWines(SearchCriteria searchCriteria) {
+        return sqlSession.selectOne(nameSpace + ".countWines", searchCriteria);
     }
 }

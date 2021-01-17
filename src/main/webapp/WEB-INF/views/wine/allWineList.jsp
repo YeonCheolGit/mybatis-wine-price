@@ -13,50 +13,79 @@
 <header>
     <jsp:include page="../commons/header.jsp" />
 </header>
-<div>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>와인</th>
-            <th>당도</th>
-            <th>산도</th>
-            <th>어울리는 음식</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${allWineList}" var="allWineList">
+<form role="form" method="get">
+    <div>
+        <table class="table table-hover">
+            <thead>
             <tr>
-                <td><a href="${contextPath}/wine/readOneWine?number=${allWineList.number}">${allWineList.name}</a></td>
-                <td>${allWineList.sweetness}</td>
-                <td>${allWineList.acid}</td>
-                <td>${allWineList.food}</td>
+                <th>와인</th>
+                <th>당도</th>
+                <th>산도</th>
+                <th>어울리는 음식</th>
             </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-</div>
-<div class="box-footer">
-    <div class="text-center">
-        <nav>
-            <ul class="pagination justify-content-center">
-                <c:if test="${pageMaker.prev}">
-                    <li class="page-item">
-                        <a class="page-link" href="${contextPath}/wine/allWineList?page=${pageMaker.startPage - 1}">이전</a>
-                    </li>
-                </c:if>
-                <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-                    <li class="page-item" aria-current="page" <c:out value="${pageMaker.cri.page == idx ? 'class=active' : ''}"/>>
-                        <a class="page-link" href="${contextPath}/wine/allWineList?page=${idx}">${idx}</a>
-                    </li>
-                </c:forEach>
-                <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-                    <li class="page-item">
-                        <a class="page-link" href="${contextPath}/wine/allWineList?page=${pageMaker.endPage + 1}">다음</a>
-                    </li>
-                </c:if>
-            </ul>
-        </nav>
+            </thead>
+            <tbody>
+            <c:forEach items="${articles}" var="allWineList">
+                <tr>
+                    <td><a href="${contextPath}/wine/readOneWine?number=${allWineList.number}">${allWineList.name}</a></td>
+                    <td>${allWineList.sweetness}</td>
+                    <td>${allWineList.acid}</td>
+                    <td>${allWineList.food}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
     </div>
-</div>
+    <div class="box-footer">
+        <div class="text-center">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <c:if test="${pageMaker.prev}">
+                        <li class="page-item">
+                            <a class="page-link" href="${contextPath}/wine/searchBar${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a>
+                        </li>
+                    </c:if>
+                    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+                        <li class="page-item" aria-current="page" <c:out value="${pageMaker.cri.page == idx ? 'class=active' : ''}"/>>
+                            <a class="page-link" href="${contextPath}/wine/searchBar${pageMaker.makeSearch(idx)}">${idx}</a>
+                        </li>
+                    </c:forEach>
+                    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+                        <li class="page-item">
+                            <a class="page-link" href="${contextPath}/wine/searchBar?${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a>
+                        </li>
+                    </c:if>
+                </ul>
+            </nav>
+            <div>
+                <label for="searchType">
+                    <select name="searchType" id="searchType">
+                        <option value="n" <c:out value="${searchCriteria.searchType == null ? 'selected' : ''}" />>선택</option>
+                        <option value="t" <c:out value="${searchCriteria.searchType eq 't' ? 'selected' : ''}" />>와인</option>
+                        <option value="c" <c:out value="${searchCriteria.searchType eq 'c' ? 'selected' : ''}" />>당도</option>
+                        <option value="w" <c:out value="${searchCriteria.searchType eq 'w' ? 'selected' : ''}" />>어울리는 음식</option>
+                    </select>
+                </label>
+            </div>
+            <div>
+                <div>
+                    <label>
+                        <input type="text" name="keyword" id="keywordInput" value="${searchCriteria.keyword}" placeholder="검색어" />
+                    </label>
+                    <button type="button" id="searchBtn"><i></i>검색</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#searchBtn').click(function() {
+            self.location = "${contextPath}/wine/searchBar${pageMaker.makeQuery(1)}"
+                + "&searchType=" + $("select option:selected").val()
+                + "&keyword=" + encodeURIComponent($("#keywordInput").val());
+        });
+    });
+</script>
 </body>
 </html>

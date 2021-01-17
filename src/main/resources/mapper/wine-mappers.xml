@@ -33,17 +33,16 @@
         ]]>
     </select>
 
-    <select id="searchWineByName" resultMap="wineResult">
-        select * from MVC.t_member where name like concat('%' || #{name} || '%')
-    </select>
-
     <select id="listPaging" resultMap="wineResult">
         <![CDATA[
         select *
         from MVC.wine
         where number > 0
+        ]]>
+        <include refid="search"/>
+        <![CDATA[
         order by number desc
-        limit #{pageStart}, #{perPageNum};
+        limit #{pageStart}, #{perPageNum}
         ]]>
     </select>
 
@@ -51,7 +50,23 @@
         <![CDATA[
         select COUNT(number)
         from MVC.wine
-        where number > 0;
+        where number > 0
         ]]>
+        <include refid="search" />
     </select>
+
+    <sql id="search">
+        <if test="searchType != null">
+            <if test="searchType == 't'.toString()">
+                and name like concat('%', #{keyword}, '%')
+            </if>
+            <if test="searchType == 'c'.toString()">
+                and sweetness like concat('%', #{keyword}, '%')
+            </if>
+            <if test="searchType == 'w'.toString()">
+                and food like concat('%', #{keyword}, '%')
+            </if>
+        </if>
+    </sql>
+
 </mapper>

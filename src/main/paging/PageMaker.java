@@ -1,5 +1,12 @@
 package main.paging;
 
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 public class PageMaker {
 
     private int totalCount; //전체 게시글 갯수
@@ -63,5 +70,34 @@ public class PageMaker {
         //이전과 다음 버튼
         prev = startPage != 1;
         next = endPage * criteria.getPerPageNum() < totalCount; //총 게시물이 더 많다는 것은, 뒤에 더 보여줄게 있다는 의미
+    }
+
+    public String makeQuery(int page) {
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .queryParam("page", page)
+                .queryParam("perPageNum", criteria.getPerPageNum())
+                .build();
+
+        return uriComponents.toUriString();
+    }
+
+    public String makeSearch(int page) {
+
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .queryParam("page", page)
+                .queryParam("perPageNum", criteria.getPerPageNum())
+                .queryParam("searchType", ((SearchCriteria) criteria).getSearchType())
+                .queryParam("keyword", encoding(((SearchCriteria)criteria).getKeyword()))
+                .build();
+
+        return uriComponents.toUriString();
+    }
+
+    private String encoding(String keyword) {
+        if (keyword == null || keyword.trim().length() == 0) {
+            return "";
+        }
+
+        return URLEncoder.encode(keyword, StandardCharsets.UTF_8);
     }
 }
