@@ -3,7 +3,6 @@ package main.paging;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
@@ -55,14 +54,22 @@ public class PageMaker {
     }
 
     private void calcData() {
-
-        //endPage - 한 목록에서 현재 보이는 끝 번호
-        //ceil은 크거나 같은 숫자 중 작은 숫자를 Integer로 반환
+        /*
+        // endPage - 한 목록에서 현재 보이는 끝 번호
+        // if getPage = 3, displayPageNum = 3 then return 3
+        // ceil은 크거나 같은 숫자 중 작은 숫자를 Integer로 반환
+         */
         endPage = (int) (Math.ceil(criteria.getPage() / (double)displayPageNum) * displayPageNum);
+
+        /*
         // 시작 목록 번호
+        // if endPage = 3, displayPageNum = 3 then return 1
+         */
         startPage = (endPage - displayPageNum) + 1;
 
-        //글 보정
+        /*
+        // if totalCount = 11, getPerPageNum = 10 then return 1
+         */
         int tempEndPage = (int) (Math.ceil(totalCount / (double)criteria.getPerPageNum()));
         if (endPage > tempEndPage) {
             endPage = tempEndPage;

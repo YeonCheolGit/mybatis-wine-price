@@ -24,12 +24,17 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public int loginChk(MemberDTO memberDTO) {
+        return memberDAO.loginChk(memberDTO);
+    }
+
+    @Override
     public int idChk(MemberDTO memberDTO) {
         return memberDAO.idChk(memberDTO);
     }
 
     @Override
-    public int updateMember(MemberDTO memberDTO) {
-        return memberDAO.updateMember(memberDTO);
+    public void updateMember(MemberDTO memberDTO) {
+        memberDAO.updateMember(memberDTO);
     }
 }

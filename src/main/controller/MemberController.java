@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,7 +52,8 @@ public class MemberController {
     If login data doesn't come from view <-- null
      */
     @PostMapping(value = "/login")
-    public String login(MemberDTO memberDTO, HttpServletRequest req, RedirectAttributes rAttr) throws IOException {
+    public @ResponseBody String login(MemberDTO memberDTO,
+                                      HttpServletRequest req, RedirectAttributes rAttr) throws IOException {
         logger.debug("login debug >>> ");
 
         session = req.getSession();
@@ -61,11 +61,13 @@ public class MemberController {
 
         if (login == null) {
             session.setAttribute("member", null);
-            rAttr.addFlashAttribute("msg", false);
+            return "null";
+//            rAttr.addFlashAttribute("msg", false);
         } else {
             session.setAttribute("member", login);
+            return "true";
         }
-        return "redirect:/";
+//        return "redirect:/";
     }
 
     @RequestMapping(value = "/logout")

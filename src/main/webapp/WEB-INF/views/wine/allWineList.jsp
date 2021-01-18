@@ -25,7 +25,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${articles}" var="allWineList">
+            <c:forEach items="${allWineList}" var="allWineList">
                 <tr>
                     <td><a href="${contextPath}/wine/readOneWine?number=${allWineList.number}">${allWineList.name}</a></td>
                     <td>${allWineList.sweetness}</td>

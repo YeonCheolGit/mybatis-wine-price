@@ -46,21 +46,18 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <c:if test="${member == null}">
-                        <a href="${contextPath}/wine/searchBar">
-                            <button class="btn btn-outline-success me-2" type="button">목록</button>
-                        </a>
-                        <button id="modal_login" type="button" class="btn btn-primary" data-bs-toggle="modal">로그인</button>
-                        <button id="modal_register" type="button" class="btn btn-primary" data-bs-toggle="modal">회원가입</button>
+                        <button class="btn btn-outline-success me-2" type="button"
+                                onclick="location.href='${contextPath}/wine/searchBar'">목록</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" id="modal_login" type="button" >로그인</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" id="modal_register" type="button" >회원가입</button>
                     </c:if>
                     <c:if test="${member != null}">
-                        <a href="${contextPath}/wine/searchBar">
-                            <button class="btn btn-outline-success me-2" type="button">목록</button>
-                        </a>
-                        <a href="${contextPath}/member/logout">
-                            <button class="btn btn-outline-success me-2" type="button" id="modal_logout">로그아웃</button>
-                        </a>
-                        <button id="modal_update" type="button" class="btn btn-outline-success me-2">회원정보</button>
-                        <p>${member.name}님 안녕하세요.</p>
+                        <button class="btn btn-outline-success me-2" type="button"
+                                onclick="location.href='${contextPath}/wine/searchBar'">목록</button>
+                        <button class="btn btn-primary" type="button" id="modal_logout"
+                                onclick="location.href='${contextPath}/member/logout'">로그아웃</button>
+                        <button id="modal_update" type="button" class="btn btn-primary">회원정보</button>
+                        <span class="navbar-text">${member.name}님 안녕하세요.</span>
                     </c:if>
                 </div>
             </div>
@@ -85,13 +82,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                            <button type="submit" class="btn btn-primary" id="login_submit">로그인</button>
+                            <button type="button" class="btn btn-primary" id="login_submit" value="N">로그인</button>
                         </div>
-                        <c:if test="${msg == false}">
-                            <script>
-                                alert("아이디와 비밀번호를 확인해주세요.");
-                            </script>
-                        </c:if>
                     </div>
                 </div>
             </div>
@@ -216,6 +208,26 @@
                     } else if (data === 0) {
                         $("#idChk").attr("value", "Y");
                         alert("사용가능한 이메일입니다.");
+                    }
+                }
+            })
+        });
+        $('#login_submit').click(function () {
+            $.ajax({
+                url: "${contextPath}/member/login",
+                type: "post",
+                dataType: "json",
+                data: {
+                    "id": $("#login_id").val(),
+                    "pwd": $("#login_pwd").val()
+                },
+                success: function (data) {
+                    if (data === null) {
+                        alert("아이디와 비밀번호를 다시 확인하세요.");
+                    } else if (data === true) {
+                        $("#login_submit").attr("value", "Y");
+                        alert("환영합니다.");
+                        self.location = "${contextPath}/";
                     }
                 }
             })

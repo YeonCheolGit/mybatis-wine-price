@@ -41,7 +41,7 @@ public class WineController {
         pageMaker.setCriteria(searchCriteria);
         pageMaker.setTotalCount(wineService.countWines(searchCriteria));
 
-        model.addAttribute("articles", wineService.listPaging(searchCriteria));
+        model.addAttribute("allWineList", wineService.listPaging(searchCriteria));
         model.addAttribute("pageMaker", pageMaker);
 
         return "wine/allWineList";

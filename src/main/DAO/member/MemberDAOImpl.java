@@ -26,12 +26,17 @@ public class MemberDAOImpl implements MemberDAO {
     }
 
     @Override
+    public int loginChk(MemberDTO memberDTO) {
+        return sqlSession.selectOne(nameSpace + ".loginChk", memberDTO);
+    }
+
+    @Override
     public int idChk(MemberDTO memberDTO) {
         return sqlSession.selectOne(nameSpace + ".idChk", memberDTO);
     }
 
     @Override
-    public int updateMember(MemberDTO memberDTO) {
-        return sqlSession.update(nameSpace + ".memberUpdate", memberDTO);
+    public void updateMember(MemberDTO memberDTO) {
+        sqlSession.update(nameSpace + ".memberUpdate", memberDTO);
     }
 }
