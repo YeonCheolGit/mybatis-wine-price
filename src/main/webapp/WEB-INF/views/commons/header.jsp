@@ -58,7 +58,7 @@
                         <button class="btn btn-primary" type="button" id="modal_logout"
                                 onclick="location.href='${contextPath}/member/logout'">로그아웃</button>
                         <button class="btn btn-primary" id="modal_update" type="button">마이페이지</button>
-                        <span style="margin-left: 4px" class="navbar-text">${member.name}님 안녕하세요.</span>
+                        <span class="navbar-text" style="margin-left: 4px">${member.name}님 안녕하세요.</span>
                     </c:if>
                 </div>
             </div>

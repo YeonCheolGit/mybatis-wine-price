@@ -7,7 +7,10 @@
 <head>
     <title></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
 <header>
@@ -67,25 +70,26 @@
                     </select>
                 </label>
             </div>
-            <div style="width: 10%; display: inline-block; align-content: center;">
-                <form style="display: inline-block;">
-                    <input type="text" value="${searchCriteria.keyword}" placeholder="Search" aria-label="Search"
-                           id="keywordInput" class="form-control" name="keywords">
-                    <button type="button" id="searchBtn" class="btn btn-outline-success">검색</button>
-                    <div id="suggest">
-                        <div id="suggestList"></div>
-                    </div>
+            <div class="d-sm-inline-block" style="width: 10%;">
+                <form class="d-inline">
+                    <input class="d-inline form-control" id="keywordInput" name="keywords" type="text"
+                           value="${searchCriteria.keyword}" placeholder="Search" aria-label="Search">
+                    <button class="d-inline btn btn-outline-success" id="searchBtn" type="button">검색</button>
                 </form>
             </div>
         </div>
     </div>
 </form>
-<script type="text/javascript">
+<script>
     $(document).ready(function () {
         $('#searchBtn').click(function() {
             self.location = "${contextPath}/wine/searchBar${pageMaker.makeQuery(1)}"
                 + "&searchType=" + $("select option:selected").val()
                 + "&keyword=" + encodeURIComponent($("#keywordInput").val());
+        });
+        $.noConflict();
+        $( "#keywordInput" ).autocomplete({
+            source: [ "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby" ]
         });
     });
 </script>
