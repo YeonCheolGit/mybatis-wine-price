@@ -69,4 +69,11 @@
         </if>
     </sql>
 
+    <select id="searchKeyword" resultMap="wineResult" parameterType="String">
+        select *
+        from MVC.wine
+        where name like concat('%', #{keyword}, '%')
+        order by name
+    </select>
+
 </mapper>

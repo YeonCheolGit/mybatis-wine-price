@@ -29,4 +29,9 @@ public class WineServiceImpl implements WineService {
     public int countWines(SearchCriteria searchCriteria) {
         return wineDAO.countWines(searchCriteria);
     }
+
+    @Override
+    public List keywordSearch(String memberDTO) {
+        return wineDAO.keywordSearch(memberDTO);
+    }
 }

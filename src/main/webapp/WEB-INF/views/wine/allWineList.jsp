@@ -67,13 +67,15 @@
                     </select>
                 </label>
             </div>
-            <div>
-                <div>
-                    <label>
-                        <input type="text" name="keyword" id="keywordInput" value="${searchCriteria.keyword}" placeholder="검색어" />
-                    </label>
-                    <button type="button" id="searchBtn"><i></i>검색</button>
-                </div>
+            <div style="width: 10%; display: inline-block; align-content: center;">
+                <form style="display: inline-block;">
+                    <input type="text" value="${searchCriteria.keyword}" placeholder="Search" aria-label="Search"
+                           id="keywordInput" class="form-control" name="keywords">
+                    <button type="button" id="searchBtn" class="btn btn-outline-success">검색</button>
+                    <div id="suggest">
+                        <div id="suggestList"></div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

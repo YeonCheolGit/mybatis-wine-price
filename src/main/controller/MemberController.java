@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
@@ -49,7 +48,7 @@ public class MemberController {
 
     /*
     Do login
-    If login data doesn't come from view <-- null
+    return login form
      */
     @PostMapping(value = "/login")
     public @ResponseBody String login(MemberDTO memberDTO,
@@ -62,12 +61,10 @@ public class MemberController {
         if (login == null) {
             session.setAttribute("member", null);
             return "null";
-//            rAttr.addFlashAttribute("msg", false);
         } else {
             session.setAttribute("member", login);
             return "true";
         }
-//        return "redirect:/";
     }
 
     @RequestMapping(value = "/logout")

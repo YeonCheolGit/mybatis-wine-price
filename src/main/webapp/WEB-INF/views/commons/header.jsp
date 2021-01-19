@@ -1,3 +1,4 @@
+<%--suppress JSJQueryEfficiency --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -56,8 +57,8 @@
                                 onclick="location.href='${contextPath}/wine/searchBar'">목록</button>
                         <button class="btn btn-primary" type="button" id="modal_logout"
                                 onclick="location.href='${contextPath}/member/logout'">로그아웃</button>
-                        <button id="modal_update" type="button" class="btn btn-primary">회원정보</button>
-                        <span class="navbar-text">${member.name}님 안녕하세요.</span>
+                        <button class="btn btn-primary" id="modal_update" type="button">마이페이지</button>
+                        <span style="margin-left: 4px" class="navbar-text">${member.name}님 안녕하세요.</span>
                     </c:if>
                 </div>
             </div>
@@ -223,7 +224,7 @@
                 },
                 success: function (data) {
                     if (data === null) {
-                        alert("아이디와 비밀번호를 다시 확인하세요.");
+                        alert("아이디 또는 비밀번호를 확인해주세요.");
                     } else if (data === true) {
                         $("#login_submit").attr("value", "Y");
                         alert("환영합니다.");
