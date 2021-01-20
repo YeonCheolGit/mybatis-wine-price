@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 @Controller
 @Slf4j
@@ -36,7 +34,7 @@ public class MemberController {
     @PostMapping(value = "/registerMember")
     public String registerMember(MemberDTO memberDTO) {
         logger.debug("registerMember debug >>> ");
-        int result = memberService.idChk(memberDTO);
+        int result = memberService.duplicatedIdChk(memberDTO);
 
         if (result == 1) {
             return "redirect:/";
@@ -52,7 +50,7 @@ public class MemberController {
      */
     @PostMapping(value = "/login")
     public @ResponseBody String login(MemberDTO memberDTO,
-                                      HttpServletRequest req, RedirectAttributes rAttr) throws IOException {
+                                      HttpServletRequest req) {
         logger.debug("login debug >>> ");
 
         session = req.getSession();
@@ -75,10 +73,10 @@ public class MemberController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/idChk", method = RequestMethod.POST)
-    public int idChk(MemberDTO memberDTO) {
-        logger.debug("idChk debug >>> ");
-        return memberService.idChk(memberDTO);
+    @RequestMapping(value = "/duplicatedIdChk", method = RequestMethod.POST)
+    public int duplicatedIdChk(MemberDTO memberDTO) {
+        logger.debug("duplicatedIdChk debug >>> ");
+        return memberService.duplicatedIdChk(memberDTO);
     }
 
     @PostMapping(value = "/updateMember")

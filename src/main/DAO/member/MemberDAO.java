@@ -8,9 +8,7 @@ public interface MemberDAO {
 
     MemberDTO login(MemberDTO memberDTO);
 
-    int loginChk(MemberDTO memberDTO);
-
-    int idChk(MemberDTO memberDTO);
+    int duplicatedIdChk(MemberDTO memberDTO);
 
     void updateMember(MemberDTO memberDTO);
 }

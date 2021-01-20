@@ -24,13 +24,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public int loginChk(MemberDTO memberDTO) {
-        return memberDAO.loginChk(memberDTO);
-    }
-
-    @Override
-    public int idChk(MemberDTO memberDTO) {
-        return memberDAO.idChk(memberDTO);
+    public int duplicatedIdChk(MemberDTO memberDTO) {
+        return memberDAO.duplicatedIdChk(memberDTO);
     }
 
     @Override

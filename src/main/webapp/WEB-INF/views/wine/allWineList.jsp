@@ -80,16 +80,28 @@
         </div>
     </div>
 </form>
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
         $('#searchBtn').click(function() {
             self.location = "${contextPath}/wine/searchBar${pageMaker.makeQuery(1)}"
                 + "&searchType=" + $("select option:selected").val()
                 + "&keyword=" + encodeURIComponent($("#keywordInput").val());
         });
-        $.noConflict();
-        $( "#keywordInput" ).autocomplete({
-            source: [ "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby" ]
+        jQuery.noConflict();
+        let cache = {};
+        $( "#keywordInput" ).autocomplete ({
+            minLength: 2,
+            source: function( request, response ) {
+                let term = request.term;
+                if (term in cache) {
+                    response(cache[term]);
+                    return;
+                }
+                $.getJSON("${contextPath}/wine/search", request, function (data, status, xhr) {
+                    cache[term] = data;
+                    response(data);
+                });
+            }
         });
     });
 </script>

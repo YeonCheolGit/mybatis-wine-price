@@ -1,6 +1,5 @@
 package main.DAO.wine;
 
-import main.DTO.MemberDTO;
 import main.DTO.WineDTO;
 import main.paging.SearchCriteria;
 
@@ -14,5 +13,5 @@ public interface WineDAO {
 
     int countWines(SearchCriteria searchCriteria);
 
-    List keywordSearch(String memberDTO);
+    List<String> search(String keyword);
 }

@@ -12,6 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -45,5 +49,12 @@ public class WineController {
         model.addAttribute("pageMaker", pageMaker);
 
         return "wine/allWineList";
+    }
+
+    @GetMapping(value = "/search")
+    @ResponseBody
+    public List<String> search(HttpServletRequest request) {
+        logger.debug("search >>> ");
+        return wineService.search(request.getParameter("term"));
     }
 }

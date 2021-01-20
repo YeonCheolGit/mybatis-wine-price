@@ -43,9 +43,9 @@
 <body>
 <div>
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-        <div class="container-fluid">
+        <div class="container-xxl">
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
+                <div class="navbar-nav" style="width: 550px">
                     <c:if test="${member == null}">
                         <button class="btn btn-outline-success me-2" type="button"
                                 onclick="location.href='${contextPath}/wine/searchBar'">목록</button>
@@ -199,7 +199,7 @@
         });
         $('#idChk').click(function () {
             $.ajax({
-                url: "${contextPath}/member/idChk",
+                url: "${contextPath}/member/duplicatedIdChk",
                 type: "post",
                 dataType: "json",
                 data: {"id" : $("#register_id").val()},

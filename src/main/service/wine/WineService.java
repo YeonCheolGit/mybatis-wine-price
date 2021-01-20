@@ -13,6 +13,6 @@ public interface WineService {
 
     int countWines(SearchCriteria searchCriteria);
 
-    List keywordSearch(String memberDTO);
+    List<String> search(String keyword);
 
 }

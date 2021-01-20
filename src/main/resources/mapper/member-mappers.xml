@@ -32,15 +32,7 @@
           and pwd = #{pwd};
         ]]>
     </select>
-    <select id="loginChk" resultType="int">
-        <![CDATA[
-        select COUNT(id, pwd)
-        from MVC.t_member
-        where id = #{id}
-          and pwd = #{pwd};
-        ]]>
-    </select>
-    <select id="idChk" resultType="int">
+    <select id="duplicatedIdChk" resultType="int">
         <![CDATA[
         select COUNT(id)
         from MVC.t_member

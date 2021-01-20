@@ -31,7 +31,7 @@ public class WineServiceImpl implements WineService {
     }
 
     @Override
-    public List keywordSearch(String memberDTO) {
-        return wineDAO.keywordSearch(memberDTO);
+    public List<String> search(String keyword) {
+        return wineDAO.search(keyword);
     }
 }

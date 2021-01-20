@@ -1,6 +1,5 @@
 package main.DAO.wine;
 
-import main.DTO.MemberDTO;
 import main.DTO.WineDTO;
 import main.paging.SearchCriteria;
 import org.apache.ibatis.session.SqlSession;
@@ -36,7 +35,7 @@ public class WineDAOImpl implements WineDAO {
     }
 
     @Override
-    public List keywordSearch(String memberDTO) {
-        return sqlSession.selectOne(nameSpace + ".keywordSearch", memberDTO);
+    public List<String> search(String keyword) {
+        return sqlSession.selectList(nameSpace + ".search", keyword);
     }
 }

@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.wine">
-    <resultMap id="wineResult" type="wineDTO">
+    <resultMap id="wineResult" type="main.DTO.WineDTO">
         <result property="number" column="number" />
         <result property="name" column="name" />
         <result property="origin" column="origin" />
@@ -69,8 +69,8 @@
         </if>
     </sql>
 
-    <select id="searchKeyword" resultMap="wineResult" parameterType="String">
-        select *
+    <select id="search" resultType="String" parameterType="String">
+        select name
         from MVC.wine
         where name like concat('%', #{keyword}, '%')
         order by name
