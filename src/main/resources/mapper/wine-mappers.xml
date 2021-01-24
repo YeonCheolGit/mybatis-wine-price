@@ -25,6 +25,13 @@
         ]]>
     </select>
 
+    <select id="addWines" parameterType="String">
+        <![CDATA[
+        insert into MVC.wine (name)
+        VALUES (#{name});
+        ]]>
+    </select>
+
     <select id="readOneWine" resultMap="wineResult" parameterType="int">
         <![CDATA[
         select *

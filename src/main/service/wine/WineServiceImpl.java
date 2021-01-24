@@ -1,6 +1,7 @@
 package main.service.wine;
 
 import main.DAO.wine.WineDAO;
+import main.DTO.MemberDTO;
 import main.DTO.WineDTO;
 import main.paging.SearchCriteria;
 import org.springframework.stereotype.Service;
@@ -33,5 +34,10 @@ public class WineServiceImpl implements WineService {
     @Override
     public List<String> search(String keyword) {
         return wineDAO.search(keyword);
+    }
+
+    @Override
+    public void addWines(String wine) {
+        wineDAO.addWines(wine);
     }
 }

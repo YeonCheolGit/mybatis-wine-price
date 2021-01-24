@@ -1,5 +1,6 @@
 package main.crawler;
 
+import org.apache.ibatis.session.SqlSession;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -9,7 +10,12 @@ import java.io.IOException;
 
 public class CrawlerAllWines {
     public static void main(String[] args) throws IOException {
+        crawler();
+    }
 
+   
+    public static void crawler() throws IOException {
+        SqlSession sqlSession = null;
         int number = 0;
 
         while (number <= 7) {
@@ -23,10 +29,14 @@ public class CrawlerAllWines {
             for (Element element : title1) {
                 count++;
                 String win = element.text();
+                sqlSession.insert("mapper.wine.addWines" + win);
                 System.out.println(count + " >> " + win + " >> " + count);
             }
             System.out.println(number + "페이지 끝");
             System.out.println("======================= \n");
         }
     }
+
+
+
 }
