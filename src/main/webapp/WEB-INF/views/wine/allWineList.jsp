@@ -22,8 +22,7 @@
             <thead>
             <tr>
                 <th>와인</th>
-                <th>당도</th>
-                <th>산도</th>
+                <th>가격</th>
                 <th>어울리는 음식</th>
             </tr>
             </thead>
@@ -31,8 +30,7 @@
             <c:forEach items="${allWineList}" var="allWineList">
                 <tr>
                     <td><a href="${contextPath}/wine/readOneWine?number=${allWineList.number}">${allWineList.name}</a></td>
-                    <td>${allWineList.sweetness}</td>
-                    <td>${allWineList.acid}</td>
+                    <td>${allWineList.price}</td>
                     <td>${allWineList.food}</td>
                 </tr>
             </c:forEach>
@@ -65,7 +63,7 @@
                     <select name="searchType" id="searchType">
                         <option value="n" <c:out value="${searchCriteria.searchType == null ? 'selected' : ''}" />>선택</option>
                         <option value="t" <c:out value="${searchCriteria.searchType eq 't' ? 'selected' : ''}" />>와인</option>
-                        <option value="c" <c:out value="${searchCriteria.searchType eq 'c' ? 'selected' : ''}" />>당도</option>
+                        <option value="c" <c:out value="${searchCriteria.searchType eq 'c' ? 'selected' : ''}" />>가격</option>
                         <option value="w" <c:out value="${searchCriteria.searchType eq 'w' ? 'selected' : ''}" />>어울리는 음식</option>
                     </select>
                 </label>

@@ -14,12 +14,6 @@
             <tr>
                 <th></th>
                 <th>이름</th>
-                <th>생산지</th>
-                <th>종류</th>
-                <th>도수</th>
-                <th>당도</th>
-                <th>산도</th>
-                <th>바디감</th>
                 <th>어울리는 음식</th>
                 <th>가격</th>
             </tr>
@@ -28,11 +22,6 @@
             <tr>
                 <td>${readOneWine.number}</td>
                 <td>${readOneWine.name}<td>
-                <td>${readOneWine.origin}</td>
-                <td>${readOneWine.alcohol}</td>
-                <td>${readOneWine.sweetness}</td>
-                <td>${readOneWine.acid}</td>
-                <td>${readOneWine.body}</td>
                 <td>${readOneWine.food}</td>
                 <td>${readOneWine.price}</td>
             </tr>

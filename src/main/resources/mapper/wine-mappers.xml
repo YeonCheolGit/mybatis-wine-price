@@ -7,12 +7,6 @@
     <resultMap id="wineResult" type="main.DTO.WineDTO">
         <result property="number" column="number" />
         <result property="name" column="name" />
-        <result property="origin" column="origin" />
-        <result property="type" column="type" />
-        <result property="alcohol" column="alcohol" />
-        <result property="sweetness" column="sweetness" />
-        <result property="acid" column="acid" />
-        <result property="body" column="body" />
         <result property="food" column="food" />
         <result property="price" column="price" />
     </resultMap>
@@ -25,12 +19,20 @@
         ]]>
     </select>
 
-    <select id="addWines" parameterType="String">
+<!--    <select id="addWines" parameterType="String">-->
+<!--        <![CDATA[-->
+<!--        insert into MVC.wine (name)-->
+<!--        VALUES (#{name});-->
+<!--        ]]>-->
+<!--    </select>-->
+
+    <insert id="addWines" parameterType="String">
         <![CDATA[
         insert into MVC.wine (name)
-        VALUES (#{name});
+            values (#{name})
+        on duplicate key update name = #{name};
         ]]>
-    </select>
+    </insert>
 
     <select id="readOneWine" resultMap="wineResult" parameterType="int">
         <![CDATA[
@@ -68,7 +70,7 @@
                 and name like concat('%', #{keyword}, '%')
             </if>
             <if test="searchType == 'c'.toString()">
-                and sweetness like concat('%', #{keyword}, '%')
+                and price like concat('%', #{keyword}, '%')
             </if>
             <if test="searchType == 'w'.toString()">
                 and food like concat('%', #{keyword}, '%')
