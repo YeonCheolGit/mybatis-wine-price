@@ -44,10 +44,10 @@ public class CrawlerController {
                 count++;
                 String win = element.text();
                 wineService.addWines(win);
-                System.out.println(count + " >> " + win + " >> " + count);
+//                System.out.println(count + " >> " + win + " >> " + count);
             }
-            System.out.println(number + "페이지 끝");
-            System.out.println("======================= \n");
+//            System.out.println(number + "페이지 끝");
+//            System.out.println("======================= \n");
         }
     }
 }

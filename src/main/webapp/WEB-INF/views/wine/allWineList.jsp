@@ -53,7 +53,7 @@
                     </c:forEach>
                     <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
                         <li class="page-item">
-                            <a class="page-link" href="${contextPath}/wine/searchBar?${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a>
+                            <a class="page-link" href="${contextPath}/wine/searchBar${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a>
                         </li>
                     </c:if>
                 </ul>
