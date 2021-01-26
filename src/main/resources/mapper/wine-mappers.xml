@@ -19,13 +19,6 @@
         ]]>
     </select>
 
-<!--    <select id="addWines" parameterType="String">-->
-<!--        <![CDATA[-->
-<!--        insert into MVC.wine (name)-->
-<!--        VALUES (#{name});-->
-<!--        ]]>-->
-<!--    </select>-->
-
     <insert id="addWines" parameterType="String">
         <![CDATA[
         insert into MVC.wine (name)
@@ -50,7 +43,7 @@
         ]]>
         <include refid="search"/>
         <![CDATA[
-        order by number desc
+        order by number
         limit #{pageStart}, #{perPageNum}
         ]]>
     </select>
