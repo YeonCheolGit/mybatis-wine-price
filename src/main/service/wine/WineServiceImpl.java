@@ -1,7 +1,6 @@
 package main.service.wine;
 
 import main.DAO.wine.WineDAO;
-import main.DTO.MemberDTO;
 import main.DTO.WineDTO;
 import main.paging.SearchCriteria;
 import org.springframework.stereotype.Service;
@@ -37,7 +36,7 @@ public class WineServiceImpl implements WineService {
     }
 
     @Override
-    public void addWines(String wine) {
-        wineDAO.addWines(wine);
+    public void addWineNamePrice(WineDTO wine) {
+        wineDAO.addWineNamePrice(wine);
     }
 }

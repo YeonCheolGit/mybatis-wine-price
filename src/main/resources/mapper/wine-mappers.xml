@@ -19,10 +19,10 @@
         ]]>
     </select>
 
-    <insert id="addWines" parameterType="String">
+    <insert id="addWineNamePrice" parameterType="String">
         <![CDATA[
-        insert into MVC.wine (name)
-            values (#{name})
+        insert into MVC.wine (name, price)
+        values (#{name}, #{price})
         on duplicate key update name = #{name};
         ]]>
     </insert>

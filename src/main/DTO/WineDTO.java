@@ -11,12 +11,17 @@ public class WineDTO {
     int number;
     String name;
     String food;
-    int price;
+    String price;
 
     public WineDTO() {
     }
 
-    public WineDTO(int number, String name, String food, int price) {
+    public WineDTO(String name, String price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public WineDTO(int number, String name, String food, String price) {
         this.number = number;
         this.name = name;
         this.food = food;

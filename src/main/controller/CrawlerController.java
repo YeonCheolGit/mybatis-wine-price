@@ -1,6 +1,7 @@
 package main.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import main.DTO.WineDTO;
 import main.service.wine.WineService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
+import java.util.*;
 
 @Controller
 @Slf4j
@@ -35,19 +37,31 @@ public class CrawlerController {
         while (number <= 7) {
             ++number;
             Document doc1 = Jsoup
-                    .connect("http://www.ssg.com/search.ssg?target=all&query=와인&ctgId=6000099422&ctgLv=3&ctgLast=Y&parentCtgId=6000099420&count=100&page=" + number).get();
-            Elements title1 = doc1.select("a.clickable > em.tx_ko");
+                    .connect("http://www.ssg.com/search.ssg?target=all&query=" +
+                            "와인&ctgId=6000099422&ctgLv=3&ctgLast=Y&parentCtgId=6000099420&" +
+                            "count=100&page=" + number).get();
 
-            int count = 0;
+            Elements wineNames= doc1.select("a.clickable > em.tx_ko");
+            Elements winePrices = doc1.select("div.opt_price > em.ssg_price");
 
-            for (Element element : title1) {
-                count++;
-                String win = element.text();
-                wineService.addWines(win);
-//                System.out.println(count + " >> " + win + " >> " + count);
+            String name = null;
+            String price = null;
+
+            ArrayList<String> nameList = new ArrayList<>();
+            ArrayList<String> priceList = new ArrayList<>();
+
+            for (Element element : wineNames) {
+                name = element.text();
+                nameList.add(name);
             }
-//            System.out.println(number + "페이지 끝");
-//            System.out.println("======================= \n");
+
+            for (Element element : winePrices) {
+                price = element.text();
+                priceList.add(price);
+            }
+            for (int i = 0; i < nameList.size(); i++) {
+                wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i)));
+            }
         }
     }
 }
