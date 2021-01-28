@@ -2,22 +2,28 @@
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
-
 <html>
 <head>
     <title></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        #table {
+            margin-left: 450px;
+            margin-right: 450px;
+            margin-top: 50px;
+        }
+        td, tr {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <header>
     <jsp:include page="../commons/header.jsp" />
 </header>
 <form role="form" method="get">
-    <div>
+    <div id="table">
         <table class="table table-hover">
             <thead>
             <tr>
@@ -68,16 +74,22 @@
                     </select>
                 </label>
             </div>
-            <div class="d-sm-inline-block" style="width: 10%;">
-                <form class="d-inline">
-                    <input class="d-inline form-control" id="keywordInput" name="keywords" type="text"
-                           value="${searchCriteria.keyword}" placeholder="Search" aria-label="Search">
-                    <button class="d-inline btn btn-outline-success" id="searchBtn" type="button">검색</button>
-                </form>
+            <div class="container w-50">
+                <div class="d-flex align-items-center">
+                    <form class="d-inline">
+                        <input class="d-inline form-control" id="keywordInput" name="keywords" type="text"
+                               value="${searchCriteria.keyword}" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success flex-shrink-0" id="searchBtn" type="button">검색</button>
+                    </form>
+                </div>
             </div>
+
         </div>
     </div>
 </form>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $('#searchBtn').click(function() {
@@ -85,7 +97,9 @@
                 + "&searchType=" + $("select option:selected").val()
                 + "&keyword=" + encodeURIComponent($("#keywordInput").val());
         });
-        jQuery.noConflict();
+    });
+    $(function () {
+        console.log();
         let cache = {};
         $( "#keywordInput" ).autocomplete ({
             minLength: 2,
@@ -101,7 +115,8 @@
                 });
             }
         });
-    });
+    })
 </script>
 </body>
 </html>
+
