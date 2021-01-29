@@ -9,7 +9,7 @@ public interface WineService {
 
     void addWineNamePrice(WineDTO wine);
 
-    WineDTO readOneWine(int number);
+//    WineDTO readOneWine(int number);
 
     List<WineDTO> listPaging(SearchCriteria searchCriteria);
 

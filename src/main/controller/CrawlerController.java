@@ -54,7 +54,6 @@ public class CrawlerController {
                 name = element.text();
                 nameList.add(name);
             }
-
             for (Element element : winePrices) {
                 price = element.text();
                 priceList.add(price);

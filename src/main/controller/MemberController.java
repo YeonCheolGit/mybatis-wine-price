@@ -64,7 +64,7 @@ public class MemberController {
 
     @RequestMapping(value = "/logout")
     public String logout() {
-        logger.debug("logout debug >>> ");
+        logger.info("logout debug >>> ");
         session.invalidate();
         return "redirect:/";
     }
@@ -78,6 +78,7 @@ public class MemberController {
 
     @PostMapping(value = "/updateMember")
     public String updateMember(MemberDTO memberDTO) {
+        logger.debug("updateMember debug >>> ");
         memberService.updateMember(memberDTO);
         session.invalidate();
         return "redirect:/";

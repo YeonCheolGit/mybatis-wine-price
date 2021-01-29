@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
         #table {
-            margin-left: 450px;
-            margin-right: 450px;
+            margin-left: 400px;
+            margin-right: 400px;
             margin-top: 50px;
         }
         td, tr {
@@ -35,7 +35,8 @@
             <tbody>
             <c:forEach items="${allWineList}" var="allWineList">
                 <tr>
-                    <td><a href="${contextPath}/wine/readOneWine?number=${allWineList.number}">${allWineList.name}</a></td>
+<%--                    <td><a href="${contextPath}/wine/readOneWine?number=${allWineList.number}">${allWineList.name}</a></td>--%>
+                    <td><a href="#" onclick="window.open('http://www.ssg.com/search.ssg?target=all&query=' + '${allWineList.name}')">${allWineList.name}</a></td>
                     <td>${allWineList.price}</td>
                     <td>${allWineList.food}</td>
                 </tr>
@@ -97,9 +98,6 @@
                 + "&searchType=" + $("select option:selected").val()
                 + "&keyword=" + encodeURIComponent($("#keywordInput").val());
         });
-    });
-    $(function () {
-        console.log();
         let cache = {};
         $( "#keywordInput" ).autocomplete ({
             minLength: 2,
@@ -115,7 +113,7 @@
                 });
             }
         });
-    })
+    });
 </script>
 </body>
 </html>

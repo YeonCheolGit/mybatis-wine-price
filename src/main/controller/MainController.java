@@ -13,7 +13,7 @@ public class MainController {
 
     @GetMapping
     public String goMain() {
-        logger.debug("main debug >>> ");
+        logger.info("main debug >>> ");
         return "main";
     }
 }

@@ -1,15 +1,10 @@
 package main.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import main.DTO.MemberDTO;
 import main.DTO.WineDTO;
 import main.paging.PageMaker;
 import main.paging.SearchCriteria;
 import main.service.wine.WineService;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @Slf4j
@@ -36,12 +29,12 @@ public class WineController {
         this.wineService = wineService;
     }
 
-    @RequestMapping(value = "/readOneWine")
-    public String readOneWine(WineDTO wineDTO, Model model) {
-        logger.debug("readOneWine debugs >>> ");
-        model.addAttribute("readOneWine", wineService.readOneWine(wineDTO.getNumber()));
-        return "/wine/readOneWine";
-    }
+//    @RequestMapping(value = "/readOneWine")
+//    public String readOneWine(WineDTO wineDTO, Model model) {
+//        logger.info("readOneWine debugs >>> ");
+//        model.addAttribute("readOneWine", wineService.readOneWine(wineDTO.getNumber()));
+//        return "/wine/readOneWine";
+//    }
 
     @GetMapping(value = "/searchBar")
     public String searchBar(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,

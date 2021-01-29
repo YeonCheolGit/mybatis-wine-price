@@ -18,10 +18,10 @@ public class WineDAOImpl implements WineDAO {
 
     private static final String nameSpace = "mapper.wine";
 
-    @Override
-    public WineDTO readOneWine(int number) {
-        return sqlSession.selectOne(nameSpace + ".readOneWine", number);
-    }
+//    @Override
+//    public WineDTO readOneWine(int number) {
+//        return sqlSession.selectOne(nameSpace + ".readOneWine", number);
+//    }
 
     @Override
     public List<WineDTO> listPaging(SearchCriteria searchCriteria) {
