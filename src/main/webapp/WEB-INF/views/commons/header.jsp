@@ -9,31 +9,22 @@
     <title>Title</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <style>
-        #modal_login,
-        #modal_logout,
-        #modal_register,
-        #modal_update {
+        #modal_login, #modal_logout, #modal_register, #modal_update {
             margin-left: 2px;
             border: 1px solid lightsalmon;
-            background-color: rgba(0, 0, 0, 0);
-            color: lightsalmon;
-            padding-top: 5px;
-            padding-bottom: 5px;
+            background-color: rgba(0, 0, 0, 0); color: lightsalmon;
+            padding-top: 5px; padding-bottom: 5px;
             text-align: center;
             -webkit-text-size-adjust: auto;
             font-weight: bold;
         }
-        #modal_login:hover,
-        #modal_register:hover {
-            color: white;
-            background-color: lightsalmon;
+        #modal_login:hover, #modal_register:hover {
+            color: white; background-color: lightsalmon;
         }
         #idChk {
             margin-top: 1px;
-            padding-top: 1px;
-            padding-bottom: 1px;
-            color: lightcoral;
-            font-weight: bold;
+            padding-top: 1px; padding-bottom: 1px;
+            color: lightcoral; font-weight: bold;
         }
         #idChk:hover{
             color: white;

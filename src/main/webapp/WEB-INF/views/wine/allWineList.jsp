@@ -9,12 +9,19 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
         #table {
-            margin-left: 400px;
-            margin-right: 400px;
-            margin-top: 50px;
+            margin-left: 400px; margin-right: 400px; margin-top: 50px;
         }
         td, tr {
             text-align: center;
+        }
+        #searchBtn {
+            margin-left: 8px; font-weight: bold;
+        }
+        .w-40 {
+            width: 40% !important;
+        }
+        nav li.active a{
+            color: coral; font-weight: bold;
         }
     </style>
 </head>
@@ -54,7 +61,7 @@
                         </li>
                     </c:if>
                     <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-                        <li class="page-item" aria-current="page" <c:out value="${pageMaker.cri.page == idx ? 'class=active' : ''}"/>>
+                        <li aria-current="page" <c:out value="${pageMaker.cri.page == idx? 'class=active':''}"/>>
                             <a class="page-link" href="${contextPath}/wine/searchBar${pageMaker.makeSearch(idx)}">${idx}</a>
                         </li>
                     </c:forEach>
@@ -65,22 +72,20 @@
                     </c:if>
                 </ul>
             </nav>
-            <div>
-                <label for="searchType">
-                    <select name="searchType" id="searchType">
-                        <option value="n" <c:out value="${searchCriteria.searchType == null ? 'selected' : ''}" />>선택</option>
-                        <option value="t" <c:out value="${searchCriteria.searchType eq 't' ? 'selected' : ''}" />>와인</option>
-                        <option value="c" <c:out value="${searchCriteria.searchType eq 'c' ? 'selected' : ''}" />>가격</option>
-                        <option value="w" <c:out value="${searchCriteria.searchType eq 'w' ? 'selected' : ''}" />>어울리는 음식</option>
-                    </select>
-                </label>
-            </div>
-            <div class="container w-50">
+            <div class="container w-40">
                 <div class="d-flex align-items-center">
+                    <label for="searchType">
+                        <select class="form-select" name="searchType" id="searchType">
+                            <option value="n" <c:out value="${searchCriteria.searchType == null ? 'selected' : ''}" />>선택</option>
+                            <option value="t" <c:out value="${searchCriteria.searchType eq 't' ? 'selected' : ''}" />>와인</option>
+                            <option value="c" <c:out value="${searchCriteria.searchType eq 'c' ? 'selected' : ''}" />>가격</option>
+                            <option value="w" <c:out value="${searchCriteria.searchType eq 'w' ? 'selected' : ''}" />>어울리는 음식</option>
+                        </select>
+                    </label>
                     <form class="d-inline">
                         <input class="d-inline form-control" id="keywordInput" name="keywords" type="text"
                                value="${searchCriteria.keyword}" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success flex-shrink-0" id="searchBtn" type="button">검색</button>
+                        <button class="btn btn-outline-success me-2 flex-shrink-0" id="searchBtn" type="button">검색</button>
                     </form>
                 </div>
             </div>
