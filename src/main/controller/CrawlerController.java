@@ -7,6 +7,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -28,13 +30,14 @@ public class CrawlerController {
         this.wineService = wineService;
     }
 
-    @GetMapping(value = "/")
+    // 이마트
+    @GetMapping(value = "/emart")
     public void crawler() throws IOException {
         logger.debug("crawler >>> ");
 
         int number = 0;
 
-        while (number <= 7) {
+        while (number <= 3) {
             ++number;
             Document doc1 = Jsoup
                     .connect("http://www.ssg.com/search.ssg?target=all&query=" +
@@ -62,5 +65,11 @@ public class CrawlerController {
                 wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i)));
             }
         }
+    }
+
+    @GetMapping(value = "/lotte")
+    public void lotteCrawler() {
+        WebDriver driver = new SafariDriver();
+        driver.get("https://www.naver.com");
     }
 }
