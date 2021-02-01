@@ -7,7 +7,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.safari.SafariDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,8 +71,28 @@ public class CrawlerController {
     }
 
     @GetMapping(value = "/lotte")
-    public void lotteCrawler() {
+    public void lotteCrawler() throws InterruptedException {
         WebDriver driver = new SafariDriver();
-        driver.get("https://www.naver.com");
+        driver.manage().window().setSize(new Dimension(2000, 2000));
+        try {
+            driver.get("https://www.lotteon.com/search/render/render.ecn?render=nqapi&platform=" +
+                    "pc&collection_id=301&u9=navigate&u8=LM40004056&login=Y&mallId=4");
+
+            int page = 0; // 총 페이지 갯수
+            while (page <= 3) {
+                List<WebElement> wineNames = driver.findElements(By.xpath("//div[@class='srchProductUnitTitle']")); // 와인 이름
+
+                for (WebElement wineName : wineNames) { // 한 페이지씩 와인 이름 가져오기
+                    System.out.print(wineName.getText());
+                }
+
+                System.out.println("================" + page + "페이지 끝 ================");
+                driver.findElement(By.xpath("//a[@class='srchPaginationNext']")).click(); // 다음 페이지 클릭
+                Thread.sleep(3000);
+                page++;
+            }
+        } finally {
+            driver.quit();
+        }
     }
 }
