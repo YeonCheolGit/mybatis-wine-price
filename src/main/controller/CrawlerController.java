@@ -80,7 +80,6 @@ public class CrawlerController {
             driver.get("https://www.lotteon.com/search/render/render.ecn?render=nqapi&platform=" +
                     "pc&collection_id=301&u9=navigate&u8=LM40004056&login=Y&mallId=4");
 
-//            https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q=나투아 스페셜셀렉션 멜롯
             int page = 0; // 시작 페이지
             while (page <= 3) { // 총 와인 페이지
 //                List<WebElement> wineNamesElement = driver.findElements(By.xpath("//div[@class='srchProductUnitTitle']")); // 와인 이름
