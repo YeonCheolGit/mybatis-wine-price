@@ -9,6 +9,7 @@
         <result property="name" column="name" />
         <result property="food" column="food" />
         <result property="price" column="price" />
+        <result property="URL" column="URL" />
     </resultMap>
 
     <select id="selectAllWines" resultMap="wineResult">
@@ -21,8 +22,8 @@
 
     <insert id="addWineNamePrice" parameterType="String">
         <![CDATA[
-        insert into MVC.wine (name, price)
-        values (#{name}, #{price})
+        insert into MVC.wine (name, price, URL)
+        values (#{name}, #{price}, #{URL})
         on duplicate key update name = #{name};
         ]]>
     </insert>

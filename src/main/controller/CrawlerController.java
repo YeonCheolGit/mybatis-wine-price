@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -33,31 +34,30 @@ public class CrawlerController {
         this.wineService = wineService;
     }
 
-    // 이마트
     @GetMapping(value = "/emart")
     public void crawler() throws IOException {
         logger.debug("crawler >>> ");
 
-        int number = 0;
+        int number = 1; // 시작 페이지
 
-        while (number <= 3) {
-            ++number;
+        while (number <= 8) { // 와인 카테고리 총 페이지
             Document doc1 = Jsoup
                     .connect("http://www.ssg.com/search.ssg?target=all&query=" +
                             "와인&ctgId=6000099422&ctgLv=3&ctgLast=Y&parentCtgId=6000099420&" +
                             "count=100&page=" + number).get();
 
-            Elements wineNames= doc1.select("a.clickable > em.tx_ko");
-            Elements winePrices = doc1.select("div.opt_price > em.ssg_price");
+            Elements wineNames= doc1.select("a.clickable > em.tx_ko"); // 와인 이름
+            Elements winePrices = doc1.select("div.opt_price > em.ssg_price"); // 와인 가격
 
             String name = null;
             String price = null;
+            String URL = "http://www.ssg.com/search.ssg?target=all&query=";
 
-            ArrayList<String> nameList = new ArrayList<>();
-            ArrayList<String> priceList = new ArrayList<>();
+            ArrayList<String> nameList = new ArrayList<>(); // 와인 이름을 저장 할 배열
+            ArrayList<String> priceList = new ArrayList<>(); // 와인 가격을 저장 할 배열
 
             for (Element element : wineNames) {
-                name = element.text();
+                name = element.text().trim();
                 nameList.add(name);
             }
             for (Element element : winePrices) {
@@ -65,8 +65,9 @@ public class CrawlerController {
                 priceList.add(price);
             }
             for (int i = 0; i < nameList.size(); i++) {
-                wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i)));
+                wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
             }
+            number++; // 다음 페이지
         }
     }
 
@@ -74,21 +75,38 @@ public class CrawlerController {
     public void lotteCrawler() throws InterruptedException {
         WebDriver driver = new SafariDriver();
         driver.manage().window().setSize(new Dimension(2000, 2000));
+
         try {
             driver.get("https://www.lotteon.com/search/render/render.ecn?render=nqapi&platform=" +
                     "pc&collection_id=301&u9=navigate&u8=LM40004056&login=Y&mallId=4");
 
-            int page = 0; // 총 페이지 갯수
-            while (page <= 3) {
-                List<WebElement> wineNames = driver.findElements(By.xpath("//div[@class='srchProductUnitTitle']")); // 와인 이름
+//            https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q=나투아 스페셜셀렉션 멜롯
+            int page = 0; // 시작 페이지
+            while (page <= 3) { // 총 와인 페이지
+//                List<WebElement> wineNamesElement = driver.findElements(By.xpath("//div[@class='srchProductUnitTitle']")); // 와인 이름
+                List<WebElement> wineNamesElement = driver.findElements(By.xpath("//div[@class='srchProductUnitTitle']")); // 와인 이름
+                List<WebElement> winePricesElement = driver.findElements(By.xpath("//span[@class='srchCurrentPrice']")); // 와인 가격
 
-                for (WebElement wineName : wineNames) { // 한 페이지씩 와인 이름 가져오기
-                    System.out.print(wineName.getText());
+                ArrayList<String> nameList = new ArrayList<>(); // 와인 이름 저장 할 배열
+                ArrayList<String> priceList = new ArrayList<>(); // 와인 가격 저장 할 배열
+
+                String name = null;
+                String price = null;
+                String URL = "https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q=";
+
+                for (WebElement wineName : wineNamesElement) { // 한 페이지씩 와인 이름 가져온 후 배열에 저장
+                    name = wineName.getText().trim();
+                    nameList.add(name);
                 }
-
-                System.out.println("================" + page + "페이지 끝 ================");
+                for (WebElement winePrice : winePricesElement) { // 한 페이지씩 와인 가격 가져온 후 배열에 저장
+                    price = winePrice.getText();
+                    priceList.add(price);
+                }
+                for (int i = 0; i < wineNamesElement.size(); i++) { // 한 페이지씩 저장된 이름, 가격 배열을 DB에 저장
+                    wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
+                }
                 driver.findElement(By.xpath("//a[@class='srchPaginationNext']")).click(); // 다음 페이지 클릭
-                Thread.sleep(3000);
+                Thread.sleep(3000); // 페이지 로딩 시간
                 page++;
             }
         } finally {

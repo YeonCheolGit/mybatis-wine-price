@@ -43,7 +43,8 @@
             <c:forEach items="${allWineList}" var="allWineList">
                 <tr>
 <%--                    <td><a href="${contextPath}/wine/readOneWine?number=${allWineList.number}">${allWineList.name}</a></td>--%>
-                    <td><a href="#" onclick="window.open('http://www.ssg.com/search.ssg?target=all&query=' + '${allWineList.name}')">${allWineList.name}</a></td>
+                    <%-- 와인 클릭 후 해당 홈페이지로 이동 --%>
+                    <td><a href="#" onclick="window.open('${allWineList.URL}' + '${allWineList.name}')">${allWineList.name}</a></td>
                     <td>${allWineList.price}</td>
                     <td>${allWineList.food}</td>
                 </tr>
