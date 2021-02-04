@@ -57,4 +57,20 @@ public class WineController {
         logger.debug("search >>> ");
         return wineService.search(request.getParameter("term"));
     }
+
+    @GetMapping(value = "/orderByPrice")
+    public String orderByPrice(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
+                            Model model) {
+        logger.debug("orderByPrice >>> ");
+
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCriteria(searchCriteria);
+        pageMaker.setTotalCount(wineService.countWines(searchCriteria));
+
+        model.addAttribute("allWineList", wineService.orderByPrice(searchCriteria));
+        model.addAttribute("pageMaker", pageMaker);
+
+        return "wine/allWineList";
+    }
+
 }

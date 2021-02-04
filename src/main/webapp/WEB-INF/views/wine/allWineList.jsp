@@ -36,6 +36,7 @@
             <tr>
                 <th>와인</th>
                 <th>가격</th>
+                <th><a id="priceOrder">priceOrder</a></th>
                 <th>어울리는 음식</th>
             </tr>
             </thead>
@@ -103,6 +104,9 @@
             self.location = "${contextPath}/wine/searchBar${pageMaker.makeQuery(1)}"
                 + "&searchType=" + $("select option:selected").val()
                 + "&keyword=" + encodeURIComponent($("#keywordInput").val());
+        });
+        $('#priceOrder').click(function () { // 와인을 저렴한 순서대로 정렬
+            self.location = "${contextPath}/wine/orderByPrice"
         });
         let cache = {};
         $( "#keywordInput" ).autocomplete ({

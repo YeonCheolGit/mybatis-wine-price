@@ -20,7 +20,7 @@
         ]]>
     </select>
 
-    <insert id="addWineNamePrice" parameterType="String">
+    <insert id="addWineNamePrice">
         <![CDATA[
         insert into MVC.wine (name, price, URL)
         values (#{name}, #{price}, #{URL})
@@ -45,6 +45,19 @@
         <include refid="search"/>
         <![CDATA[
         order by number
+        limit #{pageStart}, #{perPageNum}
+        ]]>
+    </select>
+
+    <select id="orderByPrice" resultMap="wineResult">
+        <![CDATA[
+        select *
+        from MVC.wine
+        where number > 0
+        ]]>
+        <include refid="search"/>
+        <![CDATA[
+        order by price
         limit #{pageStart}, #{perPageNum}
         ]]>
     </select>
@@ -78,5 +91,6 @@
         where name like concat('%', #{keyword}, '%')
         order by name
     </select>
+
 
 </mapper>
