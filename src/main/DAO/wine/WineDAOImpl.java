@@ -29,7 +29,7 @@ public class WineDAOImpl implements WineDAO {
     }
 
     @Override
-    public List<WineDTO> orderByPrice(SearchCriteria searchCriteria) {
+    public List<WineDTO> prices(SearchCriteria searchCriteria) {
         return sqlSession.selectList(nameSpace + ".orderByPrice", searchCriteria);
     }
 
@@ -40,7 +40,7 @@ public class WineDAOImpl implements WineDAO {
 
     @Override
     public List<String> search(String keyword) {
-        return sqlSession.selectList(nameSpace + ".search", keyword);
+        return sqlSession.selectList(nameSpace + ".autocomplete", keyword);
     }
 
     @Override

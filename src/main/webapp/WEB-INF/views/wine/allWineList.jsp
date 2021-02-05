@@ -7,6 +7,7 @@
     <title></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <style>
         #table {
             margin-left: 400px; margin-right: 400px; margin-top: 50px;
@@ -35,8 +36,7 @@
             <thead>
             <tr>
                 <th>와인</th>
-                <th>가격</th>
-                <th><a id="priceOrder">priceOrder</a></th>
+                <th>가격<i class="bi bi-sort-down-alt" id="price" style="margin-right: 3px"></i></th>
                 <th>어울리는 음식</th>
             </tr>
             </thead>
@@ -59,17 +59,32 @@
                 <ul class="pagination justify-content-center">
                     <c:if test="${pageMaker.prev}">
                         <li class="page-item">
-                            <a class="page-link" href="${contextPath}/wine/searchBar${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a>
+                        <c:if test="${orderByPrice == true}"> <%-- 가격 정렬을 했을 때 --%>
+                            <a class="page-link" href="${contextPath}/wine/orderByPrice${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a>
+                        </c:if>
+                        <c:if test="${orderByPrice == null}"> <%-- 가격 정렬을 안했을 때 --%>
+                            <a class="page-link" href="${contextPath}/wine/searchBarAndPagination${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a>
+                        </c:if>
                         </li>
                     </c:if>
                     <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
                         <li aria-current="page" <c:out value="${pageMaker.cri.page == idx? 'class=active':''}"/>>
-                            <a class="page-link" href="${contextPath}/wine/searchBar${pageMaker.makeSearch(idx)}">${idx}</a>
+                            <c:if test="${orderByPrice == true}"> <%-- 가격 정렬을 했을 때 --%>
+                                <a class="page-link" href="${contextPath}/wine/orderByPrice${pageMaker.makeSearch(idx)}">${idx}</a> <%-- 페이지 번호 --%>
+                            </c:if>
+                            <c:if test="${orderByPrice == null}"> <%-- 가격 정렬을 안했을 때 --%>
+                                <a class="page-link" href="${contextPath}/wine/searchBarAndPagination${pageMaker.makeSearch(idx)}">${idx}</a> <%-- 페이지 번호 --%>
+                            </c:if>
                         </li>
                     </c:forEach>
                     <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
                         <li class="page-item">
-                            <a class="page-link" href="${contextPath}/wine/searchBar${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a>
+                        <c:if test="${orderByPrice == true}"> <%-- 가격 정렬을 했을 때 --%>
+                            <a class="page-link" href="${contextPath}/wine/orderByPrice${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a>
+                        </c:if>
+                        <c:if test="${orderByPrice == null}"> <%-- 가격 정렬을 안했을 때 --%>
+                            <a class="page-link" href="${contextPath}/wine/searchBarAndPagination${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a>
+                        </c:if>
                         </li>
                     </c:if>
                 </ul>
@@ -101,15 +116,17 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#searchBtn').click(function() {
-            self.location = "${contextPath}/wine/searchBar${pageMaker.makeQuery(1)}"
+            self.location = "${contextPath}/wine/searchBarAndPagination${pageMaker.makeQuery(1)}"
                 + "&searchType=" + $("select option:selected").val()
                 + "&keyword=" + encodeURIComponent($("#keywordInput").val());
         });
-        $('#priceOrder').click(function () { // 와인을 저렴한 순서대로 정렬
-            self.location = "${contextPath}/wine/orderByPrice"
+        $('#price').click(function() { // 가격순서 정렬
+            self.location = "${contextPath}/wine/orderByPrice${pageMaker.makeQuery(1)}"
+                + "&orderByPrice=" + $("select option:selected").val()
+                + "&keyword=" + encodeURIComponent($("#keywordInput").val());
         });
         let cache = {};
-        $( "#keywordInput" ).autocomplete ({
+        $( "#keywordInput" ).autocomplete ({ // 검색창 자동완성
             minLength: 2,
             source: function( request, response ) {
                 let term = request.term;
@@ -117,7 +134,7 @@
                     response(cache[term]);
                     return;
                 }
-                $.getJSON("${contextPath}/wine/search", request, function (data, status, xhr) {
+                $.getJSON("${contextPath}/wine/autocomplete", request, function (data, status, xhr) {
                     cache[term] = data;
                     response(data);
                 });

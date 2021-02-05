@@ -39,13 +39,13 @@
                 <div class="navbar-nav" style="width: 550px">
                     <c:if test="${member == null}">
                         <button class="btn btn-outline-success me-2" type="button"
-                                onclick="location.href='${contextPath}/wine/searchBar'">목록</button>
+                                onclick="location.href='${contextPath}/wine/searchBarAndPagination'">목록</button>
                         <button class="btn btn-primary" data-bs-toggle="modal" id="modal_login" type="button" >로그인</button>
                         <button class="btn btn-primary" data-bs-toggle="modal" id="modal_register" type="button" >회원가입</button>
                     </c:if>
                     <c:if test="${member != null}">
                         <button class="btn btn-outline-success me-2" type="button"
-                                onclick="location.href='${contextPath}/wine/searchBar'">목록</button>
+                                onclick="location.href='${contextPath}/wine/searchBarAndPagination'">목록</button>
                         <button class="btn btn-primary" type="button" id="modal_logout"
                                 onclick="location.href='${contextPath}/member/logout'">로그아웃</button>
                         <button class="btn btn-primary" id="modal_update" type="button">마이페이지</button>

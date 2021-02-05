@@ -94,6 +94,7 @@ public class PageMaker {
                 .queryParam("page", page)
                 .queryParam("perPageNum", criteria.getPerPageNum())
                 .queryParam("searchType", ((SearchCriteria) criteria).getSearchType())
+                .queryParam("orderByPrice", ((SearchCriteria) criteria).getSearchType())
                 .queryParam("keyword", encoding(((SearchCriteria)criteria).getKeyword()))
                 .build();
 

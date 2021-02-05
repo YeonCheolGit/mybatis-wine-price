@@ -1,7 +1,6 @@
 package main.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import main.DTO.WineDTO;
 import main.paging.PageMaker;
 import main.paging.SearchCriteria;
 import main.service.wine.WineService;
@@ -36,8 +35,8 @@ public class WineController {
 //        return "/wine/readOneWine";
 //    }
 
-    @GetMapping(value = "/searchBar")
-    public String searchBar(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
+    @GetMapping(value = "/searchBarAndPagination")
+    public String searchBarAndPagination(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
                             Model model) {
         logger.debug("searchBar >>> ");
 
@@ -51,26 +50,27 @@ public class WineController {
         return "wine/allWineList";
     }
 
-    @GetMapping(value = "/search")
-    @ResponseBody
-    public List<String> search(HttpServletRequest request) {
-        logger.debug("search >>> ");
-        return wineService.search(request.getParameter("term"));
-    }
-
     @GetMapping(value = "/orderByPrice")
     public String orderByPrice(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
                             Model model) {
-        logger.debug("orderByPrice >>> ");
+        logger.debug("prices >>> ");
 
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCriteria(searchCriteria);
         pageMaker.setTotalCount(wineService.countWines(searchCriteria));
 
-        model.addAttribute("allWineList", wineService.orderByPrice(searchCriteria));
+        boolean price = true;
+        model.addAttribute("allWineList", wineService.prices(searchCriteria));
         model.addAttribute("pageMaker", pageMaker);
+        model.addAttribute("orderByPrice", price);
 
         return "wine/allWineList";
     }
 
+    @GetMapping(value = "/autocomplete")
+    @ResponseBody
+    public List<String> search(HttpServletRequest request) {
+        logger.debug("search >>> ");
+        return wineService.search(request.getParameter("term"));
+    }
 }

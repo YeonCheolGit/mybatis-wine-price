@@ -82,15 +82,16 @@
             <if test="searchType == 'w'.toString()">
                 and food like concat('%', #{keyword}, '%')
             </if>
+            <if test="searchType == 'p'.toString()">
+                and price like concat('%', #{keyword}, '%')
+            </if>
         </if>
     </sql>
 
-    <select id="search" resultType="String" parameterType="String">
+    <select id="autocomplete" resultType="String" parameterType="String">
         select name
         from MVC.wine
         where name like concat('%', #{keyword}, '%')
         order by name
     </select>
-
-
 </mapper>
