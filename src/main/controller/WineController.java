@@ -37,7 +37,7 @@ public class WineController {
 
     @GetMapping(value = "/searchBarAndPagination")
     public String searchBarAndPagination(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
-                            Model model) {
+                                         Model model) {
         logger.debug("searchBar >>> ");
 
         PageMaker pageMaker = new PageMaker();

@@ -29,6 +29,10 @@
         #idChk:hover{
             color: white;
         }
+        .dark {
+            background-color: #222;
+            color: #e6e6e6;
+        }
     </style>
 </head>
 <body>
@@ -51,9 +55,14 @@
                         <button class="btn btn-primary" id="modal_update" type="button">마이페이지</button>
                         <span class="navbar-text" style="margin-left: 4px">${member.name}님 안녕하세요.</span>
                     </c:if>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="darkMode">
+                        <label class="form-check-label" for="darkMode">다크모드</label>
+                    </div>
                 </div>
             </div>
         </div>
+
         <form class="container-fluid justify-content-start" method="post" action="${contextPath}/member/login">
             <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -147,6 +156,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        let element = document.body;
+        $('#darkMode').click(function () { // Dark Mode
+            element.classList.toggle("dark");
+        });
+
         $('#modal_login').click(function () {
             $('#loginModal').modal("show");
         });
@@ -158,18 +172,6 @@
         });
         $('#close_modal').click(function () {
             $('#exampleModal').modal("hide");
-        });
-        $("#login_submit").on("click", function () {
-            if ($("#login_id").val() === "") {
-                alert("아이디를 입력해주세요.");
-                $("#login_id").focus();
-                return false;
-            }
-            if ($("#login_pwd").val() === "") {
-                alert("비밀번호를 입력해주세요.");
-                $("#login_pwd").focus();
-                return false;
-            }
         });
         $("#register_submit").on("click", function () {
             if ($("#register_id").val() === "") {

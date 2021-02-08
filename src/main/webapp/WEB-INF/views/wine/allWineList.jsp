@@ -119,6 +119,7 @@
             self.location = "${contextPath}/wine/searchBarAndPagination${pageMaker.makeQuery(1)}"
                 + "&searchType=" + $("select option:selected").val()
                 + "&keyword=" + encodeURIComponent($("#keywordInput").val());
+
         });
         $('#price').click(function() { // 가격순서 정렬
             self.location = "${contextPath}/wine/orderByPrice${pageMaker.makeQuery(1)}"
