@@ -26,8 +26,8 @@ public class WineServiceImpl implements WineService {
     }
 
     @Override
-    public List<WineDTO> prices(SearchCriteria searchCriteria) {
-        return wineDAO.prices(searchCriteria);
+    public List<WineDTO> orderByPrice(SearchCriteria searchCriteria) {
+        return wineDAO.orderByPrice(searchCriteria);
     }
 
     @Override

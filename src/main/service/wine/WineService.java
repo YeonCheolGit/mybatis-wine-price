@@ -13,7 +13,7 @@ public interface WineService {
 
     List<WineDTO> listPaging(SearchCriteria searchCriteria);
 
-    List<WineDTO> prices(SearchCriteria searchCriteria);
+    List<WineDTO> orderByPrice(SearchCriteria searchCriteria);
 
     int countWines(SearchCriteria searchCriteria);
 

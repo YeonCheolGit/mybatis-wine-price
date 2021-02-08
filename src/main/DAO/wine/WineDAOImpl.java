@@ -29,7 +29,7 @@ public class WineDAOImpl implements WineDAO {
     }
 
     @Override
-    public List<WineDTO> prices(SearchCriteria searchCriteria) {
+    public List<WineDTO> orderByPrice(SearchCriteria searchCriteria) {
         return sqlSession.selectList(nameSpace + ".orderByPrice", searchCriteria);
     }
 

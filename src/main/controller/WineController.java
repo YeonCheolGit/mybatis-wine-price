@@ -60,7 +60,8 @@ public class WineController {
         pageMaker.setTotalCount(wineService.countWines(searchCriteria));
 
         boolean price = true;
-        model.addAttribute("allWineList", wineService.prices(searchCriteria));
+
+        model.addAttribute("allWineList", wineService.orderByPrice(searchCriteria));
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("orderByPrice", price);
 
