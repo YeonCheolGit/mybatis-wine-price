@@ -29,9 +29,22 @@
         #idChk:hover{
             color: white;
         }
-        .dark {
-            background-color: #222;
-            color: #e6e6e6;
+        html {
+            --bg-color: #fff;
+            --text-color: black;
+            --link-color: #0000ee;
+        }
+        html.dark {
+            --bg-color: #121212;
+            --text-color: white;
+            --link-color: #3ea6ff;
+        }
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+        a, th, td {
+            color: var(--text-color);
         }
     </style>
 </head>
@@ -55,14 +68,10 @@
                         <button class="btn btn-primary" id="modal_update" type="button">마이페이지</button>
                         <span class="navbar-text" style="margin-left: 4px">${member.name}님 안녕하세요.</span>
                     </c:if>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="darkMode">
-                        <label class="form-check-label" for="darkMode">다크모드</label>
-                    </div>
+                    <button id="toggleTheme">Dark Mode</button>
                 </div>
             </div>
         </div>
-
         <form class="container-fluid justify-content-start" method="post" action="${contextPath}/member/login">
             <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -154,13 +163,29 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="./jquery.cookie.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        let element = document.body;
-        $('#darkMode').click(function () { // Dark Mode
-            element.classList.toggle("dark");
-        });
+        document.getElementById("toggleTheme").addEventListener("click", () => { // Dark Mode
+            const html = document.documentElement;
 
+            if (html.classList.contains("dark")) {
+                html.classList.remove("dark");
+                localStorage.setItem("darkTheme", "false");
+            } else {
+                html.classList.add("dark");
+                localStorage.setItem("darkTheme", "true");
+            }
+        });
+        const storedTheme = localStorage.getItem("darkTheme");
+
+        if (storedTheme !== null) {
+            if (storedTheme === "true") {
+                document.documentElement.classList.add("dark");
+            }
+        } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            document.documentElement.classList.add("dark");
+        }
         $('#modal_login').click(function () {
             $('#loginModal').modal("show");
         });
@@ -195,7 +220,7 @@
                 url: "${contextPath}/member/duplicatedIdChk",
                 type: "post",
                 dataType: "json",
-                data: {"id" : $("#register_id").val()},
+                data: {"id": $("#register_id").val()},
                 success: function (data) {
                     if (data === 1) {
                         alert("이미 사용하고 있는 이메일입니다.");
@@ -226,7 +251,7 @@
                 }
             })
         });
-    })
+    });
 </script>
 </body>
 </html>
