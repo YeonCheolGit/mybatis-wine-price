@@ -165,26 +165,25 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        document.getElementById("toggleTheme").addEventListener("click", () => { // Dark Mode
+        document.getElementById("toggleTheme").addEventListener("click", () => { // Dark Mode Button eventListener
             const html = document.documentElement;
 
-            if (html.classList.contains("dark")) {
+            if (html.classList.contains("dark")) { // Dark Mode on state
                 html.classList.remove("dark");
                 localStorage.setItem("darkTheme", "false");
-            } else {
+            } else { // Dark Mode off state
                 html.classList.add("dark");
                 localStorage.setItem("darkTheme", "true");
             }
         });
         const storedTheme = localStorage.getItem("darkTheme");
 
-        if (storedTheme !== null) {
-            if (storedTheme === "true") {
-                document.documentElement.classList.add("dark");
+        if (storedTheme !== null) { // session check
+            if (storedTheme === "true") { // if dark mode on
+                document.documentElement.classList.add("dark"); // maintain dark mode on
             }
-        } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            document.documentElement.classList.add("dark");
-        }
+        };
+
         $('#modal_login').click(function () {
             $('#loginModal').modal("show");
         });
