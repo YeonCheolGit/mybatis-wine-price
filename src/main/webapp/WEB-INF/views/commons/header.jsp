@@ -182,7 +182,7 @@
             if (storedTheme === "true") { // if dark mode on
                 document.documentElement.classList.add("dark"); // maintain dark mode on
             }
-        };
+        }
 
         $('#modal_login').click(function () {
             $('#loginModal').modal("show");

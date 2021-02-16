@@ -71,7 +71,7 @@ public class CrawlerController {
             }
             number++; // 다음 페이지
         }
-        return "redirect:wine/searchBar";
+        return "redirect:/wine/searchBarAndPagination";
     }
 
     @GetMapping(value = "/lotte")
@@ -111,10 +111,11 @@ public class CrawlerController {
                 driver.findElement(By.xpath("//a[@class='srchPaginationNext']")).click(); // 다음 페이지 클릭
                 Thread.sleep(5000); // 페이지 로딩 시간
                 page++;
+
             }
         } finally {
             driver.quit();
         }
-        return "redirect:wine/searchBar";
+        return "redirect:/wine/searchBarAndPagination";
     }
 }
