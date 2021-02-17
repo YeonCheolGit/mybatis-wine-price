@@ -31,7 +31,6 @@ public class MemberController {
     }
 
     /*
-    @PostMapping
     Do register member
      */
     @PostMapping(value = "/registerMember")
@@ -81,6 +80,9 @@ public class MemberController {
         return "redirect:/";
     }
 
+    /*
+    works when click checking duplicate button on register member modal
+     */
     @ResponseBody
     @RequestMapping(value = "/duplicatedIdChk", method = RequestMethod.POST)
     public int duplicatedIdChk(MemberDTO memberDTO) {

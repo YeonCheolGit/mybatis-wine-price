@@ -35,6 +35,9 @@ public class WineController {
 //        return "/wine/readOneWine";
 //    }
 
+    /*
+    Show list
+     */
     @GetMapping(value = "/searchBarAndPagination")
     public String searchBarAndPagination(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
                                          Model model) {
@@ -50,6 +53,10 @@ public class WineController {
         return "wine/allWineList";
     }
 
+    /*
+    Order by wine price
+    Maintain ordered list even page is changed
+     */
     @GetMapping(value = "/orderByPrice")
     public String orderByPrice(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
                             Model model) {
@@ -68,6 +75,9 @@ public class WineController {
         return "wine/allWineList";
     }
 
+    /*
+    Do Autocomplete when type word in search bar
+     */
     @GetMapping(value = "/autocomplete")
     @ResponseBody
     public List<String> search(HttpServletRequest request) {

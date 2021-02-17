@@ -46,9 +46,9 @@
         a, th, td {
             color: var(--text-color);
         }
-        label.dark { !important;
-            color: lightsalmon;
-            font-weight: bold;
+        #modal-content {
+            background: var(--bg-color);
+            color: var(--text-color);
         }
     </style>
 </head>
@@ -81,7 +81,7 @@
         <form class="container-fluid justify-content-start" method="post" action="${contextPath}/member/login">
             <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                    <div class="modal-content">
+                    <div class="modal-content" id="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="loginModalLabel">로그인 창</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
