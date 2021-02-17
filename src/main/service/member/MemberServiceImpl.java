@@ -18,6 +18,11 @@ public class MemberServiceImpl implements MemberService {
         memberDAO.registerMember(memberDTO);
     }
 
+//    @Override
+//    public void registerMember(String id, String pwd, String name) {
+//        memberDAO.registerMember(id, pwd, name);
+//    }
+
     @Override
     public MemberDTO login(MemberDTO memberDTO) {
         return memberDAO.login(memberDTO);

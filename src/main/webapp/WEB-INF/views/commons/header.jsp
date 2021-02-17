@@ -46,6 +46,10 @@
         a, th, td {
             color: var(--text-color);
         }
+        label.dark { !important;
+            color: lightsalmon;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -68,8 +72,10 @@
                         <button class="btn btn-primary" id="modal_update" type="button">마이페이지</button>
                         <span class="navbar-text" style="margin-left: 4px">${member.name}님 안녕하세요.</span>
                     </c:if>
-                    <button id="toggleTheme">Dark Mode</button>
                 </div>
+            </div>
+            <div style="position: absolute; margin-left: 1300px">
+                <button id="toggleTheme">Dark Mode</button>
             </div>
         </div>
         <form class="container-fluid justify-content-start" method="post" action="${contextPath}/member/login">

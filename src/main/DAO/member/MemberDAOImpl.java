@@ -20,6 +20,11 @@ public class MemberDAOImpl implements MemberDAO {
         sqlSession.insert(nameSpace + ".registerMember", memberDTO);
     }
 
+//    @Override
+//    public void registerMember(String id, String pwd, String name) {
+//        sqlSession.insert(nameSpace + ".registerMember", id +  pwd + name);
+//    }
+
     @Override
     public MemberDTO login(MemberDTO memberDTO) {
         return sqlSession.selectOne(nameSpace + ".login", memberDTO);

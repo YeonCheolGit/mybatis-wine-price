@@ -28,8 +28,7 @@
         <![CDATA[
         select id, pwd, name
         from MVC.t_member
-        where id = #{id}
-          and pwd = #{pwd};
+        where id = #{id};
         ]]>
     </select>
     <select id="duplicatedIdChk" resultType="int">

@@ -5,8 +5,12 @@ import main.DTO.MemberDTO;
 import main.service.member.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,9 +23,11 @@ public class MemberController {
 
     private static HttpSession session;
     private final MemberService memberService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, BCryptPasswordEncoder passwordEncoder) {
         this.memberService = memberService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /*
@@ -36,6 +42,10 @@ public class MemberController {
         if (result == 1) {
             return "redirect:/";
         } else if (result == 0) {
+            String rawPwd = memberDTO.getPwd();
+            String encodedPwd = passwordEncoder.encode(rawPwd);
+            memberDTO.setPwd(encodedPwd);
+
             memberService.registerMember(memberDTO);
         }
         return "redirect:/";
@@ -51,9 +61,11 @@ public class MemberController {
         logger.debug("login debug >>> ");
 
         session = req.getSession();
-        MemberDTO login = memberService.login(memberDTO);
 
-        if (login == null) {
+        MemberDTO login = memberService.login(memberDTO);
+        boolean pwdMatch = passwordEncoder.matches(memberDTO.getPwd(), login.getPwd());
+
+        if (login == null || !pwdMatch) {
             session.setAttribute("member", null);
             return "null";
         } else {
@@ -83,6 +95,4 @@ public class MemberController {
         session.invalidate();
         return "redirect:/";
     }
-
-
 }
