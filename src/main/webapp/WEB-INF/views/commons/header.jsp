@@ -50,6 +50,9 @@
             background: var(--bg-color);
             color: var(--text-color);
         }
+        #text {
+            color: black;
+        }
     </style>
 </head>
 <body>
@@ -74,8 +77,9 @@
                     </c:if>
                 </div>
             </div>
-            <div style="position: absolute; margin-left: 1300px">
-                <button id="toggleTheme">Dark Mode</button>
+            <div class="form-check form-switch" style="margin-left: 90%; position: absolute">
+                <input class="form-check-input" type="checkbox" id="toggleTheme">
+                <label class="form-check-label" for="toggleTheme" id="text">다크모드</label> <%-- 클릭에 따라 다크모드 글자 변경(On/Off) --%>
             </div>
         </div>
         <form class="container-fluid justify-content-start" method="post" action="${contextPath}/member/login">
@@ -177,9 +181,12 @@
             if (html.classList.contains("dark")) { // Dark Mode on state
                 html.classList.remove("dark");
                 localStorage.setItem("darkTheme", "false");
+                $("#text").text("다크모드 ON");
+
             } else { // Dark Mode off state
                 html.classList.add("dark");
                 localStorage.setItem("darkTheme", "true");
+                $("#text").text("다크모드 OFF");
             }
         });
         const storedTheme = localStorage.getItem("darkTheme");
