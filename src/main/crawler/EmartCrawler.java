@@ -33,15 +33,6 @@ public class EmartCrawler implements Runnable {
 
         int number = 1; // 시작 페이지
 
-        while (number <= 8) { // 와인 카테고리 총 페이지
-            Document doc1 = Jsoup
-                    .connect("http://www.ssg.com/search.ssg?target=all&query=" +
-                            "와인&ctgId=6000099422&ctgLv=3&ctgLast=Y&parentCtgId=6000099420&" +
-                            "count=100&page=" + number).get();
-
-            Elements wineNames = doc1.select("a.clickable > em.tx_ko"); // 와인 이름
-            Elements winePrices = doc1.select("div.opt_price > em.ssg_price"); // 와인 가격
-
             String name = null;
             String price = null;
             int priceInt = 0;
@@ -50,20 +41,34 @@ public class EmartCrawler implements Runnable {
             ArrayList<String> nameList = new ArrayList<>(); // 와인 이름을 저장 할 배열
             ArrayList<Integer> priceList = new ArrayList<>(); // 와인 가격을 저장 할 배열
 
-            for (Element element : wineNames) {
-                name = element.text();
-                nameList.add(name);
+            while (number < 9) {
+                Document doc1 = Jsoup
+                        .connect("http://www.ssg.com/search.ssg?target=all&query=" +
+                                "와인&ctgId=6000099422&ctgLv=3&ctgLast=Y&parentCtgId=6000099420&" +
+                                "count=100&page=" + number).get();
+
+                Elements wineNames = doc1.select("a.clickable > em.tx_ko"); // 와인 이름
+                Elements winePrices = doc1.select("div.opt_price > em.ssg_price"); // 와인 가격
+
+                for (Element element : wineNames) { // 와인 이름 가지고 와서, 배열에 저장
+                    name = element.text();
+                    nameList.add(name);
+                }
+                for (Element element : winePrices) {
+                    price = element.text().replaceAll("[^0-9]", ""); // 와인 가격에서 숫자만 가지고 와서, 배열에 저장
+                    priceInt = Integer.parseInt(price);
+                    priceList.add(priceInt);
+                }
+
+                Thread.sleep(10000); // 다음 페이지 넘어가기 전 잠시 대기
+                number++;
+                System.out.println("emart page >>>>>> " + number);
             }
-            for (Element element : winePrices) {
-                price = element.text().replaceAll("[^0-9]", ""); // 와인 가격에서 숫자만 가져오기
-                priceInt = Integer.parseInt(price);
-                priceList.add(priceInt);
-            }
-            for (int i = 0; i < nameList.size(); i++) {
+
+            for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 8페이지 분량, 한번에 DB 저장
                 wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
             }
-            number++; // 다음 페이지
-        }
+
         logger.debug("emart end >>> ");
     }
 }
