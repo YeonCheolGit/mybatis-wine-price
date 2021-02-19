@@ -33,9 +33,9 @@ public class EmartCrawler implements Runnable {
 
         int number = 1; // 시작 페이지
 
-            String name = null;
-            String price = null;
-            int priceInt = 0;
+            String name;
+            String price;
+            int priceInt;
             String URL = "http://www.ssg.com/search.ssg?target=all&query=";
 
             ArrayList<String> nameList = new ArrayList<>(); // 와인 이름을 저장 할 배열
@@ -60,7 +60,7 @@ public class EmartCrawler implements Runnable {
                     priceList.add(priceInt);
                 }
 
-                Thread.sleep(10000); // 다음 페이지 넘어가기 전 잠시 대기
+                Thread.sleep(5000); // 다음 페이지 넘어가기 전 잠시 대기
                 number++;
                 System.out.println("emart page >>>>>> " + number);
             }

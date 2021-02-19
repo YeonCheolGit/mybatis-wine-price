@@ -5,14 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import main.DTO.WineDTO;
 import main.controller.WineController;
 import main.service.wine.WineService;
-import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.safari.SafariDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
@@ -48,9 +47,9 @@ public class LotteCrawler implements Runnable {
                 List<WebElement> wineNamesElement = driver.findElements(By.xpath("//div[@class='srchProductUnitTitle']")); // 와인 이름
                 List<WebElement> winePricesElement = driver.findElements(By.xpath("//span[@class='srchCurrentPrice']")); // 와인 가격
 
-                String name = null;
-                String price = null;
-                int priceInt = 0;
+                String name;
+                String price;
+                int priceInt;
 
                 for (WebElement wineName : wineNamesElement) { // 한 페이지씩 와인 이름 가져온 후 배열에 저장
                     name = wineName.getText().trim(); // 요소 중 텍스트만 추출
