@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -37,8 +38,8 @@ public class LotteCrawler implements Runnable {
         driver.get("https://www.lotteon.com/search/render/render.ecn?render=nqapi&platform=" + // 롯데마트 와인코너 초기 화면
                 "pc&collection_id=301&u9=navigate&u8=LM40004056&login=Y&mallId=4");
 
-        ArrayList<String> nameList = new ArrayList<>(); // 와인 이름 저장 할 배열
-        ArrayList<Integer> priceList = new ArrayList<>(); // 와인 가격 저장 할 배열
+        List<String> nameList = new LinkedList<>(); // 와인 이름 저장 할 배열
+        List<Integer> priceList = new LinkedList<>(); // 와인 가격 저장 할 배열
         String URL = "https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q="; // 각 와인 이동 링크
 
         try {

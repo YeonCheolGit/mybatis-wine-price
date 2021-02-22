@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -38,8 +40,8 @@ public class EmartCrawler implements Runnable {
             int priceInt;
             String URL = "http://www.ssg.com/search.ssg?target=all&query=";
 
-            ArrayList<String> nameList = new ArrayList<>(); // 와인 이름을 저장 할 배열
-            ArrayList<Integer> priceList = new ArrayList<>(); // 와인 가격을 저장 할 배열
+            List<String> nameList = new LinkedList<>(); // 와인 이름을 저장 할 배열
+            List<Integer> priceList = new LinkedList<>(); // 와인 가격을 저장 할 배열
 
             while (number < 9) {
                 Document doc1 = Jsoup
