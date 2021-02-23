@@ -40,6 +40,10 @@ public class EmartCrawler implements Runnable {
             int priceInt;
             String URL = "http://www.ssg.com/search.ssg?target=all&query=";
 
+            /*
+             * 와인의 갯수가 정해져 있지 않음.
+             * ArrayList --> LinkedList로 변경 (데이터의 추가 속도)
+             */
             List<String> nameList = new LinkedList<>(); // 와인 이름을 저장 할 배열
             List<Integer> priceList = new LinkedList<>(); // 와인 가격을 저장 할 배열
 

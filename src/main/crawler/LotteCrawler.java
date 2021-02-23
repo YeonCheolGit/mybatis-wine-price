@@ -38,6 +38,10 @@ public class LotteCrawler implements Runnable {
         driver.get("https://www.lotteon.com/search/render/render.ecn?render=nqapi&platform=" + // 롯데마트 와인코너 초기 화면
                 "pc&collection_id=301&u9=navigate&u8=LM40004056&login=Y&mallId=4");
 
+        /*
+         * 와인의 갯수가 정해져 있지 않음.
+         * ArrayList --> LinkedList로 변경 (데이터의 추가 속도)
+         */
         List<String> nameList = new LinkedList<>(); // 와인 이름 저장 할 배열
         List<Integer> priceList = new LinkedList<>(); // 와인 가격 저장 할 배열
         String URL = "https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q="; // 각 와인 이동 링크
@@ -68,7 +72,6 @@ public class LotteCrawler implements Runnable {
                 Thread.sleep(5000); // 다음 페이지 로딩 시간 대기
 
                 page++;
-
                 System.out.println("lotte page >>>> " + page);
             }
 
@@ -79,6 +82,7 @@ public class LotteCrawler implements Runnable {
         } catch (InterruptedException | NumberFormatException e) {
             e.printStackTrace();
         } finally {
+            logger.debug("lotte end >>> ");
             driver.close();
         }
     }
