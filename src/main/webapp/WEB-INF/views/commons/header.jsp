@@ -108,7 +108,7 @@
                 </div>
             </div>
         </form>
-        <form class="container-fluid justify-content-start" method="post" action="${contextPath}/member/registerMember">
+<%--        <form class="container-fluid justify-content-start" role="form" action="${contextPath}/member/registerMember">--%>
             <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -138,7 +138,7 @@
                     </div>
                 </div>
             </div>
-        </form>
+<%--        </form>--%>
         <form class="container-fluid justify-content-start" method="post" action="${contextPath}/member/updateMember">
             <div class="modal fade" id="updateMemberModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -241,6 +241,26 @@
                     }
                 }
             })
+        });
+        $('#register_submit').click(function () {
+            $.ajax({
+                url: "${contextPath}/member/registerMember",
+                type: "post",
+                dataType: "json",
+                data: {
+                    "id": $("#register_id").val(),
+                    "pwd": $("#register_pwd").val(),
+                    "name": $("#register_name").val()
+                },
+                success: function (data) {
+                    if (data === null) {
+                        alert("다시 확인해주세요");
+                    } else if (data === true) {
+                        alert("환영합니다!");
+                        self.location = "${contextPath}/";
+                    }
+                }
+            });
         });
         $('#login_submit').click(function () {
             $.ajax({

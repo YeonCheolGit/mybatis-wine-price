@@ -18,10 +18,11 @@ public class CrawlerController {
     }
 
     /*
-    이마트, 롯데마트의 와인들을 멀티스레딩으로 동시에 가져옮.
+     * 이마트, 롯데마트의 와인들을 멀티스레딩으로 동시에 가져옮.
      */
     @GetMapping
     public void crawler() {
+
         Runnable emartCrawler = new EmartCrawler(wineService);
         Runnable lotteCrawler = new LotteCrawler(wineService);
 

@@ -33,21 +33,42 @@ public class MemberController {
     /*
     Do register member
      */
+//    @PostMapping(value = "/registerMember")
+//    public String registerMember(MemberDTO memberDTO) {
+//        logger.debug("registerMember debug >>> ");
+//        int result = memberService.duplicatedIdChk(memberDTO);
+//
+//        if (result == 1) {
+//            return "redirect:/";
+//        } else if (result == 0) {
+//            String rawPwd = memberDTO.getPwd();
+//            String encodedPwd = passwordEncoder.encode(rawPwd);
+//            memberDTO.setPwd(encodedPwd);
+//
+//            memberService.registerMember(memberDTO);
+//        }
+//        return "redirect:/";
+//    }
+
+
     @PostMapping(value = "/registerMember")
-    public String registerMember(MemberDTO memberDTO) {
+    public @ResponseBody String registerMember(MemberDTO memberDTO,
+                                               HttpServletRequest req) {
         logger.debug("registerMember debug >>> ");
         int result = memberService.duplicatedIdChk(memberDTO);
+        session = req.getSession();
 
-        if (result == 1) {
-            return "redirect:/";
-        } else if (result == 0) {
+        if (result == 0) {
             String rawPwd = memberDTO.getPwd();
             String encodedPwd = passwordEncoder.encode(rawPwd);
             memberDTO.setPwd(encodedPwd);
 
             memberService.registerMember(memberDTO);
+            return "true";
+        } else {
+            session.setAttribute("member", null);
+            return "null";
         }
-        return "redirect:/";
     }
 
     /*
@@ -81,7 +102,7 @@ public class MemberController {
     }
 
     /*
-    works when click checking duplicate button on register member modal
+     * works when click checking duplicate button on register member modal
      */
     @ResponseBody
     @RequestMapping(value = "/duplicatedIdChk", method = RequestMethod.POST)
