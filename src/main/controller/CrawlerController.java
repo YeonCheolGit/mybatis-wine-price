@@ -23,11 +23,8 @@ public class CrawlerController {
     @GetMapping
     public void crawler() {
 
-        Runnable emartCrawler = new EmartCrawler(wineService);
-        Runnable lotteCrawler = new LotteCrawler(wineService);
-
-        Thread emartThread = new Thread(emartCrawler);
-        Thread lotteThread = new Thread(lotteCrawler);
+        Thread lotteThread = new Thread(new LotteCrawler(wineService));
+        Thread emartThread = new Thread(new EmartCrawler(wineService));
 
         emartThread.start();
         lotteThread.start();

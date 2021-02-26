@@ -61,15 +61,13 @@
         <div class="container-xxl">
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav" style="width: 550px">
+                    <button class="btn btn-outline-success me-2" type="button"
+                            onclick="location.href='${contextPath}/wine/searchBarAndPagination'">와인목록</button>
                     <c:if test="${member == null}">
-                        <button class="btn btn-outline-success me-2" type="button"
-                                onclick="location.href='${contextPath}/wine/searchBarAndPagination'">목록</button>
                         <button class="btn btn-primary" data-bs-toggle="modal" id="modal_login" type="button" >로그인</button>
                         <button class="btn btn-primary" data-bs-toggle="modal" id="modal_register" type="button" >회원가입</button>
                     </c:if>
                     <c:if test="${member != null}">
-                        <button class="btn btn-outline-success me-2" type="button"
-                                onclick="location.href='${contextPath}/wine/searchBarAndPagination'">목록</button>
                         <button class="btn btn-primary" type="button" id="modal_logout"
                                 onclick="location.href='${contextPath}/member/logout'">로그아웃</button>
                         <button class="btn btn-primary" id="modal_update" type="button">마이페이지</button>
@@ -82,7 +80,7 @@
                 <label class="form-check-label" for="toggleTheme" id="text">다크모드</label> <%-- 클릭에 따라 다크모드 글자 변경(On/Off) --%>
             </div>
         </div>
-        <form class="container-fluid justify-content-start" method="post" action="${contextPath}/member/login">
+<%--        <form class="container-fluid justify-content-start" method="post" action="${contextPath}/member/login">--%>
             <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content" id="modal-content">
@@ -107,7 +105,7 @@
                     </div>
                 </div>
             </div>
-        </form>
+<%--        </form>--%>
 <%--        <form class="container-fluid justify-content-start" role="form" action="${contextPath}/member/registerMember">--%>
             <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
                 <div class="modal-dialog">

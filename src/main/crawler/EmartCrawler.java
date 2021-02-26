@@ -29,6 +29,7 @@ public class EmartCrawler implements Runnable {
     @SneakyThrows
     @Override
     public void run() {
+        long start = System.currentTimeMillis();
         logger.debug("emart start >>> ");
 
         int number = 1; // 시작 페이지
@@ -42,8 +43,8 @@ public class EmartCrawler implements Runnable {
          * 와인의 갯수가 정해져 있지 않음.
          * ArrayList --> LinkedList로 변경 (데이터의 추가 속도)
          */
-        List<String> nameList = new LinkedList<>(); // 와인 이름을 저장 할 배열
-        List<Integer> priceList = new LinkedList<>(); // 와인 가격을 저장 할 배열
+        List<String> nameList = new ArrayList<>(); // 와인 이름을 저장 할 배열
+        List<Integer> priceList = new ArrayList<>(); // 와인 가격을 저장 할 배열
 
         while (number < 7) {
             Document doc1 = Jsoup
@@ -72,7 +73,8 @@ public class EmartCrawler implements Runnable {
         for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 8페이지 분량, 한번에 DB 저장
             wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
         }
-
         logger.debug("emart end >>> ");
+        long end = System.currentTimeMillis();
+        System.out.println("Time >>>>> " + (end-start));
     }
 }
