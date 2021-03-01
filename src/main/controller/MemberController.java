@@ -52,7 +52,8 @@ public class MemberController {
 
 
     @PostMapping(value = "/registerMember")
-    public @ResponseBody String registerMember(MemberDTO memberDTO,
+    @ResponseBody
+    public String registerMember(MemberDTO memberDTO,
                                                HttpServletRequest req) {
         logger.debug("registerMember debug >>> ");
         int result = memberService.duplicatedIdChk(memberDTO);
@@ -76,7 +77,8 @@ public class MemberController {
     return login form
      */
     @PostMapping(value = "/login")
-    public @ResponseBody String login(MemberDTO memberDTO,
+    @ResponseBody
+    public String login(MemberDTO memberDTO,
                                       HttpServletRequest req) {
         logger.debug("login debug >>> ");
 
@@ -104,18 +106,33 @@ public class MemberController {
     /*
      * works when click checking duplicate button on register member modal
      */
-    @ResponseBody
     @RequestMapping(value = "/duplicatedIdChk", method = RequestMethod.POST)
+    @ResponseBody
     public int duplicatedIdChk(MemberDTO memberDTO) {
         logger.debug("duplicatedIdChk debug >>> ");
         return memberService.duplicatedIdChk(memberDTO);
     }
 
+    /*
+     * 회원정보 받아서 비밀번호 업데이트
+     * DB와 업데이트 후 로그아웃 세션 진행
+     */
     @PostMapping(value = "/updateMember")
-    public String updateMember(MemberDTO memberDTO) {
+    @ResponseBody
+    public String updateMember(MemberDTO memberDTO,
+                               HttpServletRequest req) {
         logger.debug("updateMember debug >>> ");
-        memberService.updateMember(memberDTO);
-        session.invalidate();
-        return "redirect:/";
+
+        String rawPwd = memberDTO.getPwd();
+        String encodedPwd = passwordEncoder.encode(rawPwd); // 비밀번호 인코딩
+        memberDTO.setPwd(encodedPwd);
+
+        try {
+            memberService.updateMember(memberDTO); // 회원정보 업데이트
+            return "true";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "false";
+        }
     }
 }
