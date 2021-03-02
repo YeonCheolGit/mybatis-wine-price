@@ -31,7 +31,7 @@ public class LotteCrawler implements Runnable {
     @SneakyThrows
     @Override
     public void run() {
-        logger.debug("lotte start >>> ");
+        logger.debug("lotte 크롤링 시작 >>> ");
 
         WebDriver driver = new SafariDriver();
         driver.get("https://www.lotteon.com/search/render/render.ecn?render=nqapi&platform=" + // 롯데마트 와인코너 초기 화면
@@ -81,7 +81,7 @@ public class LotteCrawler implements Runnable {
         } catch (InterruptedException | NumberFormatException e) {
             e.printStackTrace();
         } finally {
-            logger.debug("lotte end >>> ");
+            logger.debug("lotte 크롤링 끝 >>> ");
             driver.close();
         }
     }

@@ -14,33 +14,33 @@
     <select id="selectAllMembers" resultMap="memberResult">
         <![CDATA[
             select *
-            from MVC.t_member
+            from MVC.member
             order by regDate;
         ]]>
     </select>
     <select id="registerMember" resultMap="memberResult">
         <![CDATA[
-            insert into MVC.t_member(id, pwd, name)
+            insert into MVC.member(id, pwd, name)
             VALUES (#{id}, #{pwd}, #{name});
         ]]>
     </select>
     <select id="login" resultMap="memberResult">
         <![CDATA[
         select id, pwd, name
-        from MVC.t_member
+        from MVC.member
         where id = #{id};
         ]]>
     </select>
     <select id="duplicatedIdChk" resultType="int">
         <![CDATA[
         select COUNT(id)
-        from MVC.t_member
+        from MVC.member
         where id = #{id};
         ]]>
     </select>
     <update id="memberUpdate">
         <![CDATA[
-        update MVC.t_member
+        update MVC.member
         set name = #{name},
             pwd  = #{pwd}
         where id = #{id};

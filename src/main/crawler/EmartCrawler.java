@@ -29,8 +29,7 @@ public class EmartCrawler implements Runnable {
     @SneakyThrows
     @Override
     public void run() {
-        long start = System.currentTimeMillis();
-        logger.debug("emart start >>> ");
+        logger.debug("emart 크롤링 시작 >>> ");
 
         int number = 1; // 시작 페이지
 
@@ -73,8 +72,6 @@ public class EmartCrawler implements Runnable {
         for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 8페이지 분량, 한번에 DB 저장
             wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
         }
-        logger.debug("emart end >>> ");
-        long end = System.currentTimeMillis();
-        System.out.println("Time >>>>> " + (end-start));
+        logger.debug("emart 크롤링 끝 >>> ");
     }
 }
