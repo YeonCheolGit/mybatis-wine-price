@@ -7,6 +7,7 @@
 <link>
 <head>
     <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <style>
         #modal_login, #modal_logout, #modal_register, #modal_update {
@@ -17,6 +18,7 @@
             text-align: center;
             -webkit-text-size-adjust: auto;
             font-weight: bold;
+            position: relative;
         }
         #modal_login:hover, #modal_register:hover {
             color: white; background-color: lightsalmon;
@@ -28,6 +30,15 @@
         }
         #idChk:hover{
             color: white;
+        }
+        #dark_mode_button {
+            border: 1px solid black;
+            background-color: white;
+            color: black;
+            font-weight: bold;
+        }
+        #dark-mode-div {
+            margin-left: 90%; position: absolute;
         }
         html {
             --bg-color: #fff;
@@ -53,14 +64,34 @@
         #text {
             color: black;
         }
+        @media (max-width: 1100px) {
+            #navbarNavAltMarkup {
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                float: left;
+                width: auto;
+            }
+            #navbar-nav {
+                float: left;
+                display: flex;
+                flex-direction: column;
+            }
+            #dark-mode-div {
+                display: flex;
+                flex-direction: column;
+                float: right;
+                position: absolute;
+            }
+        }
     </style>
 </head>
 <body>
 <div>
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-        <div class="container-xxl" style="margin-left: 0.1%">
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+        <div id="container-xxl" class="container-xxl" style="margin-left: 5px">
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav" style="width: 550px">
+                <div id="navbar-nav" class="navbar-nav" style="width: auto">
                     <button class="btn btn-outline-success me-2" type="button"
                             onclick="location.href='${contextPath}/wine/searchBarAndPagination'">와인목록</button>
                     <c:if test="${member == null}"> <%-- 미 로그인 시 보여질 버튼--%>
@@ -75,9 +106,8 @@
                     </c:if>
                 </div>
             </div>
-            <div class="dark-mode-button" style="margin-left: 90%; margin-right: 1%; position: absolute">
-                <button class="btn btn-primary" id="toggleTheme"
-                        style="border: 1px solid black; background-color: white; color: black; font-weight: bold">다크모드</button>
+            <div id="dark-mode-div" class="dark-mode-div">
+                <button id="dark_mode_button" class="btn btn-primary">다크모드</button>
             </div>
         </div>
         <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -167,17 +197,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        document.getElementById("toggleTheme").addEventListener("click", () => { // 다크모드 버튼 클릭 시 리스너
+        document.getElementById("dark_mode_button").addEventListener("click", () => { // 다크모드 버튼 클릭 시 리스너
             const html = document.documentElement;
             if (html.classList.contains("dark")) { // 현재 다크 모드가 켜져있을 때
                 html.classList.remove("dark");
                 localStorage.setItem("darkTheme", "false");
-                $("#toggleTheme").text("다크모드 켜기");
+                $("#dark_mode_button").text("다크모드 켜기");
 
             } else { // Dark Mode off state
                 html.classList.add("dark");
                 localStorage.setItem("darkTheme", "true");
-                $("#toggleTheme").text("다크모드 끄기");
+                $("#dark_mode_button").text("다크모드 끄기");
             }
         });
         const storedTheme = localStorage.getItem("darkTheme");
@@ -185,7 +215,7 @@
         if (storedTheme !== null) {
             if (storedTheme === "true") {
                 document.documentElement.classList.add("dark");
-                $("#toggleTheme").text("다크모드 끄기");
+                $("#dark_mode_button").text("다크모드 끄기");
             }
         }
 

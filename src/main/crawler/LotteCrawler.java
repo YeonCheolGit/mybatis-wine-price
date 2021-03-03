@@ -10,6 +10,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -65,13 +67,13 @@ public class LotteCrawler implements Runnable {
                     priceList.add(priceInt);
                 }
 
-                WebElement button = driver.findElement(By.xpath("//*[@id='c301_navigate1']/div/a[3]")); // 버튼 위치 먼저 찾고
-                Thread.sleep(2000); // 버튼 찾고 잠시 대기
-                button.sendKeys(Keys.ENTER); // 버튼 클릭
-                Thread.sleep(5000); // 다음 페이지 로딩 시간 대기
+                WebDriverWait waitClickable = new WebDriverWait(driver, 10); // 웹 드라이버 최대 10초까지 일시 정지
+                WebElement nextButton = waitClickable.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='c301_navigate1']/div/a[3]"))); // 버튼이 클릭 할 수 있을 때까지 대기
+                nextButton.sendKeys(Keys.ENTER); // 다음 페이지 버튼 클릭
+                Thread.sleep(5000); // 다음 페이지 로딩 시간 대기 및 해당 사이트 에러 페이지 방지
 
                 page++;
-                System.out.println("lotte page >>>> " + page);
+                System.out.println("롯데마트 " + page + "페이지");
             }
 
             for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 3페이지 분량, 한번에 DB에 저장

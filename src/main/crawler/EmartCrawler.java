@@ -54,19 +54,19 @@ public class EmartCrawler implements Runnable {
             Elements wineNames = doc1.select("a.clickable > em.tx_ko"); // 와인 이름
             Elements winePrices = doc1.select("div.opt_price > em.ssg_price"); // 와인 가격
 
-            for (Element element : wineNames) { // 와인 이름 가지고 와서, 배열에 저장
+            for (Element element : wineNames) { // 와인 이름만 배열에 저장
                 name = element.text();
                 nameList.add(name);
             }
             for (Element element : winePrices) {
-                price = element.text().replaceAll("[^0-9]", ""); // 와인 가격에서 숫자만 가지고 와서, 배열에 저장
+                price = element.text().replaceAll("[^0-9]", ""); // 와인 가격에서 숫자만 배열에 저장
                 priceInt = Integer.parseInt(price);
                 priceList.add(priceInt);
             }
 
-            Thread.sleep(5000); // 다음 페이지 넘어가기 전 잠시 대기
+            Thread.sleep(5000); // 다음 페이지 로딩 시간 대기 및 해당 사이트 에러 페이지 방지
             number++;
-            System.out.println("emart page >>>>>> " + number);
+            System.out.println("이마트 " + number + "페이지");
         }
 
         for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 8페이지 분량, 한번에 DB 저장
