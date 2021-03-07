@@ -31,37 +31,20 @@ public class MemberController {
     }
 
     /*
-    Do register member
+     * 회원가입 버튼 클릭 시 동작
      */
-//    @PostMapping(value = "/registerMember")
-//    public String registerMember(MemberDTO memberDTO) {
-//        logger.debug("registerMember debug >>> ");
-//        int result = memberService.duplicatedIdChk(memberDTO);
-//
-//        if (result == 1) {
-//            return "redirect:/";
-//        } else if (result == 0) {
-//            String rawPwd = memberDTO.getPwd();
-//            String encodedPwd = passwordEncoder.encode(rawPwd);
-//            memberDTO.setPwd(encodedPwd);
-//
-//            memberService.registerMember(memberDTO);
-//        }
-//        return "redirect:/";
-//    }
-
-
     @PostMapping(value = "/registerMember")
     @ResponseBody
     public String registerMember(MemberDTO memberDTO,
                                                HttpServletRequest req) {
         logger.debug("registerMember debug >>> ");
+
         int result = memberService.duplicatedIdChk(memberDTO);
         session = req.getSession();
 
         if (result == 0) {
-            String rawPwd = memberDTO.getPwd();
-            String encodedPwd = passwordEncoder.encode(rawPwd);
+            String rawPwd = memberDTO.getPwd(); // 사용자가 입력한 raw 비밀번호
+            String encodedPwd = passwordEncoder.encode(rawPwd); // raw 비밀번호를 인코딩
             memberDTO.setPwd(encodedPwd);
 
             memberService.registerMember(memberDTO);
@@ -73,8 +56,8 @@ public class MemberController {
     }
 
     /*
-    Do login
-    return login form
+     * 로그인 클릭 시 동작
+     * return <-- 로그인 결과 (true | null)
      */
     @PostMapping(value = "/login")
     @ResponseBody
@@ -104,7 +87,8 @@ public class MemberController {
     }
 
     /*
-     * works when click checking duplicate button on register member modal
+     * 회원가입 중 중복체크 클릭 시 동작
+     * return <-- true | false
      */
     @RequestMapping(value = "/duplicatedIdChk", method = RequestMethod.POST)
     @ResponseBody

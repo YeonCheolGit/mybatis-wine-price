@@ -15,11 +15,6 @@ public class WineServiceImpl implements WineService {
         this.wineDAO = wineDAO;
     }
 
-//    @Override
-//    public WineDTO readOneWine(int number) {
-//        return wineDAO.readOneWine(number);
-//    }
-
     @Override
     public List<WineDTO> listPaging(SearchCriteria searchCriteria) {
         return wineDAO.listPaging(searchCriteria);

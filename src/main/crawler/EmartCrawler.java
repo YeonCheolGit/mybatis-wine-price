@@ -13,7 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -31,7 +32,7 @@ public class EmartCrawler implements Runnable {
     public void run() {
         logger.debug("emart 크롤링 시작 >>> ");
 
-        int number = 1; // 시작 페이지
+        int number = 1; // 페이지 번호
 
         String name;
         String price;
@@ -64,14 +65,16 @@ public class EmartCrawler implements Runnable {
                 priceList.add(priceInt);
             }
 
-            Thread.sleep(5000); // 다음 페이지 로딩 시간 대기 및 해당 사이트 에러 페이지 방지
             number++;
-            System.out.println("이마트 " + number + "페이지");
+            System.out.println("이마트 " + number + "페이지 넘어가는 중");
+
+            Thread.sleep(5000); // 다음 페이지 로딩 시간 대기 및 해당 사이트 에러 페이지 방지
         }
 
         for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 8페이지 분량, 한번에 DB 저장
             wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
         }
+
         logger.debug("emart 크롤링 끝 >>> ");
     }
 }

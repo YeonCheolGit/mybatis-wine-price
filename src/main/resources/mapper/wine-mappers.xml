@@ -28,14 +28,6 @@
         ]]>
     </insert>
 
-    <select id="readOneWine" resultMap="wineResult" parameterType="int">
-        <![CDATA[
-        select *
-        from MVC.wine
-        where number = #{number};
-        ]]>
-    </select>
-
     <select id="listPaging" resultMap="wineResult">
         <![CDATA[
         select *

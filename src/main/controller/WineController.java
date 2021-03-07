@@ -28,15 +28,8 @@ public class WineController {
         this.wineService = wineService;
     }
 
-//    @RequestMapping(value = "/readOneWine")
-//    public String readOneWine(WineDTO wineDTO, Model model) {
-//        logger.info("readOneWine debugs >>> ");
-//        model.addAttribute("readOneWine", wineService.readOneWine(wineDTO.getNumber()));
-//        return "/wine/readOneWine";
-//    }
-
     /*
-    Show list
+     * 와인 리스트 전체 보여줌
      */
     @GetMapping(value = "/searchBarAndPagination")
     public String searchBarAndPagination(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
@@ -54,8 +47,8 @@ public class WineController {
     }
 
     /*
-    Order by wine price
-    Maintain ordered list even page is changed
+     * 정렬 버튼 클릭 시 동작
+     * 정렬 후 페이지를 넘겨도 유지됨
      */
     @GetMapping(value = "/orderByPrice")
     public String orderByPrice(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
@@ -76,11 +69,11 @@ public class WineController {
     }
 
     /*
-    Do Autocomplete when type word in search bar
+     * 검색창에서 검색 시 autocomplete 동작
      */
     @GetMapping(value = "/autocomplete")
     @ResponseBody
-    public List<String> search(HttpServletRequest request) {
+    public List<String> autocomplete(HttpServletRequest request) {
         logger.debug("search >>> ");
         return wineService.search(request.getParameter("term"));
     }

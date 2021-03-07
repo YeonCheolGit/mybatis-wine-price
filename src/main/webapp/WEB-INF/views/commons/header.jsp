@@ -45,6 +45,7 @@
             --text-color: black;
             --link-color: #0000ee;
         }
+        <%-- 다크 모드 동작 시 글자 색 변경 --%>
         html.dark {
             --bg-color: #121212;
             --text-color: white;
@@ -64,6 +65,8 @@
         #text {
             color: black;
         }
+
+        <%-- 화면 사이즈 조정 시 헤더 크기 조정 --%>
         @media (max-width: 1100px) {
             #navbarNavAltMarkup {
                 display: flex;
