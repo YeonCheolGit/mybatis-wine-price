@@ -48,7 +48,7 @@ public class LotteCrawler implements Runnable {
         String URL = "https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q="; // 각 와인 이동 링크
 
         int page = 1; // 시작 페이지
-        while (page < 4) { // 총 와인 페이지
+        while (page < 5) { // 총 와인 페이지
             List<WebElement> wineNamesElement = driver.findElements(By.xpath("//div[@class='srchProductUnitTitle']")); // 와인 이름
             List<WebElement> winePricesElement = driver.findElements(By.xpath("//span[@class='srchCurrentPrice']")); // 와인 가격
 
@@ -67,8 +67,17 @@ public class LotteCrawler implements Runnable {
             }
 
             WebDriverWait waitClickable = new WebDriverWait(driver, 10); // 웹 드라이버 최대 10초간 기다림
-            WebElement nextButton = waitClickable.until(ExpectedConditions.elementToBeClickable(By.cssSelector("//*[@id=\"c301_navigate1\"]/div/a[3]"))); // 다음 페이지 버튼 찾아서 클릭 가능할 때까지 기다림.
+            WebElement nextButton = waitClickable.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"c301_navigate1\"]/div/a[3]"))); // 다음 페이지 버튼 찾아서 클릭 가능할 때까지 기다림.
             nextButton.sendKeys(Keys.ENTER); // 다음 페이지 버튼 클릭
+
+//            if (!nextButton.isEnabled()) {
+//                for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 3페이지 분량, 한번에 DB에 저장
+//                    wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
+//                }
+//
+//                logger.debug("lotte 마트 크롤링 끝 >>> ");
+//                driver.close();
+//            }
 
             page++;
 
