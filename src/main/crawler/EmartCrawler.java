@@ -40,13 +40,14 @@ public class EmartCrawler implements Runnable {
         String URL = "http://www.ssg.com/search.ssg?target=all&query=";
 
         /*
-         * 와인의 갯수가 정해져 있지 않음.
-         * ArrayList --> LinkedList로 변경 (데이터의 추가 속도)
+         * LinkedList --> ArrayList로 변경 (가장 끝에 순차적으로 add, get 연산은 시간 복잡도(O(1)) 차이X)
+         * 하지만 LinkedList의 Head, Tail 때문에 메모리 측면 불리. ArrayList 연속된 메모리에 저장해서 유리.
          */
         List<String> nameList = new ArrayList<>(); // 와인 이름을 저장 할 배열
         List<Integer> priceList = new ArrayList<>(); // 와인 가격을 저장 할 배열
 
         while (number < 7) {
+            System.out.println("이마트 " + number + "페이지 넘어왔습니다.");
             Document doc1 = Jsoup
                     .connect("http://www.ssg.com/search.ssg?target=all&query=" +
                             "와인&ctgId=6000099422&ctgLv=3&ctgLast=Y&parentCtgId=6000099420&" +
@@ -66,7 +67,7 @@ public class EmartCrawler implements Runnable {
             }
 
             number++;
-            System.out.println("이마트 " + number + "페이지 넘어가는 중");
+            System.out.println("이마트 " + number + "페이지 넘어가는 중...");
 
             Thread.sleep(5000); // 다음 페이지 로딩 시간 대기 및 해당 사이트 에러 페이지 방지
         }

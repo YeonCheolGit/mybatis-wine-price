@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -40,15 +40,16 @@ public class LotteCrawler implements Runnable {
                 "pc&collection_id=301&u9=navigate&u8=LM40004056&login=Y&mallId=4");
 
         /*
-         * 와인의 갯수가 정해져 있지 않음.
-         * ArrayList --> LinkedList로 변경 (데이터의 추가 속도)
+         * LinkedList --> ArrayList로 변경 (가장 끝에 순차적으로 add, get 연산은 시간 복잡도(O(1)) 차이X)
+         * 하지만 LinkedList의 Head, Tail 때문에 메모리 측면 불리. ArrayList 연속된 메모리에 저장해서 유리.
          */
-        List<String> nameList = new LinkedList<>(); // 와인 이름 저장 할 배열
-        List<Integer> priceList = new LinkedList<>(); // 와인 가격 저장 할 배열
+        List<String> nameList = new ArrayList<>(); // 와인 이름 저장 할 배열
+        List<Integer> priceList = new ArrayList<>(); // 와인 가격 저장 할 배열
         String URL = "https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q="; // 각 와인 이동 링크
 
         int page = 1; // 시작 페이지
-        while (page < 5) { // 총 와인 페이지
+        while (page < 4) { // 총 와인 페이지
+            System.out.println("롯데마트 " + page + "페이지 넘어왔습니다.");
             List<WebElement> wineNamesElement = driver.findElements(By.xpath("//div[@class='srchProductUnitTitle']")); // 와인 이름
             List<WebElement> winePricesElement = driver.findElements(By.xpath("//span[@class='srchCurrentPrice']")); // 와인 가격
 
@@ -66,30 +67,31 @@ public class LotteCrawler implements Runnable {
                 priceList.add(priceInt);
             }
 
-            WebDriverWait waitClickable = new WebDriverWait(driver, 10); // 웹 드라이버 최대 10초간 기다림
-            WebElement nextButton = waitClickable.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"c301_navigate1\"]/div/a[3]"))); // 다음 페이지 버튼 찾아서 클릭 가능할 때까지 기다림.
-            nextButton.sendKeys(Keys.ENTER); // 다음 페이지 버튼 클릭
+            try {
+                WebDriverWait waitClickable = new WebDriverWait(driver, 10); // 웹 드라이버 최대 10초간 기다림
+//                WebElement nextButton = waitClickable.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"c301_navigate1\"]/div/a[3]"))); // 다음 페이지 버튼 찾아서 클릭 가능할 때까지 기다림.
+                WebElement nextButton = waitClickable.until(ExpectedConditions.elementToBeClickable(By.className("srchPaginationNext"))); // 다음 페이지 버튼 찾아서 클릭 가능할 때까지 기다림.
+                nextButton.sendKeys(Keys.ENTER); // 다음 페이지 버튼 클릭
+                page++;
 
-//            if (!nextButton.isEnabled()) {
-//                for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 3페이지 분량, 한번에 DB에 저장
-//                    wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
-//                }
-//
-//                logger.debug("lotte 마트 크롤링 끝 >>> ");
-//                driver.close();
-//            }
+                System.out.println("롯데마트 " + page + "페이지 넘어가는 중...");
+                Thread.sleep(5000); // 다음 페이지 로딩 시간 대기 및 해당 사이트 에러 페이지 방지
+            } catch (Exception e) { // 다음 버튼 찾을 수 없는 에러 발생 시, 그동안 가지고 온 데이터 저장
+                System.out.println("================ 다음 버튼을 찾을 수 없습니다 ================");
+                System.out.println(e.getMessage());
+                e.printStackTrace();
 
-            page++;
-
-            if (page == 4) {
-                System.out.println("3페이지가 마지막 입니다."); // 마지막 페이지 도달한 경우
-            } else {
-                System.out.println("롯데마트 " + page + "페이지 넘어가는 중"); // 마지막 페이지 아닌 경우, 페이지 표시
+                for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 3페이지 분량, 한번에 DB에 저장
+                    wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
+                }
+                logger.debug("lotte 마트 크롤링 끝 >>> ");
+                driver.close();
             }
-
-            Thread.sleep(5000); // 다음 페이지 로딩 시간 대기 및 해당 사이트 에러 페이지 방지
         }
 
+        /*
+         * 에러 없이 정상적으로 실행될 때
+         */
         for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 3페이지 분량, 한번에 DB에 저장
             wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
         }
