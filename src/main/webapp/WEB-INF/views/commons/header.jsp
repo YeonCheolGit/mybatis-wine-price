@@ -102,8 +102,9 @@
                         <button class="btn btn-primary" data-bs-toggle="modal" id="modal_register" type="button" >회원가입</button>
                     </c:if>
                     <c:if test="${member != null}"> <%-- 로그인 시 보여질 버튼 --%>
-                        <button class="btn btn-primary" type="button" id="modal_logout"
-                                onclick="location.href='${contextPath}/member/logout'">로그아웃</button>
+<%--                        <button class="btn btn-primary" type="button" id="modal_logout"--%>
+<%--                                onclick="location.href='${contextPath}/member/logout'">로그아웃</button>--%>
+                        <button class="btn btn-primary" type="button" id="modal_logout">로그아웃</button>
                         <button class="btn btn-primary" id="modal_update" type="button">마이페이지</button>
                         <span class="navbar-text" style="margin-left: 4px">${member.name}님 안녕하세요.</span>
                     </c:if>
@@ -325,10 +326,16 @@
                         alert("아이디 또는 비밀번호를 확인해주세요.");
                     } else if (data === true) {
                         alert("회원정보 수정이 완료 됐습니다.");
-                        self.location = "${contextPath}/member/logout";
+                        <% request.getSession().setAttribute("member", null); %>
+                        self.location = "${contextPath}/";
                     }
                 }
             });
+        });
+        $('#modal_logout').click(function () { // 회원정보 수정 버튼
+            alert("로그아웃 완료")
+            <% request.getSession().setAttribute("member", null); %>
+            self.location = "${contextPath}/";
         });
     });
 </script>

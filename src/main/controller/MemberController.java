@@ -6,16 +6,12 @@ import main.service.member.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-@Controller
+@RestController
 @Slf4j
 @RequestMapping(value = "/member")
 public class MemberController {
@@ -34,7 +30,6 @@ public class MemberController {
      * 회원가입 버튼 클릭 시 동작
      */
     @PostMapping(value = "/registerMember")
-    @ResponseBody
     public String registerMember(MemberDTO memberDTO,
                                                HttpServletRequest req) {
         logger.debug("registerMember debug >>> ");
@@ -60,7 +55,6 @@ public class MemberController {
      * return <-- 로그인 결과 (true | null)
      */
     @PostMapping(value = "/login")
-    @ResponseBody
     public String login(MemberDTO memberDTO,
                                       HttpServletRequest req) {
         logger.debug("login debug >>> ");
@@ -70,7 +64,7 @@ public class MemberController {
         MemberDTO login = memberService.login(memberDTO);
         boolean pwdMatch = passwordEncoder.matches(memberDTO.getPwd(), login.getPwd());
 
-        if (login == null || !pwdMatch) {
+        if (login.getId() == null || !pwdMatch) {
             session.setAttribute("member", null);
             return "null";
         } else {
@@ -79,19 +73,18 @@ public class MemberController {
         }
     }
 
-    @RequestMapping(value = "/logout")
-    public String logout() {
-        logger.info("logout debug >>> ");
-        session.invalidate();
-        return "redirect:/";
-    }
+//    @RequestMapping(value = "/logout")
+//    public String logout() {
+//        logger.info("logout debug >>> ");
+//        session.invalidate();
+//        return "null";
+//    }
 
     /*
      * 회원가입 중 중복체크 클릭 시 동작
      * return <-- true | false
      */
     @RequestMapping(value = "/duplicatedIdChk", method = RequestMethod.POST)
-    @ResponseBody
     public int duplicatedIdChk(MemberDTO memberDTO) {
         logger.debug("duplicatedIdChk debug >>> ");
         return memberService.duplicatedIdChk(memberDTO);
@@ -102,7 +95,6 @@ public class MemberController {
      * DB와 업데이트 후 로그아웃 세션 진행
      */
     @PostMapping(value = "/updateMember")
-    @ResponseBody
     public String updateMember(MemberDTO memberDTO,
                                HttpServletRequest req) {
         logger.debug("updateMember debug >>> ");

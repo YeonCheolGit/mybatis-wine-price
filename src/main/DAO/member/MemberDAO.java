@@ -4,7 +4,7 @@ import main.DTO.MemberDTO;
 
 public interface MemberDAO {
 
-    void registerMember(MemberDTO memberDTO);
+    void registerMember(MemberDTO memberDTO) ;
 
 //    void registerMember(String id, String pwd, String name);
 
