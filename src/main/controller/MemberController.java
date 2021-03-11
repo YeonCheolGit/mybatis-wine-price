@@ -6,7 +6,9 @@ import main.service.member.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,6 +23,9 @@ public class MemberController {
     private final MemberService memberService;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    /*
+     * 생성자 한 개 이므로 @Auwired 생략 가능
+     */
     public MemberController(MemberService memberService, BCryptPasswordEncoder passwordEncoder) {
         this.memberService = memberService;
         this.passwordEncoder = passwordEncoder;
@@ -61,16 +66,35 @@ public class MemberController {
 
         session = req.getSession();
 
-        MemberDTO login = memberService.login(memberDTO);
-        boolean pwdMatch = passwordEncoder.matches(memberDTO.getPwd(), login.getPwd());
+        try {
+            MemberDTO login = memberService.login(memberDTO); // 없는 id 입력 시 에러 발생 시킴
+            if (login.getId() == null) {
+                throw new Exception();
+            }
+            boolean pwdMatch = passwordEncoder.matches(memberDTO.getPwd(), login.getPwd()); // 잘못 된 pw 입력 시 에러 발생 시킴
+            if (!pwdMatch) {
+                throw new Exception();
+            }
+            session.setAttribute("member", login); // id, pw 일치할 시 true 반환
+            return "true";
+        } catch (Exception e) {
+            System.out.println("===== 로그인 에러 =====");
+            System.out.println(e);
+            e.printStackTrace();
 
-        if (login.getId() == null || !pwdMatch) {
             session.setAttribute("member", null);
             return "null";
-        } else {
-            session.setAttribute("member", login);
-            return "true";
         }
+
+//        MemberDTO login = memberService.login(memberDTO);
+//        boolean pwdMatch = passwordEncoder.matches(memberDTO.getPwd(), login.getPwd());
+//        if (login.getId() == null || !pwdMatch) {
+//            session.setAttribute("member", null);
+//            return "null";
+//        } else {
+//            session.setAttribute("member", login);
+//            return "true";
+//        }
     }
 
 //    @RequestMapping(value = "/logout")
@@ -84,7 +108,7 @@ public class MemberController {
      * 회원가입 중 중복체크 클릭 시 동작
      * return <-- true | false
      */
-    @RequestMapping(value = "/duplicatedIdChk", method = RequestMethod.POST)
+    @PostMapping(value = "/duplicatedIdChk")
     public int duplicatedIdChk(MemberDTO memberDTO) {
         logger.debug("duplicatedIdChk debug >>> ");
         return memberService.duplicatedIdChk(memberDTO);

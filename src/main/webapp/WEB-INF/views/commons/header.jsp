@@ -326,15 +326,15 @@
                         alert("아이디 또는 비밀번호를 확인해주세요.");
                     } else if (data === true) {
                         alert("회원정보 수정이 완료 됐습니다.");
-                        <% request.getSession().setAttribute("member", null); %>
+                        <% request.getSession().setAttribute("member", null); %> // 서버의 HTTPSession를 null
                         self.location = "${contextPath}/";
                     }
                 }
             });
         });
-        $('#modal_logout').click(function () { // 회원정보 수정 버튼
+        $('#modal_logout').click(function () { // 로그아웃 버튼
             alert("로그아웃 완료")
-            <% request.getSession().setAttribute("member", null); %>
+            <% request.getSession().setAttribute("member", null); %> // 서버의 HTTPSession를 null
             self.location = "${contextPath}/";
         });
     });

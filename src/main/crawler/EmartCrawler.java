@@ -34,8 +34,7 @@ public class EmartCrawler implements Runnable {
 
         int number = 1; // 페이지 번호
 
-        String name;
-        String price;
+        String name, price;
         int priceInt;
         String URL = "http://www.ssg.com/search.ssg?target=all&query=";
 

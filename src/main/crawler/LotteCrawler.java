@@ -53,8 +53,7 @@ public class LotteCrawler implements Runnable {
             List<WebElement> wineNamesElement = driver.findElements(By.xpath("//div[@class='srchProductUnitTitle']")); // 와인 이름
             List<WebElement> winePricesElement = driver.findElements(By.xpath("//span[@class='srchCurrentPrice']")); // 와인 가격
 
-            String name;
-            String price;
+            String name, price;
             int priceInt;
 
             for (WebElement wineName : wineNamesElement) { // 한 페이지씩 와인 이름 가져온 후 배열에 저장
