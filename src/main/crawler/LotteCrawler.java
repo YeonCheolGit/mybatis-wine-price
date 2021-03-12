@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -40,11 +41,11 @@ public class LotteCrawler implements Runnable {
                 "pc&collection_id=301&u9=navigate&u8=LM40004056&login=Y&mallId=4");
 
         /*
-         * LinkedList --> ArrayList로 변경 (가장 끝에 순차적으로 add, get 연산은 시간 복잡도(O(1)) 차이X)
-         * 하지만 LinkedList의 Head, Tail 때문에 메모리 측면 불리. ArrayList 연속된 메모리에 저장해서 유리.
+         * ArrayList --> LinkedList로 변경
+         * 시간 복잡도 차이 없지만, ArrayList resize 동작 때문에 실행시간 차이 발생
          */
-        List<String> nameList = new ArrayList<>(); // 와인 이름 저장 할 배열
-        List<Integer> priceList = new ArrayList<>(); // 와인 가격 저장 할 배열
+        List<String> nameList = new LinkedList<>(); // 와인 이름 저장 할 배열
+        List<Integer> priceList = new LinkedList<>(); // 와인 가격 저장 할 배열
         String URL = "https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q="; // 각 와인 이동 링크
 
         int page = 1; // 시작 페이지

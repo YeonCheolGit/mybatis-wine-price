@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -39,11 +40,11 @@ public class EmartCrawler implements Runnable {
         String URL = "http://www.ssg.com/search.ssg?target=all&query=";
 
         /*
-         * LinkedList --> ArrayList로 변경 (가장 끝에 순차적으로 add, get 연산은 시간 복잡도(O(1)) 차이X)
-         * 하지만 LinkedList의 Head, Tail 때문에 메모리 측면 불리. ArrayList 연속된 메모리에 저장해서 유리.
+         * ArrayList --> LinkedList로 변경
+         * 시간 복잡도 차이 없지만, ArrayList resize 동작 때문에 실행시간 차이 발생
          */
-        List<String> nameList = new ArrayList<>(); // 와인 이름을 저장 할 배열
-        List<Integer> priceList = new ArrayList<>(); // 와인 가격을 저장 할 배열
+        List<String> nameList = new LinkedList<>(); // 와인 이름을 저장 할 배열
+        List<Integer> priceList = new LinkedList<>(); // 와인 가격을 저장 할 배열
 
         while (number < 7) {
             System.out.println("이마트 " + number + "페이지 넘어왔습니다.");
