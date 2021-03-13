@@ -2,15 +2,21 @@ package main.service.member;
 
 import main.DTO.MemberDTO;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 public interface MemberService {
 
     void registerMember(MemberDTO memberDTO);
-
-//    void registerMember(String id, String pwd, String name);
 
     MemberDTO login(MemberDTO memberDTO);
 
     int duplicatedIdChk(MemberDTO memberDTO);
 
     void updateMember(MemberDTO memberDTO);
+
+    void sendEmail(MemberDTO memberDTO, String div);
+
+    void findPw(HttpServletResponse resp, MemberDTO vo) throws IOException;
+
 }

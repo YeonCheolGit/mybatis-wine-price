@@ -5,9 +5,9 @@
 
 <mapper namespace="mapper.member">
     <resultMap id="memberResult" type="memberDTO">
-        <result property="id" column="id" />
+        <result property="email" column="eamil" />
         <result property="pwd" column="pwd" />
-        <result property="name" column="name" />
+        <result property="id" column="id" />
         <result property="regDate" column="regDate" />
     </resultMap>
 
@@ -20,30 +20,29 @@
     </select>
     <select id="registerMember" resultMap="memberResult">
         <![CDATA[
-            insert into MVC.member(id, pwd, name)
-            VALUES (#{id}, #{pwd}, #{name});
+            insert into MVC.member(eamil, pwd, id)
+            VALUES (#{email}, #{pwd}, #{id});
         ]]>
     </select>
     <select id="login" resultMap="memberResult">
         <![CDATA[
-        select id, pwd, name
+        select eamil, pwd, id
         from MVC.member
-        where id = #{id};
+        where eamil = #{email};
         ]]>
     </select>
     <select id="duplicatedIdChk" resultType="int">
         <![CDATA[
-        select COUNT(id)
+        select COUNT(eamil)
         from MVC.member
-        where id = #{id};
+        where eamil = #{email};
         ]]>
     </select>
     <update id="memberUpdate">
         <![CDATA[
         update MVC.member
-        set name = #{name},
-            pwd  = #{pwd}
-        where id = #{id};
+        set pwd  = #{pwd}
+        where eamil = #{email};
         ]]>
     </update>
 </mapper>

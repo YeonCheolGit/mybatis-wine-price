@@ -7,7 +7,6 @@
     <resultMap id="wineResult" type="main.DTO.WineDTO">
         <result property="number" column="number" />
         <result property="name" column="name" />
-        <result property="food" column="food" />
         <result property="price" column="price" />
         <result property="URL" column="URL" />
     </resultMap>
@@ -69,12 +68,6 @@
                 and name like concat('%', #{keyword}, '%')
             </if>
             <if test="searchType == 'c'.toString()">
-                and price like concat('%', #{keyword}, '%')
-            </if>
-            <if test="searchType == 'w'.toString()">
-                and food like concat('%', #{keyword}, '%')
-            </if>
-            <if test="searchType == 'p'.toString()">
                 and price like concat('%', #{keyword}, '%')
             </if>
         </if>

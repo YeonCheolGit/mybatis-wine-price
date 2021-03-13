@@ -12,7 +12,6 @@ public class WineDTO {
 
     BigInteger number;
     String name;
-    String food;
     int price;
     String URL;
 
@@ -25,10 +24,9 @@ public class WineDTO {
         this.URL = URL;
     }
 
-    public WineDTO(BigInteger number, String name, String food, int price, String URL) {
+    public WineDTO(BigInteger number, String name, int price, String URL) {
         this.number = number;
         this.name = name;
-        this.food = food;
         this.price = price;
         this.URL = URL;
     }

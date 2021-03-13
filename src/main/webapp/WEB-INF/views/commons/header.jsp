@@ -23,12 +23,12 @@
         #modal_login:hover, #modal_register:hover {
             color: white; background-color: lightsalmon;
         }
-        #idChk {
+        #emailChk {
             margin-top: 1px;
             padding-top: 1px; padding-bottom: 1px;
             color: lightcoral; font-weight: bold;
         }
-        #idChk:hover{
+        #emailChk:hover{
             color: white;
         }
         #dark_mode_button {
@@ -106,7 +106,7 @@
 <%--                                onclick="location.href='${contextPath}/member/logout'">로그아웃</button>--%>
                         <button class="btn btn-primary" type="button" id="modal_logout">로그아웃</button>
                         <button class="btn btn-primary" id="modal_update" type="button">마이페이지</button>
-                        <span class="navbar-text" style="margin-left: 4px">${member.name}님 안녕하세요.</span>
+                        <span class="navbar-text" style="margin-left: 4px">${member.email}님 안녕하세요.</span>
                     </c:if>
                 </div>
             </div>
@@ -114,6 +114,7 @@
                 <button id="dark_mode_button" class="btn btn-primary">다크모드</button>
             </div>
         </div>
+        <%-- 로그인 --%>
         <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content" id="modal-content-login">
@@ -123,8 +124,8 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="login_id" class="form-label">아이디</label>
-                            <input type="email" id="login_id" name="id" class="form-control" placeholder="example@email.com">
+                            <label for="login_email" class="form-label">이메일</label>
+                            <input type="email" id="login_email" name="email" class="form-control" placeholder="example@email.com">
                         </div>
                         <div class="mb-3">
                             <label for="login_pwd" class="form-label">비밀번호</label>
@@ -134,10 +135,35 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                         <button type="button" class="btn btn-primary" id="login_submit" value="N">로그인</button>
+                        <button type="button" class="btn btn-primary" id="modal_findPw">비밀번호 찾기</button>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="findPwModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" id="modal-content-findPw">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="findPwModalLabel">비밀번호 찾기</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="findPw_email" class="form-label">이메일</label>
+                            <input type="email" id="findPw_email" name="email" class="form-control" placeholder="example@email.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="findPw_id" class="form-label">아이디</label>
+                            <input type="text" id="findPw_id" name="id" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="sendNewPwd">비밀번호 찾기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%-- 회원가입 --%>
         <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content" id="modal-content-register">
@@ -147,17 +173,17 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="register_id" class="form-label">아이디</label>
-                            <input type="email" id="register_id" name="id" class="form-control" placeholder="example@email.com">
-                            <button type="button" class="btn btn-outline-warning" id="idChk" value="N">중복확인</button>
+                            <label for="register_email" class="form-label">이메일</label>
+                            <input type="email" id="register_email" name="email" class="form-control" placeholder="example@email.com">
+                            <button type="button" class="btn btn-outline-warning" id="emailChk" value="N">중복확인</button>
                         </div>
                         <div class="mb-3">
                             <label for="register_pwd" class="form-label">비밀번호</label>
                             <input type="password" id="register_pwd" name="pwd" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="register_name" class="form-label">회원명</label>
-                            <input type="text" id="register_name" name="name" class="form-control">
+                            <label for="register_id" class="form-label">아이디</label>
+                            <input type="text" id="register_id" name="id" class="form-control">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -167,6 +193,7 @@
                 </div>
             </div>
         </div>
+        <%-- 회원정보 업데이트 --%>
         <div class="modal fade" id="updateMemberModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content" id="modal-content-update">
@@ -176,16 +203,16 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="update_id" class="form-label">아이디</label>
-                            <input type="email" id="update_id" name="id" class="form-control" value="${member.id}" readonly="readonly">
+                            <label for="update_email" class="form-label">이메일</label>
+                            <input type="email" id="update_email" name="email" class="form-control" value="${member.email}" readonly="readonly">
                         </div>
                         <div class="mb-3">
                             <label for="update_pwd" class="form-label">비밀번호</label>
                             <input type="password" id="update_pwd" name="pwd" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="update_name" class="form-label">회원명</label>
-                            <input type="text" id="update_name" name="name" class="form-control" value="${member.name}">
+                            <label for="update_id" class="form-label">아이디</label>
+                            <input type="text" id="update_id" name="id" class="form-control" value="${member.id}" readonly="readonly">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -223,7 +250,7 @@
             }
         }
 
-        // 로그인, 회원가입 폼 modal
+        // 로그인, 회원가입, 회원수정, 비밀번호 찾기 modal form
         $('#modal_login').click(function () {
             $('#loginModal').modal("show");
         });
@@ -232,6 +259,9 @@
         });
         $('#modal_update').click(function () {
             $('#updateMemberModal').modal("show")
+        });
+        $('#modal_findPw').click(function () {
+            $('#findPwModal').modal("show")
         });
         $('#close_modal').click(function () {
             $('#exampleModal').modal("hide");
@@ -255,12 +285,26 @@
                 return false;
             }
         });
-        $('#idChk').click(function () { // 회원가입 중복 확인 버튼
+        $('#sendNewPwd').click(function () {
+            $.ajax({
+                url: "${contextPath}/member/findPwd",
+                type: "post",
+                dataType: "json",
+                data: {
+                    "email": $("#findPw_email").val(),
+                    "id": $("#findPw_id").val()
+                },
+                success: function (result) {
+                    alert(result);
+                }
+            });
+        });
+        $('#emailChk').click(function () { // 회원가입 중복 확인 버튼
             $.ajax({
                 url: "${contextPath}/member/duplicatedIdChk",
                 type: "post",
                 dataType: "json",
-                data: {"id": $("#register_id").val()},
+                data: {"email": $("#register_email").val()},
                 success: function (data) { // 버튼 클릭 후 return
                     if (data === 1) {
                         alert("이미 사용하고 있는 이메일입니다.");
@@ -277,9 +321,9 @@
                 type: "post",
                 dataType: "json",
                 data: {
-                    "id": $("#register_id").val(),
+                    "email": $("#register_email").val(),
                     "pwd": $("#register_pwd").val(),
-                    "name": $("#register_name").val()
+                    "id": $("#register_id").val()
                 },
                 success: function (data) { // 회원 가입 버튼 클릭 후 return
                     if (data === null) {
@@ -297,7 +341,7 @@
                 type: "post",
                 dataType: "json",
                 data: {
-                    "id": $("#login_id").val(),
+                    "email": $("#login_email").val(),
                     "pwd": $("#login_pwd").val()
                 },
                 success: function (data) { // 로그인 버튼 클릭 후 return
@@ -317,9 +361,9 @@
                 type: "post",
                 dataType: "json",
                 data: {
-                    "id": $("#update_id").val(),
+                    "email": $("#update_email").val(),
                     "pwd": $("#update_pwd").val(),
-                    "name": $("#update_name").val()
+                    "id": $("#update_id").val()
                 },
                 success: function (data) { // 회원정보 수정 후 return
                     if (data === null) {

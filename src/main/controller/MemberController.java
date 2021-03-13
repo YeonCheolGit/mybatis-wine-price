@@ -6,12 +6,16 @@ import main.service.member.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @RestController
 @Slf4j
@@ -36,8 +40,8 @@ public class MemberController {
      */
     @PostMapping(value = "/registerMember")
     public String registerMember(MemberDTO memberDTO,
-                                               HttpServletRequest req) {
-        logger.debug("registerMember debug >>> ");
+                                 HttpServletRequest req) {
+        logger.debug("==================== registerMember ====================");
 
         int result = memberService.duplicatedIdChk(memberDTO);
         session = req.getSession();
@@ -61,8 +65,8 @@ public class MemberController {
      */
     @PostMapping(value = "/login")
     public String login(MemberDTO memberDTO,
-                                      HttpServletRequest req) {
-        logger.debug("login debug >>> ");
+                        HttpServletRequest req) {
+        logger.debug("==================== login debug ====================");
 
         session = req.getSession();
 
@@ -85,24 +89,7 @@ public class MemberController {
             session.setAttribute("member", null);
             return "null";
         }
-
-//        MemberDTO login = memberService.login(memberDTO);
-//        boolean pwdMatch = passwordEncoder.matches(memberDTO.getPwd(), login.getPwd());
-//        if (login.getId() == null || !pwdMatch) {
-//            session.setAttribute("member", null);
-//            return "null";
-//        } else {
-//            session.setAttribute("member", login);
-//            return "true";
-//        }
     }
-
-//    @RequestMapping(value = "/logout")
-//    public String logout() {
-//        logger.info("logout debug >>> ");
-//        session.invalidate();
-//        return "null";
-//    }
 
     /*
      * 회원가입 중 중복체크 클릭 시 동작
@@ -110,7 +97,7 @@ public class MemberController {
      */
     @PostMapping(value = "/duplicatedIdChk")
     public int duplicatedIdChk(MemberDTO memberDTO) {
-        logger.debug("duplicatedIdChk debug >>> ");
+        logger.debug("==================== duplicatedIdChk ====================");
         return memberService.duplicatedIdChk(memberDTO);
     }
 
@@ -121,7 +108,7 @@ public class MemberController {
     @PostMapping(value = "/updateMember")
     public String updateMember(MemberDTO memberDTO,
                                HttpServletRequest req) {
-        logger.debug("updateMember debug >>> ");
+        logger.debug("==================== updateMember ====================");
 
         String rawPwd = memberDTO.getPwd();
         String encodedPwd = passwordEncoder.encode(rawPwd); // 비밀번호 인코딩
@@ -133,6 +120,21 @@ public class MemberController {
         } catch (Exception e) {
             e.printStackTrace();
             return "false";
+        }
+    }
+
+    /*
+     * 회원 이메일, 아이디 받아서 비밀번호 찾기
+     */
+    @PostMapping(value = "/findPwd")
+    public void findPw(MemberDTO memberDTO, HttpServletResponse response, HttpServletRequest request) {
+        logger.debug("==================== findPwd ====================");
+        try {
+            memberService.findPw(response, memberDTO);
+        } catch (IOException e) {
+            System.out.println("==================== findPwd Error ====================");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 }

@@ -49,7 +49,6 @@
             <tr>
                 <th>와인</th>
                 <th>가격<i class="bi bi-sort-down-alt" id="price" style="margin-right: 3px"></i></th>
-                <th>어울리는 음식</th>
             </tr>
             </thead>
             <tbody>
@@ -57,7 +56,6 @@
                 <tr>
                     <td><a href="#" onclick="window.open('${allWineList.URL}' + '${allWineList.name}')">${allWineList.name}</a></td>
                     <td>${allWineList.price}</td>
-                    <td>${allWineList.food}</td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -105,7 +103,6 @@
                         <option value="n" <c:out value="${searchCriteria.searchType == null ? 'selected' : ''}" />>선택</option>
                         <option value="t" <c:out value="${searchCriteria.searchType eq 't' ? 'selected' : ''}" />>와인</option>
                         <option value="c" <c:out value="${searchCriteria.searchType eq 'c' ? 'selected' : ''}" />>가격</option>
-                        <option value="w" <c:out value="${searchCriteria.searchType eq 'w' ? 'selected' : ''}" />>어울리는 음식</option>
                     </select>
                 </label>
                 <form class="d-inline">

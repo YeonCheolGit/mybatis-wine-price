@@ -156,6 +156,13 @@
       <version>2.0.6</version>
     </dependency>
 
+    <!-- 이메일 인증 -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-email</artifactId>
+      <version>1.5</version>
+    </dependency>
+
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
@@ -184,6 +191,7 @@
       <scope>compile</scope>
     </dependency>
 
+    <!-- 크롤러   -->
     <dependency>
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
