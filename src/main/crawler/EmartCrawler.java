@@ -40,11 +40,11 @@ public class EmartCrawler implements Runnable {
         String URL = "http://www.ssg.com/search.ssg?target=all&query=";
 
         /*
-         * ArrayList --> LinkedList로 변경
-         * 시간 복잡도 차이 없지만, ArrayList resize 동작 때문에 실행시간 차이 발생
+         * LinkedList --> ArrayList 변경
+         * 시간 복잡도 차이 없지만, ArrayList Capacity를 충분히 주게 되면 resize 불필요
          */
-        List<String> nameList = new LinkedList<>(); // 와인 이름을 저장 할 배열
-        List<Integer> priceList = new LinkedList<>(); // 와인 가격을 저장 할 배열
+        List<String> nameList = new ArrayList<>(1000); // 와인 이름을 저장 할 배열
+        List<Integer> priceList = new ArrayList<>(1000); // 와인 가격을 저장 할 배열
 
         while (number < 7) {
             System.out.println("이마트 " + number + "페이지 넘어왔습니다.");

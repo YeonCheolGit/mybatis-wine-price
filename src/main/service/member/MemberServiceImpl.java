@@ -2,6 +2,7 @@ package main.service.member;
 
 import main.DAO.member.MemberDAO;
 import main.DTO.MemberDTO;
+import org.apache.commons.exec.ExecuteException;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public int duplicatedIdChk(MemberDTO memberDTO) {
         return memberDAO.duplicatedIdChk(memberDTO);
+    }
+
+    @Override
+    public int duplicatedEmailChk(MemberDTO memberDTO) {
+        return memberDAO.duplicatedEmailChk(memberDTO);
     }
 
     @Override
@@ -94,24 +100,27 @@ public class MemberServiceImpl implements MemberService {
     public void findPw(HttpServletResponse resp, MemberDTO memberDTO) throws IOException {
         resp.setContentType("text/html;charset=utf-8");
 
-        MemberDTO ck = memberDAO.login(memberDTO);
+        MemberDTO ck = memberDAO.readMember(memberDTO.getId());
         PrintWriter out = resp.getWriter();
 
         // 가입된 아이디가 없으면
-        if(memberDAO.login(memberDTO).getEmail() == null) {
+        if (memberDAO.duplicatedIdChk(memberDTO) == 0) {
+            System.out.println("==================== 등록 X 아이디 =================");
             out.print("등록되지 않은 아이디입니다.");
             out.close();
         }
         // 가입된 이메일이 아니면
-        else if(!memberDTO.getEmail().equals(ck.getEmail())) {
+        else if (!memberDTO.getEmail().equals(ck.getEmail())) {
+            System.out.println("==================== 등록 X 이메일 =================");
             out.print("등록되지 않은 이메일입니다.");
             out.close();
-        } else {
+    }
+        else {
             // 임시 비밀번호 생성
             String rawPwd = "";
-            for (int i = 0; i < 12; i++) {
+            for (int i = 0; i < 6; i++) {
                 rawPwd += (char) ((Math.random() * 26) + 97); // ASCII 코드 규칙상 97 = a, 즉 알파벳 26개 랜덤 출력
-                rawPwd += String.valueOf((int) (Math.random() * 26));
+                rawPwd += String.valueOf((int) (Math.random() * 26)); // 알파벳 뒤 정수 섞기
             }
 
             // raw 임시 비밀번호 이메일 발송

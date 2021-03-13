@@ -10,7 +10,11 @@ public interface MemberDAO {
 
     MemberDTO login(MemberDTO memberDTO);
 
+    int duplicatedEmailChk(MemberDTO memberDTO);
+
     int duplicatedIdChk(MemberDTO memberDTO);
+
+    MemberDTO readMember(String memberDTO);
 
     void updateMember(MemberDTO memberDTO);
 }

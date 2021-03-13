@@ -295,13 +295,13 @@
                     "id": $("#findPw_id").val()
                 },
                 success: function (result) {
-                    alert(result);
+                    alert("이메일~~~");
                 }
             });
         });
         $('#emailChk').click(function () { // 회원가입 중복 확인 버튼
             $.ajax({
-                url: "${contextPath}/member/duplicatedIdChk",
+                url: "${contextPath}/member/duplicatedEmailChk",
                 type: "post",
                 dataType: "json",
                 data: {"email": $("#register_email").val()},
@@ -327,7 +327,7 @@
                 },
                 success: function (data) { // 회원 가입 버튼 클릭 후 return
                     if (data === null) {
-                        alert("다시 확인해주세요");
+                        alert("중복되는 아이디 입니다!");
                     } else if (data === true) {
                         alert("환영합니다!");
                         self.location = "${contextPath}/";

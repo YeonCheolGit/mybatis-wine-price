@@ -41,11 +41,11 @@ public class LotteCrawler implements Runnable {
                 "pc&collection_id=301&u9=navigate&u8=LM40004056&login=Y&mallId=4");
 
         /*
-         * ArrayList --> LinkedList로 변경
-         * 시간 복잡도 차이 없지만, ArrayList resize 동작 때문에 실행시간 차이 발생
+         * LinkedList --> ArrayList 변경
+         * 시간 복잡도 차이 없지만, ArrayList Capacity를 충분히 주게 되면 resize 불필요
          */
-        List<String> nameList = new LinkedList<>(); // 와인 이름 저장 할 배열
-        List<Integer> priceList = new LinkedList<>(); // 와인 가격 저장 할 배열
+        List<String> nameList = new ArrayList<>(300); // 와인 이름 저장 할 배열
+        List<Integer> priceList = new ArrayList<>(300); // 와인 가격 저장 할 배열
         String URL = "https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q="; // 각 와인 이동 링크
 
         int page = 1; // 시작 페이지

@@ -5,7 +5,7 @@
 
 <mapper namespace="mapper.member">
     <resultMap id="memberResult" type="memberDTO">
-        <result property="email" column="eamil" />
+        <result property="email" column="email" />
         <result property="pwd" column="pwd" />
         <result property="id" column="id" />
         <result property="regDate" column="regDate" />
@@ -18,31 +18,51 @@
             order by regDate;
         ]]>
     </select>
+    <!-- 회원가입 -->
     <select id="registerMember" resultMap="memberResult">
         <![CDATA[
-            insert into MVC.member(eamil, pwd, id)
+            insert into MVC.member(email, pwd, id)
             VALUES (#{email}, #{pwd}, #{id});
         ]]>
     </select>
+    <!-- 로그인 -->
     <select id="login" resultMap="memberResult">
         <![CDATA[
-        select eamil, pwd, id
+        select email, pwd, id
         from MVC.member
-        where eamil = #{email};
+        where email = #{email};
         ]]>
     </select>
+    <!-- 임시 비밀번호 이메일 전송 위해 id 기준으로 읽음 -->
+    <select id="readMember" resultMap="memberResult">
+        <![CDATA[
+        select email, pwd, id
+        from MVC.member
+        where id = #{id};
+        ]]>
+    </select>
+    <!-- 이메일 중복 체크 -->
+    <select id="duplicatedEmailChk" resultType="int">
+        <![CDATA[
+        select COUNT(email)
+        from MVC.member
+        where email = #{email};
+        ]]>
+    </select>
+    <!-- 아이디 중복 체크 -->
     <select id="duplicatedIdChk" resultType="int">
         <![CDATA[
-        select COUNT(eamil)
+        select COUNT(id)
         from MVC.member
-        where eamil = #{email};
+        where id = #{id};
         ]]>
     </select>
+    <!-- 회원 정보 업데이트, 비밀번호만 변경 가능 -->
     <update id="memberUpdate">
         <![CDATA[
         update MVC.member
         set pwd  = #{pwd}
-        where eamil = #{email};
+        where email = #{email};
         ]]>
     </update>
 </mapper>
