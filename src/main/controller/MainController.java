@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
     private static final Logger logger = LoggerFactory.getLogger(WineController.class);
 
-    @GetMapping
+    @GetMapping(value = "/main")
     public String goMain() {
         logger.info("main debug >>> ");
         return "main";

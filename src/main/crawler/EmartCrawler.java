@@ -30,7 +30,8 @@ public class EmartCrawler implements Runnable {
 
     @SneakyThrows
     @Override
-    public void run() {
+    public final void run() {
+        long start = System.currentTimeMillis();
         logger.debug("emart 크롤링 시작 >>> ");
 
         int number = 1; // 페이지 번호
@@ -77,5 +78,7 @@ public class EmartCrawler implements Runnable {
         }
 
         logger.debug("emart 크롤링 끝 >>> ");
+        long end = System.currentTimeMillis();
+        System.out.println(end - start);
     }
 }

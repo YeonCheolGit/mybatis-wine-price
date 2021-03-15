@@ -47,6 +47,9 @@ public class MemberServiceImpl implements MemberService {
         memberDAO.updateMember(memberDTO);
     }
 
+    /*
+     * 임시 비밀번호 전송
+     */
     @Override
     public void sendEmail(MemberDTO memberDTO, String div) {
         String charSet = "utf-8";
@@ -92,29 +95,28 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /*
-     * 찾으려는 비밀번호의 이메일, 아이디가 맞는지 확인
-     * 임시 비밀번호 생성
-     * sendEmail로 raw 비밀번호 전송
+     1. 찾으려는 비밀번호의 이메일, 아이디 검증
+     2. 임시 비밀번호 생성
+     3. sendEmail() <-- raw 비밀번호 전송
      */
     @Override
-    public void findPw(HttpServletResponse resp, MemberDTO memberDTO) throws IOException {
-        resp.setContentType("text/html;charset=utf-8");
+    public String findPwd(MemberDTO memberDTO) {
 
         MemberDTO ck = memberDAO.readMember(memberDTO.getId());
-        PrintWriter out = resp.getWriter();
 
         // 가입된 아이디가 없으면
         if (memberDAO.duplicatedIdChk(memberDTO) == 0) {
             System.out.println("==================== 등록 X 아이디 =================");
-            out.print("등록되지 않은 아이디입니다.");
-            out.close();
+
+            return "idNull";
         }
         // 가입된 이메일이 아니면
         else if (!memberDTO.getEmail().equals(ck.getEmail())) {
             System.out.println("==================== 등록 X 이메일 =================");
-            out.print("등록되지 않은 이메일입니다.");
-            out.close();
-    }
+
+            return "emailNull";
+        }
+        // 이메일, 아이디 다 있으면
         else {
             // 임시 비밀번호 생성
             String rawPwd = "";
@@ -132,8 +134,7 @@ public class MemberServiceImpl implements MemberService {
             memberDTO.setPwd(encodedPwd);
             memberDAO.updateMember(memberDTO);
 
-            out.print("이메일로 임시 비밀번호를 발송하였습니다.");
-            out.close();
+            return "true";
         }
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
@@ -26,7 +25,7 @@ public class MemberController {
     private final BCryptPasswordEncoder passwordEncoder;
 
     /*
-     * 생성자 한 개 이므로 @Auwired 생략 가능
+     * 생성자 한 개 이므로 @Autowired 생략 가능
      */
     public MemberController(MemberService memberService, BCryptPasswordEncoder passwordEncoder) {
         this.memberService = memberService;
@@ -52,6 +51,7 @@ public class MemberController {
 
             memberService.registerMember(memberDTO);
             return "true";
+
         } else {
             session.setAttribute("member", null);
             return "null";
@@ -63,8 +63,7 @@ public class MemberController {
      * return <-- 로그인 결과 (true | null)
      */
     @PostMapping(value = "/login")
-    public String login(MemberDTO memberDTO,
-                        HttpServletRequest req) {
+    public String login(MemberDTO memberDTO, HttpServletRequest req) {
         logger.debug("==================== login debug ====================");
 
         session = req.getSession();
@@ -102,8 +101,9 @@ public class MemberController {
     }
 
     /*
-     * 회원정보 받아서 비밀번호 업데이트
-     * DB와 업데이트 후 로그아웃 세션 진행
+     1. 회원정보 받아서 비밀번호 업데이트
+     2. DB에 저장
+     3. 로그아웃 세션
      */
     @PostMapping(value = "/updateMember")
     public String updateMember(MemberDTO memberDTO,
@@ -124,19 +124,16 @@ public class MemberController {
     }
 
     /*
-     * 회원 이메일, 아이디 받아서 비밀번호 찾기
+     1. 비밀번호 찾기 버튼
+     2. 회원 이메일, 아이디 검증
+     3. 검증 후 임시 비밀번호로 변경
+     4. 변경 된 임시 비밀번호 이메일 발송
+     5. return <-- true or null
      */
     @PostMapping(value = "/findPwd")
-    public void findPw(MemberDTO memberDTO, HttpServletResponse response) {
+    public String findPw(MemberDTO memberDTO) throws IOException {
         logger.debug("==================== findPwd ====================");
 
-        try {
-            memberService.findPw(response, memberDTO);
-
-        } catch (IOException e) {
-            System.out.println("==================== findPwd Error ====================");
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
+        return memberService.findPwd(memberDTO);
     }
 }

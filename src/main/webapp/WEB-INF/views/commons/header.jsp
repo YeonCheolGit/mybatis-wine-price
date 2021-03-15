@@ -102,11 +102,9 @@
                         <button class="btn btn-primary" data-bs-toggle="modal" id="modal_register" type="button" >회원가입</button>
                     </c:if>
                     <c:if test="${member != null}"> <%-- 로그인 시 보여질 버튼 --%>
-<%--                        <button class="btn btn-primary" type="button" id="modal_logout"--%>
-<%--                                onclick="location.href='${contextPath}/member/logout'">로그아웃</button>--%>
                         <button class="btn btn-primary" type="button" id="modal_logout">로그아웃</button>
                         <button class="btn btn-primary" id="modal_update" type="button">마이페이지</button>
-                        <span class="navbar-text" style="margin-left: 4px">${member.email}님 안녕하세요.</span>
+                        <span class="navbar-text" style="margin-left: 4px">${member.id}님 안녕하세요.</span>
                     </c:if>
                 </div>
             </div>
@@ -235,7 +233,7 @@
                 localStorage.setItem("darkTheme", "false");
                 $("#dark_mode_button").text("다크모드 켜기");
 
-            } else { // Dark Mode off state
+            } else { // 다크모드 꺼진 상태
                 html.classList.add("dark");
                 localStorage.setItem("darkTheme", "true");
                 $("#dark_mode_button").text("다크모드 끄기");
@@ -285,20 +283,6 @@
                 return false;
             }
         });
-        $('#sendNewPwd').click(function () {
-            $.ajax({
-                url: "${contextPath}/member/findPwd",
-                type: "post",
-                dataType: "json",
-                data: {
-                    "email": $("#findPw_email").val(),
-                    "id": $("#findPw_id").val()
-                },
-                success: function (result) {
-                    alert("이메일~~~");
-                }
-            });
-        });
         $('#emailChk').click(function () { // 회원가입 중복 확인 버튼
             $.ajax({
                 url: "${contextPath}/member/duplicatedEmailChk",
@@ -330,7 +314,7 @@
                         alert("중복되는 아이디 입니다!");
                     } else if (data === true) {
                         alert("환영합니다!");
-                        self.location = "${contextPath}/";
+                        self.location = "${contextPath}/main";
                     }
                 }
             });
@@ -350,10 +334,10 @@
                     } else if (data === true) {
                         $("#login_submit").attr("value", "Y");
                         alert("환영합니다.");
-                        self.location = "${contextPath}/";
+                        self.location = "${contextPath}/main";
                     }
                 }
-            })
+            });
         });
         $('#update_submit').click(function () { // 회원정보 수정 버튼
             $.ajax({
@@ -370,8 +354,8 @@
                         alert("아이디 또는 비밀번호를 확인해주세요.");
                     } else if (data === true) {
                         alert("회원정보 수정이 완료 됐습니다.");
-                        <% request.getSession().setAttribute("member", null); %> // 서버의 HTTPSession를 null
-                        self.location = "${contextPath}/";
+                        <% request.getSession().setAttribute("member", null); %> // 서버의 HTTPSession 만료
+                        self.location = "${contextPath}/main";
                     }
                 }
             });
@@ -379,7 +363,31 @@
         $('#modal_logout').click(function () { // 로그아웃 버튼
             alert("로그아웃 완료")
             <% request.getSession().setAttribute("member", null); %> // 서버의 HTTPSession를 null
-            self.location = "${contextPath}/";
+            self.location = "${contextPath}/main";
+        });
+        /*
+         * 비밀번호 찾기 버튼
+         * 임시 비밀번호 변경 후 이메일 발송
+         */
+        $('#sendNewPwd').click(function () {
+            $.ajax({
+                url: "${contextPath}/member/findPwd",
+                type: "post",
+                dataType: "json",
+                data: {
+                    "email": $("#findPw_email").val(),
+                    "id": $("#findPw_id").val()
+                },
+                success: function (result) {
+                    if (result === "idNull") { // id 일치 X 경우
+                        alert("가입되지 않은 아이디 입니다")
+                    } else if (result === "emailNull") { // email 일치 X 경우
+                        alert("가입되지 않은 이메일 입니다");
+                    } else { // id, email 일치
+                        alert("임시 비밀번호를 발송했습니다")
+                    }
+                }
+            });
         });
     });
 </script>

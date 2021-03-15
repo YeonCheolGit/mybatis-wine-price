@@ -33,7 +33,7 @@ public class LotteCrawler implements Runnable {
 
     @SneakyThrows
     @Override
-    public void run() {
+    public final void run() {
         logger.debug("lotte 크롤링 시작 >>> ");
 
         WebDriver driver = new SafariDriver();

@@ -2,7 +2,6 @@ package main.service.member;
 
 import main.DTO.MemberDTO;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public interface MemberService {
@@ -19,6 +18,6 @@ public interface MemberService {
 
     void sendEmail(MemberDTO memberDTO, String div);
 
-    void findPw(HttpServletResponse resp, MemberDTO memberDTO) throws IOException;
+    String findPwd(MemberDTO memberDTO) throws IOException;
 
 }
