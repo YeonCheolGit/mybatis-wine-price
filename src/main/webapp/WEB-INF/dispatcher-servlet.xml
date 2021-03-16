@@ -15,15 +15,6 @@
 
     <context:component-scan base-package="main"/>
 
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <mvc:exclude-mapping path="/main"/>
-            <mvc:exclude-mapping path="/member/**"/>
-            <bean class="main.interceptor.AuthLoginInterceptor" />
-        </mvc:interceptor>
-    </mvc:interceptors>
-
     <mvc:resources mapping="/resources/**" location="/main/resources/"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <html>
@@ -123,7 +123,6 @@
             self.location = "${contextPath}/wine/searchBarAndPagination${pageMaker.makeQuery(1)}"
                 + "&searchType=" + $("select option:selected").val()
                 + "&keyword=" + encodeURIComponent($("#keywordInput").val());
-
         });
         $('#price').click(function() { // 정렬 버튼 클릭 시 동작
             self.location = "${contextPath}/wine/orderByPrice${pageMaker.makeQuery(1)}"
@@ -149,4 +148,3 @@
 </script>
 </body>
 </html>
-

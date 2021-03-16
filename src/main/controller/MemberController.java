@@ -9,18 +9,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+@SessionAttributes("member")
 @RestController
 @Slf4j
 @RequestMapping(value = "/member")
 public class MemberController {
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
-    private static HttpSession session;
     private final MemberService memberService;
     private final BCryptPasswordEncoder passwordEncoder;
 
@@ -42,7 +43,7 @@ public class MemberController {
 
         int resultId = memberService.duplicatedIdChk(memberDTO);
         int resultEmail = memberService.duplicatedEmailChk(memberDTO);
-        session = req.getSession();
+//        session = req.getSession();
 
         if (resultId == 0 && resultEmail == 0) {
             String rawPwd = memberDTO.getPwd(); // 사용자가 입력한 raw 비밀번호
@@ -53,7 +54,7 @@ public class MemberController {
             return "true";
 
         } else {
-            session.setAttribute("member", null);
+//            session.setAttribute("member", null);
             return "null";
         }
     }
@@ -66,10 +67,10 @@ public class MemberController {
     public String login(MemberDTO memberDTO, HttpServletRequest req) {
         logger.debug("==================== login debug ====================");
 
-        session = req.getSession();
+        HttpSession session = req.getSession();
 
         try {
-            MemberDTO login = memberService.login(memberDTO); // 없는 id 입력 시 에러 발생 시킴
+            MemberDTO login = memberService.login(memberDTO); // 없는 email 입력 시 에러 발생 시킴
             if (login.getId() == null) {
                 throw new Exception();
             }

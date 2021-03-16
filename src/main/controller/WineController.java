@@ -8,15 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+@SessionAttributes("member")
 @Controller
 @Slf4j
 @RequestMapping(value = "/wine")
@@ -35,7 +33,7 @@ public class WineController {
     @GetMapping(value = "/searchBarAndPagination")
     public String searchBarAndPagination(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
                                          Model model) {
-        logger.debug("searchBar >>> ");
+        logger.debug("==================== searchBar ====================");
 
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCriteria(searchCriteria);
@@ -54,7 +52,7 @@ public class WineController {
     @GetMapping(value = "/orderByPrice")
     public String orderByPrice(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
                             Model model) {
-        logger.debug("prices >>> ");
+        logger.debug("==================== prices ====================");
 
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCriteria(searchCriteria);
@@ -75,7 +73,7 @@ public class WineController {
     @GetMapping(value = "/autocomplete")
     @ResponseBody
     public List<String> autocomplete(HttpServletRequest request) {
-        logger.debug("search >>> ");
+        logger.debug("==================== search ====================");
         return wineService.search(request.getParameter("term"));
     }
 }
