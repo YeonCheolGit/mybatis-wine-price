@@ -16,4 +16,6 @@ public interface WineDAO {
     int countWines(SearchCriteria searchCriteria);
 
     List<String> search(String keyword);
+
+    void boardHit(String hit);
 }

@@ -79,4 +79,10 @@
         where name like concat('%', #{keyword}, '%')
         order by name
     </select>
+
+    <update id="boardHit" parameterType="String">
+        update wine
+        set HIT = HIT + 1
+        where name like concat('%', #{keyword}, '%')
+    </update>
 </mapper>

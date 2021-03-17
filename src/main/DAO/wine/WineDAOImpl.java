@@ -43,4 +43,8 @@ public class WineDAOImpl implements WineDAO {
         sqlSession.insert(nameSpace + ".addWineNamePrice", wine);
     }
 
+    @Override
+    public void boardHit(String hit) {
+        sqlSession.update(nameSpace + ".boardHit", hit);
+    }
 }

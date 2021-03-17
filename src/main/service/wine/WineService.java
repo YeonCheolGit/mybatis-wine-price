@@ -17,4 +17,6 @@ public interface WineService {
 
     List<String> search(String keyword);
 
+    void boardHit(String hit);
+
 }

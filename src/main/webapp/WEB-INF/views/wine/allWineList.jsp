@@ -49,6 +49,7 @@
             <tr>
                 <th>와인</th>
                 <th>가격<i class="bi bi-sort-down-alt" id="price" style="margin-right: 3px"></i></th>
+                <th>조회 수</th>
             </tr>
             </thead>
             <tbody>
@@ -56,6 +57,7 @@
                 <tr>
                     <td><a href="#" onclick="window.open('${allWineList.URL}' + '${allWineList.name}')">${allWineList.name}</a></td>
                     <td>${allWineList.price}</td>
+                    <td>${allWineList.hit}</td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -138,7 +140,7 @@
                     response(cache[term]);
                     return;
                 }
-                $.getJSON("${contextPath}/wine/autocomplete", request, function (data, status, xhr) {
+                $.getJSON("${contextPath}/wine/autocomplete", request, function (data) {
                     cache[term] = data;
                     response(data);
                 });

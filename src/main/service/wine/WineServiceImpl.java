@@ -4,6 +4,8 @@ import main.DAO.wine.WineDAO;
 import main.DTO.WineDTO;
 import main.paging.SearchCriteria;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -38,5 +40,11 @@ public class WineServiceImpl implements WineService {
     @Override
     public void addWineNamePrice(WineDTO wine) {
         wineDAO.addWineNamePrice(wine);
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Override
+    public void boardHit(String hit) {
+        wineDAO.boardHit(hit);
     }
 }

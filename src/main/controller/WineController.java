@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @SessionAttributes("member")
@@ -58,22 +57,24 @@ public class WineController {
         pageMaker.setCriteria(searchCriteria);
         pageMaker.setTotalCount(wineService.countWines(searchCriteria));
 
-        boolean price = true;
+//        boolean price = true;
 
         model.addAttribute("allWineList", wineService.orderByPrice(searchCriteria));
         model.addAttribute("pageMaker", pageMaker);
-        model.addAttribute("orderByPrice", price);
+        model.addAttribute("orderByPrice", true);
 
         return "wine/allWineList";
     }
 
     /*
      * 검색창에서 검색 시 autocomplete 동작
+     * boardHit() - 검색 기록 카운트
      */
     @GetMapping(value = "/autocomplete")
     @ResponseBody
     public List<String> autocomplete(HttpServletRequest request) {
         logger.debug("==================== search ====================");
+        wineService.boardHit(request.getParameter("term"));
         return wineService.search(request.getParameter("term"));
     }
 }

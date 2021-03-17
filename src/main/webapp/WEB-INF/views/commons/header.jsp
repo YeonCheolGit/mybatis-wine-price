@@ -3,6 +3,7 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <link>
 <head>
@@ -96,13 +97,14 @@
                 <div id="navbar-nav" class="navbar-nav" style="width: auto">
                     <button class="btn btn-outline-success me-2" type="button"
                             onclick="location.href='${contextPath}/wine/searchBarAndPagination'">와인목록</button>
-                    <%--@elvariable id="member" type="main.DTO.MemberDTO"--%> <%-- intellij 빈 정의 --%>
+                    <%--@elvariable id="member" type="main.DTO.MemberDTO"--%>
                     <c:if test="${member == null}"> <%-- 미 로그인 시 보여질 버튼--%>
                         <button class="btn btn-primary" data-bs-toggle="modal" id="modal_login" type="button" >로그인</button>
                         <button class="btn btn-primary" data-bs-toggle="modal" id="modal_register" type="button" >회원가입</button>
                     </c:if>
                     <c:if test="${member != null}"> <%-- 로그인 시 보여질 버튼 --%>
-                        <button class="btn btn-primary" type="button" id="modal_logout">로그아웃</button>
+                        <button class="btn btn-primary" type="button" id="modal_logout"
+                                onclick="location.href='${contextPath}/member/logout'">로그아웃</button>
                         <button class="btn btn-primary" id="modal_update" type="button">마이페이지</button>
                         <span class="navbar-text" style="margin-left: 4px">${member.id}님 안녕하세요.</span>
                     </c:if>
@@ -112,7 +114,7 @@
                 <button id="dark_mode_button" class="btn btn-primary">다크모드</button>
             </div>
         </div>
-        <%-- 로그인 --%>
+        <%-- 로그인 모달--%>
         <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content" id="modal-content-login">
@@ -138,6 +140,7 @@
                 </div>
             </div>
         </div>
+        <%-- 비밀번호 찾기 모달 --%>
         <div class="modal fade" id="findPwModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content" id="modal-content-findPw">
@@ -161,7 +164,7 @@
                 </div>
             </div>
         </div>
-        <%-- 회원가입 --%>
+        <%-- 회원가입 모달 --%>
         <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content" id="modal-content-register">
@@ -191,7 +194,7 @@
                 </div>
             </div>
         </div>
-        <%-- 회원정보 업데이트 --%>
+        <%-- 회원정보 업데이트 모달 --%>
         <div class="modal fade" id="updateMemberModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content" id="modal-content-update">
@@ -351,16 +354,10 @@
                         alert("아이디 또는 비밀번호를 확인해주세요.");
                     } else if (data === true) {
                         alert("회원정보 수정이 완료 됐습니다.");
-<%--                        <% request.getSession().setAttribute("member", null); %> // 서버의 HTTPSession 만료--%>
                         self.location = "${contextPath}/main";
                     }
                 }
             });
-        });
-        $('#modal_logout').click(function () { // 로그아웃 버튼
-            alert("로그아웃 완료")
-<%--            <% request.getSession().setAttribute("member", null); %> // 서버의 HTTPSession를 null--%>
-            self.location = "${contextPath}/main";
         });
         /*
          * 비밀번호 찾기 버튼

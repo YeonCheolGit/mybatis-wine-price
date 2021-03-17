@@ -45,4 +45,5 @@ public class MemberDAOImpl implements MemberDAO {
         sqlSession.update(nameSpace + ".memberUpdate", memberDTO);
     }
 
+
 }

@@ -6,17 +6,14 @@ import main.service.member.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@SessionAttributes("member")
-@RestController
+@Controller
 @Slf4j
 @RequestMapping(value = "/member")
 public class MemberController {
@@ -37,13 +34,13 @@ public class MemberController {
      * 회원가입 버튼 클릭 시 동작
      */
     @PostMapping(value = "/registerMember")
+    @ResponseBody
     public String registerMember(MemberDTO memberDTO,
                                  HttpServletRequest req) {
         logger.debug("==================== registerMember ====================");
 
         int resultId = memberService.duplicatedIdChk(memberDTO);
         int resultEmail = memberService.duplicatedEmailChk(memberDTO);
-//        session = req.getSession();
 
         if (resultId == 0 && resultEmail == 0) {
             String rawPwd = memberDTO.getPwd(); // 사용자가 입력한 raw 비밀번호
@@ -54,7 +51,6 @@ public class MemberController {
             return "true";
 
         } else {
-//            session.setAttribute("member", null);
             return "null";
         }
     }
@@ -64,6 +60,7 @@ public class MemberController {
      * return <-- 로그인 결과 (true | null)
      */
     @PostMapping(value = "/login")
+    @ResponseBody
     public String login(MemberDTO memberDTO, HttpServletRequest req) {
         logger.debug("==================== login debug ====================");
 
@@ -91,11 +88,19 @@ public class MemberController {
         }
     }
 
+    @RequestMapping(value = "logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.invalidate();
+        return "/main";
+    }
+
     /*
      * 회원가입 중 중복체크 클릭 시 동작
      * return <-- true | false
      */
     @PostMapping(value = "/duplicatedEmailChk")
+    @ResponseBody
     public int duplicatedIdChk(MemberDTO memberDTO) {
         logger.debug("==================== duplicatedEmailChk ====================");
         return memberService.duplicatedEmailChk(memberDTO);
@@ -107,6 +112,7 @@ public class MemberController {
      3. 로그아웃 세션
      */
     @PostMapping(value = "/updateMember")
+    @ResponseBody
     public String updateMember(MemberDTO memberDTO,
                                HttpServletRequest req) {
         logger.debug("==================== updateMember ====================");
@@ -117,6 +123,8 @@ public class MemberController {
 
         try {
             memberService.updateMember(memberDTO); // 회원정보 업데이트
+            HttpSession session = req.getSession();
+            session.invalidate();
             return "true";
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,6 +140,7 @@ public class MemberController {
      5. return <-- true or null
      */
     @PostMapping(value = "/findPwd")
+    @ResponseBody
     public String findPw(MemberDTO memberDTO) throws IOException {
         logger.debug("==================== findPwd ====================");
 

@@ -14,6 +14,7 @@ public class WineDTO {
     String name;
     int price;
     String URL;
+    int hit;
 
     public WineDTO() {
     }
@@ -24,10 +25,11 @@ public class WineDTO {
         this.URL = URL;
     }
 
-    public WineDTO(BigInteger number, String name, int price, String URL) {
+    public WineDTO(BigInteger number, String name, int price, String URL, int hit) {
         this.number = number;
         this.name = name;
         this.price = price;
         this.URL = URL;
+        this.hit = hit;
     }
 }
