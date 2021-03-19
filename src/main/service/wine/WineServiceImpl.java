@@ -44,7 +44,12 @@ public class WineServiceImpl implements WineService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
-    public void boardHit(String hit) {
-        wineDAO.boardHit(hit);
+    public void wineSearchCount(String hit) {
+        wineDAO.wineSearchCount(hit);
+    }
+
+    @Override
+    public List<WineDTO> realtimeWineSearchCount() {
+        return wineDAO.realtimeWineSearchCount();
     }
 }

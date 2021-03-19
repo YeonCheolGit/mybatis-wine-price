@@ -9,6 +9,7 @@
         <result property="name" column="name" />
         <result property="price" column="price" />
         <result property="URL" column="URL" />
+        <result property="hit" column="HIT" />
     </resultMap>
 
     <select id="selectAllWines" resultMap="wineResult">
@@ -74,15 +75,29 @@
     </sql>
 
     <select id="autocomplete" resultType="String" parameterType="String">
+        <![CDATA[
         select name
         from MVC.wine
         where name like concat('%', #{keyword}, '%')
         order by name
+        ]]>
     </select>
 
-    <update id="boardHit" parameterType="String">
+    <!-- 와인 검색할 때 마다 카운트 1 -->
+    <update id="wineSearchCount" parameterType="String">
+        <![CDATA[
         update wine
         set HIT = HIT + 1
         where name like concat('%', #{keyword}, '%')
+        ]]>
     </update>
+    <!-- 실시간으로 가장 많이 검색한 와인 목록 3개 -->
+    <select id="realtimeWineSearchCount" resultMap="wineResult">
+        <![CDATA[
+        select *
+        from MVC.wine
+        where HIT > 0
+        order by HIT desc limit 3
+        ]]>
+    </select>
 </mapper>

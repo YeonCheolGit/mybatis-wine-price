@@ -15,6 +15,4 @@ public interface MemberDAO {
     MemberDTO readMember(String memberDTO);
 
     void updateMember(MemberDTO memberDTO);
-
-
 }

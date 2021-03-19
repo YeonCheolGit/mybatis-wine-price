@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @SessionAttributes("member")
@@ -34,12 +36,16 @@ public class WineController {
                                          Model model) {
         logger.debug("==================== searchBar ====================");
 
+        wineService.wineSearchCount(searchCriteria.getKeyword()); // 검색어 조회수 카운트
+        wineService.realtimeWineSearchCount(); // 실시간 상위 검색 와인 목록 3개 가지고 옴
+
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCriteria(searchCriteria);
         pageMaker.setTotalCount(wineService.countWines(searchCriteria));
 
         model.addAttribute("allWineList", wineService.listPaging(searchCriteria));
         model.addAttribute("pageMaker", pageMaker);
+        model.addAttribute("realtimeWineSearchCount", wineService.realtimeWineSearchCount());
 
         return "wine/allWineList";
     }
@@ -74,7 +80,6 @@ public class WineController {
     @ResponseBody
     public List<String> autocomplete(HttpServletRequest request) {
         logger.debug("==================== search ====================");
-        wineService.boardHit(request.getParameter("term"));
         return wineService.search(request.getParameter("term"));
     }
 }

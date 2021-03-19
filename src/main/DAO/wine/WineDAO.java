@@ -17,5 +17,7 @@ public interface WineDAO {
 
     List<String> search(String keyword);
 
-    void boardHit(String hit);
+    void wineSearchCount(String hit);
+
+    List<WineDTO> realtimeWineSearchCount();
 }

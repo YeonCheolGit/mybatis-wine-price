@@ -44,25 +44,46 @@
 </header>
 <form role="form" method="get">
     <div id="table_content">
+        <table class="table table-hover" id="recommend-table-hover">
+            <thead>
+            <tr>
+                <th>연철이가 추천하는 와인</th>
+                <th>가격</th>
+            </tr>
+            </thead>
+            <%-- 상위 검색어 기반 추천 와인 목록 3개 --%>
+            <tbody>
+                <div>
+                    <c:forEach items="${realtimeWineSearchCount}" var="realtimeWineSearchCount">
+                        <tr>
+                            <td><a href="#" onclick="window.open('${realtimeWineSearchCount.URL}' + '${realtimeWineSearchCount.name}')">${realtimeWineSearchCount.name}</a></td>
+                            <td>${realtimeWineSearchCount.price}</td>
+                        </tr>
+                    </c:forEach>
+                </div>
+            </tbody>
+        </table>
         <table class="table table-hover" id="table-hover">
             <thead>
             <tr>
                 <th>와인</th>
                 <th>가격<i class="bi bi-sort-down-alt" id="price" style="margin-right: 3px"></i></th>
-                <th>조회 수</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${allWineList}" var="allWineList">
-                <tr>
-                    <td><a href="#" onclick="window.open('${allWineList.URL}' + '${allWineList.name}')">${allWineList.name}</a></td>
-                    <td>${allWineList.price}</td>
-                    <td>${allWineList.hit}</td>
-                </tr>
-            </c:forEach>
+                <%-- 전체 와인 목록 --%>
+                <div>
+                <c:forEach items="${allWineList}" var="allWineList">
+                    <tr>
+                        <td><a href="#" onclick="window.open('${allWineList.URL}' + '${allWineList.name}')">${allWineList.name}</a></td>
+                        <td>${allWineList.price}</td>
+                    </tr>
+                </c:forEach>
+                </div>
             </tbody>
         </table>
     </div>
+    <%-- 와인 버튼 --%>
     <div class="text-center" id="pagination_buttons">
         <nav>
             <ul class="pagination justify-content-center" id="pagination">
@@ -98,6 +119,7 @@
                 </c:if>
             </ul>
         </nav>
+        <%-- 와인 검색창 --%>
         <div class="container w-40">
             <div class="d-flex align-items-center">
                 <label for="searchType">

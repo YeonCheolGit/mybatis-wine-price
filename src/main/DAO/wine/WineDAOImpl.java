@@ -44,7 +44,12 @@ public class WineDAOImpl implements WineDAO {
     }
 
     @Override
-    public void boardHit(String hit) {
-        sqlSession.update(nameSpace + ".boardHit", hit);
+    public void wineSearchCount(String hit) {
+        sqlSession.update(nameSpace + ".wineSearchCount", hit);
+    }
+
+    @Override
+    public List<WineDTO> realtimeWineSearchCount() {
+        return sqlSession.selectList(nameSpace + ".realtimeWineSearchCount");
     }
 }
