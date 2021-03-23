@@ -10,7 +10,7 @@ public interface MemberDAO {
 
     int duplicatedEmailChk(MemberDTO memberDTO);
 
-    int duplicatedIdChk(MemberDTO memberDTO);
+    int duplicatedNickNameChk(MemberDTO memberDTO);
 
     MemberDTO readMember(String memberDTO);
 

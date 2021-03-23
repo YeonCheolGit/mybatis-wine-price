@@ -11,16 +11,16 @@ import java.util.Date;
 public class MemberDTO {
     private String email;
     private String pwd;
-    private String id;
+    private String nickName;
     private Date regDate;
 
     public MemberDTO() {
     }
 
-    public MemberDTO(String email, String pwd, String id, Date regDate) {
+    public MemberDTO(String email, String pwd, String nickName, Date regDate) {
         this.email = email;
         this.pwd = pwd;
-        this.id = id;
+        this.nickName = nickName;
         this.regDate = regDate;
     }
 }

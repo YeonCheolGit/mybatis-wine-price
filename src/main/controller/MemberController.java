@@ -39,10 +39,10 @@ public class MemberController {
                                  HttpServletRequest req) {
         logger.debug("==================== registerMember ====================");
 
-        int resultId = memberService.duplicatedIdChk(memberDTO);
+        int resultNickName = memberService.duplicatedNickNameChk(memberDTO);
         int resultEmail = memberService.duplicatedEmailChk(memberDTO);
 
-        if (resultId == 0 && resultEmail == 0) {
+        if (resultNickName == 0 && resultEmail == 0) {
             String rawPwd = memberDTO.getPwd(); // 사용자가 입력한 raw 비밀번호
             String encodedPwd = passwordEncoder.encode(rawPwd); // raw 비밀번호를 인코딩
             memberDTO.setPwd(encodedPwd);
@@ -68,14 +68,14 @@ public class MemberController {
 
         try {
             MemberDTO login = memberService.login(memberDTO); // 없는 email 입력 시 에러 발생 시킴
-            if (login.getId() == null) {
+            if (login.getNickName() == null) {
                 throw new Exception();
             }
             boolean pwdMatch = passwordEncoder.matches(memberDTO.getPwd(), login.getPwd()); // 잘못 된 pw 입력 시 에러 발생 시킴
             if (!pwdMatch) {
                 throw new Exception();
             }
-            session.setAttribute("member", login); // id, pw 일치할 시 true 반환
+            session.setAttribute("member", login); // nickName, pw 일치할 시 true 반환, 세션 등록
             return "true";
 
         } catch (Exception e) {
@@ -83,7 +83,7 @@ public class MemberController {
             System.out.println(e.getMessage());
             e.printStackTrace();
 
-            session.setAttribute("member", null);
+            session.setAttribute("member", null); // 세션 null
             return "null";
         }
     }
@@ -101,7 +101,7 @@ public class MemberController {
      */
     @PostMapping(value = "/duplicatedEmailChk")
     @ResponseBody
-    public int duplicatedIdChk(MemberDTO memberDTO) {
+    public int duplicatedNickNameChk(MemberDTO memberDTO) {
         logger.debug("==================== duplicatedEmailChk ====================");
         return memberService.duplicatedEmailChk(memberDTO);
     }

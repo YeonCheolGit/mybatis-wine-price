@@ -33,8 +33,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public int duplicatedIdChk(MemberDTO memberDTO) {
-        return memberDAO.duplicatedIdChk(memberDTO);
+    public int duplicatedNickNameChk(MemberDTO memberDTO) {
+        return memberDAO.duplicatedNickNameChk(memberDTO);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class MemberServiceImpl implements MemberService {
             subject = "와인검색 사이트 임시 비밀번호 안내";
             msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
             msg += "<h3 style='color: blue;'>";
-            msg += memberDTO.getId() + "님의 임시 비밀번호 입니다. 비밀번호를 변경하여 사용하세요.</h3>";
+            msg += memberDTO.getNickName() + "님의 임시 비밀번호 입니다. 비밀번호를 변경하여 사용하세요.</h3>";
             msg += "<p>임시 비밀번호 : ";
             msg += memberDTO.getPwd() + "</p></div>";
         }
@@ -102,10 +102,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public String findPwd(MemberDTO memberDTO) {
 
-        MemberDTO ck = memberDAO.readMember(memberDTO.getId());
+        MemberDTO ck = memberDAO.readMember(memberDTO.getNickName());
 
         // 가입된 아이디가 없으면
-        if (memberDAO.duplicatedIdChk(memberDTO) == 0) {
+        if (memberDAO.duplicatedNickNameChk(memberDTO) == 0) {
             System.out.println("==================== 등록 X 아이디 =================");
 
             return "idNull";

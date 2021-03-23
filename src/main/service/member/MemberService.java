@@ -10,7 +10,7 @@ public interface MemberService {
 
     MemberDTO login(MemberDTO memberDTO);
 
-    int duplicatedIdChk(MemberDTO memberDTO);
+    int duplicatedNickNameChk(MemberDTO memberDTO);
 
     int duplicatedEmailChk(MemberDTO memberDTO);
 

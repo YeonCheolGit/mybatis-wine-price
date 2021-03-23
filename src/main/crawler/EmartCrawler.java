@@ -47,7 +47,7 @@ public class EmartCrawler implements Runnable {
         List<String> nameList = new ArrayList<>(1000); // 와인 이름을 저장 할 배열
         List<Integer> priceList = new ArrayList<>(1000); // 와인 가격을 저장 할 배열
 
-        while (number < 7) {
+        while (number < 8) {
             System.out.println("이마트 " + number + "페이지 넘어왔습니다.");
             Document doc1 = Jsoup
                     .connect("http://www.ssg.com/search.ssg?target=all&query=" +

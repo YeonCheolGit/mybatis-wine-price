@@ -106,7 +106,7 @@
                         <button class="btn btn-primary" type="button" id="modal_logout"
                                 onclick="location.href='${contextPath}/member/logout'">로그아웃</button>
                         <button class="btn btn-primary" id="modal_update" type="button">마이페이지</button>
-                        <span class="navbar-text" style="margin-left: 4px">${member.id}님 안녕하세요.</span>
+                        <span class="navbar-text" style="margin-left: 4px">${member.nickName}님 안녕하세요.</span>
                     </c:if>
                 </div>
             </div>
@@ -154,8 +154,8 @@
                             <input type="email" id="findPw_email" name="email" class="form-control" placeholder="example@email.com">
                         </div>
                         <div class="mb-3">
-                            <label for="findPw_id" class="form-label">아이디</label>
-                            <input type="text" id="findPw_id" name="id" class="form-control">
+                            <label for="findPw_nickName" class="form-label">아이디</label>
+                            <input type="text" id="findPw_nickName" name="id" class="form-control">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -183,8 +183,8 @@
                             <input type="password" id="register_pwd" name="pwd" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="register_id" class="form-label">아이디</label>
-                            <input type="text" id="register_id" name="id" class="form-control">
+                            <label for="register_nickName" class="form-label">아이디</label>
+                            <input type="text" id="register_nickName" name="nickName" class="form-control">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -212,8 +212,8 @@
                             <input type="password" id="update_pwd" name="pwd" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="update_id" class="form-label">아이디</label>
-                            <input type="text" id="update_id" name="id" class="form-control" value="${member.id}" readonly="readonly">
+                            <label for="update_nickName" class="form-label">아이디</label>
+                            <input type="text" id="update_nickName" name="nickName" class="form-control" value="${member.nickName}" readonly="readonly">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -267,9 +267,9 @@
         });
         // 회원가입 시 미입력 정보 팝업
         $("#register_submit").on("click", function () {
-            if ($("#register_id").val() === "") {
+            if ($("#register_nickName").val() === "") {
                 alert("아이디를 입력해주세요.");
-                $("#register_id").focus();
+                $("#register_nickName").focus();
                 return false;
             }
             if ($("#register_pwd").val() === "") {
@@ -293,7 +293,7 @@
                     if (data === 1) {
                         alert("이미 사용하고 있는 이메일입니다.");
                     } else if (data === 0) {
-                        $("#idChk").attr("value", "Y");
+                        $("#nickNameChk").attr("value", "Y");
                         alert("사용가능한 이메일입니다.");
                     }
                 }
@@ -307,7 +307,7 @@
                 data: {
                     "email": $("#register_email").val(),
                     "pwd": $("#register_pwd").val(),
-                    "id": $("#register_id").val()
+                    "nickName": $("#register_nickName").val()
                 },
                 success: function (data) { // 회원 가입 버튼 클릭 후 return
                     if (data === null) {
@@ -347,7 +347,7 @@
                 data: {
                     "email": $("#update_email").val(),
                     "pwd": $("#update_pwd").val(),
-                    "id": $("#update_id").val()
+                    "nickName": $("#update_nickName").val()
                 },
                 success: function (data) { // 회원정보 수정 후 return
                     if (data === null) {
@@ -370,14 +370,14 @@
                 dataType: "json",
                 data: {
                     "email": $("#findPw_email").val(),
-                    "id": $("#findPw_id").val()
+                    "nickName": $("#findPw_nickName").val()
                 },
                 success: function (result) {
-                    if (result === "idNull") { // id 일치 X 경우
+                    if (result === "nickNameNull") { // nickName 일치 X 경우
                         alert("가입되지 않은 아이디 입니다")
                     } else if (result === "emailNull") { // email 일치 X 경우
                         alert("가입되지 않은 이메일 입니다");
-                    } else { // id, email 일치
+                    } else { // nickName, email 일치
                         alert("임시 비밀번호를 발송했습니다")
                     }
                 }
