@@ -3,10 +3,10 @@
              xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans.xsd
-    http://www.springframework.org/schema/security
-    http://www.springframework.org/schema/security/spring-security.xsd
-http://www.springframework.org/schema/security ">
+             http://www.springframework.org/schema/beans/spring-beans.xsd
+             http://www.springframework.org/schema/security
+             http://www.springframework.org/schema/security/spring-security.xsd
+             http://www.springframework.org/schema/security">
 
     <beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
@@ -14,27 +14,28 @@ http://www.springframework.org/schema/security ">
         <beans:property name="dataSource" ref="dataSource"/>
     </beans:bean>
 
-    <http auto-config="true" use-expressions="true">
-        <intercept-url pattern="/**" access="permitAll" />
-        <intercept-url pattern="/wine/**" access="hasRole('MEMBER')" />
-
-        <form-login login-page="/main"
-                    default-target-url="/main"
-                    authentication-failure-url="/main"
-                    username-parameter="id"
-                    password-parameter="password" />
-
-        <access-denied-handler error-page="/login/accessDenied.do" />
-    </http>
-
     <authentication-manager>
         <authentication-provider>
             <jdbc-user-service
                     data-source-ref="dataSource"
                     users-by-username-query="select email, pwd, nickName from member where email = ?"
-                    authorities-by-username-query="select authority from member where email = ?"
+                    authorities-by-username-query="select authority from authorities where email = ?"
             />
         </authentication-provider>
     </authentication-manager>
+
+    <http use-expressions="true">
+        <intercept-url pattern="/main" access="permitAll" />
+        <intercept-url pattern="/member/**" access="permitAll" />
+<!--        <intercept-url pattern="/wine/**" access="hasRole('USER')" />-->
+        <csrf/>
+
+        <form-login
+                login-page="/main"
+                default-target-url="/main"
+                username-parameter="login_email"
+                password-parameter="login_pwd"
+        />
+    </http>
 
 </beans:beans>

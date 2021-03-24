@@ -155,7 +155,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="findPw_nickName" class="form-label">아이디</label>
-                            <input type="text" id="findPw_nickName" name="id" class="form-control">
+                            <input type="text" id="findPw_nickName" name="nickName" class="form-control">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -288,7 +288,10 @@
                 url: "${contextPath}/member/duplicatedEmailChk",
                 type: "post",
                 dataType: "json",
-                data: {"email": $("#register_email").val()},
+                data: {
+                    "email": $("#register_email").val(),
+                    "${_csrf.parameterName}" : "${_csrf.token}"
+                },
                 success: function (data) { // 버튼 클릭 후 return
                     if (data === 1) {
                         alert("이미 사용하고 있는 이메일입니다.");
@@ -307,7 +310,8 @@
                 data: {
                     "email": $("#register_email").val(),
                     "pwd": $("#register_pwd").val(),
-                    "nickName": $("#register_nickName").val()
+                    "nickName": $("#register_nickName").val(),
+                    "${_csrf.parameterName}" : "${_csrf.token}"
                 },
                 success: function (data) { // 회원 가입 버튼 클릭 후 return
                     if (data === null) {
@@ -326,7 +330,8 @@
                 dataType: "json",
                 data: {
                     "email": $("#login_email").val(),
-                    "pwd": $("#login_pwd").val()
+                    "pwd": $("#login_pwd").val(),
+                    "${_csrf.parameterName}" : "${_csrf.token}"
                 },
                 success: function (data) { // 로그인 버튼 클릭 후 return
                     if (data === null) {
@@ -347,7 +352,8 @@
                 data: {
                     "email": $("#update_email").val(),
                     "pwd": $("#update_pwd").val(),
-                    "nickName": $("#update_nickName").val()
+                    "nickName": $("#update_nickName").val(),
+                    "${_csrf.parameterName}" : "${_csrf.token}"
                 },
                 success: function (data) { // 회원정보 수정 후 return
                     if (data === null) {
@@ -370,7 +376,8 @@
                 dataType: "json",
                 data: {
                     "email": $("#findPw_email").val(),
-                    "nickName": $("#findPw_nickName").val()
+                    "nickName": $("#findPw_nickName").val(),
+                    "${_csrf.parameterName}" : "${_csrf.token}"
                 },
                 success: function (result) {
                     if (result === "nickNameNull") { // nickName 일치 X 경우

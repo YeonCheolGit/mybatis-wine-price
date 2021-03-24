@@ -10,11 +10,11 @@ import java.math.BigInteger;
 @Getter @Setter
 public class WineDTO {
 
-    BigInteger number;
+    BigInteger id;
     String name;
     int price;
     String URL;
-    int hit;
+    int searchCount;
 
     public WineDTO() {
     }
@@ -25,11 +25,11 @@ public class WineDTO {
         this.URL = URL;
     }
 
-    public WineDTO(BigInteger number, String name, int price, String URL, int hit) {
-        this.number = number;
+    public WineDTO(BigInteger id, String name, int price, String URL, int searchCount) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.URL = URL;
-        this.hit = hit;
+        this.searchCount = searchCount;
     }
 }
