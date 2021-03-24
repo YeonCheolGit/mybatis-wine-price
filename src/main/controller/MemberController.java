@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,9 +24,6 @@ public class MemberController {
     private final MemberService memberService;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    /*
-     * 생성자 한 개 이므로 @Autowired 생략 가능
-     */
     public MemberController(MemberService memberService, BCryptPasswordEncoder passwordEncoder) {
         this.memberService = memberService;
         this.passwordEncoder = passwordEncoder;

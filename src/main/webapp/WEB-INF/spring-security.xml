@@ -10,4 +10,31 @@ http://www.springframework.org/schema/security ">
 
     <beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
+    <beans:bean id="userDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+        <beans:property name="dataSource" ref="dataSource"/>
+    </beans:bean>
+
+    <http auto-config="true" use-expressions="true">
+        <intercept-url pattern="/**" access="permitAll" />
+        <intercept-url pattern="/wine/**" access="hasRole('MEMBER')" />
+
+        <form-login login-page="/main"
+                    default-target-url="/main"
+                    authentication-failure-url="/main"
+                    username-parameter="id"
+                    password-parameter="password" />
+
+        <access-denied-handler error-page="/login/accessDenied.do" />
+    </http>
+
+    <authentication-manager>
+        <authentication-provider>
+            <jdbc-user-service
+                    data-source-ref="dataSource"
+                    users-by-username-query="select email, pwd, nickName from member where email = ?"
+                    authorities-by-username-query="select authority from member where email = ?"
+            />
+        </authentication-provider>
+    </authentication-manager>
+
 </beans:beans>

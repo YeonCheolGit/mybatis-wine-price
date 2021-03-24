@@ -34,7 +34,7 @@ public class LotteCrawler implements Runnable {
     @SneakyThrows
     @Override
     public final void run() {
-        logger.debug("lotte 크롤링 시작 >>> ");
+        logger.debug("===================== lotte 크롤링 시작 =====================");
 
         WebDriver driver = new SafariDriver();
         driver.get("https://www.lotteon.com/search/render/render.ecn?render=nqapi&platform=" + // 롯데마트 와인코너 초기 화면
@@ -84,7 +84,7 @@ public class LotteCrawler implements Runnable {
                 for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 3페이지 분량, 한번에 DB에 저장
                     wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
                 }
-                logger.debug("lotte 마트 크롤링 끝 >>> ");
+                logger.debug("===================== lotte 마트 크롤링 끝 =====================");
                 driver.close();
             }
         }
@@ -96,7 +96,7 @@ public class LotteCrawler implements Runnable {
             wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
         }
 
-        logger.debug("lotte 마트 크롤링 끝 >>> ");
+        logger.debug("===================== lotte 마트 크롤링 끝 =====================");
         driver.close();
     }
 }

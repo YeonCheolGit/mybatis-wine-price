@@ -5,18 +5,18 @@
 
 <mapper namespace="mapper.wine">
     <resultMap id="wineResult" type="main.DTO.WineDTO">
-        <result property="number" column="number" />
+        <result property="id" column="id" />
         <result property="name" column="name" />
         <result property="price" column="price" />
         <result property="URL" column="URL" />
-        <result property="hit" column="HIT" />
+        <result property="searchCount" column="searchCount" />
     </resultMap>
 
     <select id="selectAllWines" resultMap="wineResult">
         <![CDATA[
         select *
         from MVC.wine
-        order by number;
+        order by id;
         ]]>
     </select>
 
@@ -32,11 +32,11 @@
         <![CDATA[
         select *
         from MVC.wine
-        where number > 0
+        where id > 0
         ]]>
         <include refid="search"/>
         <![CDATA[
-        order by number
+        order by id
         limit #{pageStart}, #{perPageNum}
         ]]>
     </select>
@@ -45,7 +45,7 @@
         <![CDATA[
         select *
         from MVC.wine
-        where number > 0
+        where id > 0
         ]]>
         <include refid="search"/>
         <![CDATA[
@@ -56,9 +56,9 @@
 
     <select id="countWines" resultType="int">
         <![CDATA[
-        select COUNT(number)
+        select COUNT(id)
         from MVC.wine
-        where number > 0
+        where id > 0
         ]]>
         <include refid="search" />
     </select>
@@ -87,7 +87,7 @@
     <update id="wineSearchCount" parameterType="String">
         <![CDATA[
         update wine
-        set HIT = HIT + 1
+        set searchCount = searchCount + 1
         where name like concat('%', #{keyword}, '%')
         ]]>
     </update>
@@ -96,8 +96,8 @@
         <![CDATA[
         select *
         from MVC.wine
-        where HIT > 0
-        order by HIT desc limit 3
+        where searchCount > 0
+        order by searchCount desc limit 3
         ]]>
     </select>
 </mapper>

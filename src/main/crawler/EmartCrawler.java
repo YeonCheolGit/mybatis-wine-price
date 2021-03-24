@@ -31,8 +31,7 @@ public class EmartCrawler implements Runnable {
     @SneakyThrows
     @Override
     public final void run() {
-        long start = System.currentTimeMillis();
-        logger.debug("emart 크롤링 시작 >>> ");
+        logger.debug("===================== emart 크롤링 시작 =====================");
 
         int number = 1; // 페이지 번호
 
@@ -77,8 +76,6 @@ public class EmartCrawler implements Runnable {
             wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
         }
 
-        logger.debug("emart 크롤링 끝 >>> ");
-        long end = System.currentTimeMillis();
-        System.out.println(end - start);
+        logger.debug("===================== emart 크롤링 끝 =====================");
     }
 }

@@ -21,10 +21,16 @@
     <!-- 회원가입 -->
     <select id="registerMember" resultMap="memberResult">
         <![CDATA[
-            insert into MVC.member(email, pwd, nickName)
-            VALUES (#{email}, #{pwd}, #{nickName});
+        insert into MVC.member(email, pwd, nickName)
+        VALUES (#{email}, #{pwd}, #{nickName});
         ]]>
+<!--        <include refid="search" />-->
     </select>
+
+<!--    <sql id="search">-->
+<!--        insert into authorities(email, authority) VALUES (#{email}, #{authority})-->
+<!--    </sql>-->
+
     <!-- 로그인 -->
     <select id="login" resultMap="memberResult">
         <![CDATA[

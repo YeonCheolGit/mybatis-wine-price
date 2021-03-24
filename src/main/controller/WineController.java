@@ -11,8 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @SessionAttributes("member")
@@ -36,7 +34,7 @@ public class WineController {
                                          Model model) {
         logger.debug("==================== searchBar ====================");
 
-        wineService.wineSearchCount(searchCriteria.getKeyword()); // 검색어 조회수 카운트
+        wineService.wineSearchCount(searchCriteria.getKeyword()); // 검색 마다 조회수 카운트 +1
         wineService.realtimeWineSearchCount(); // 실시간 상위 검색 와인 목록 3개 가지고 옴
 
         PageMaker pageMaker = new PageMaker();
@@ -74,7 +72,6 @@ public class WineController {
 
     /*
      * 검색창에서 검색 시 autocomplete 동작
-     * boardHit() - 검색 기록 카운트
      */
     @GetMapping(value = "/autocomplete")
     @ResponseBody
