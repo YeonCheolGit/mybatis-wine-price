@@ -311,6 +311,7 @@
                     "email": $("#register_email").val(),
                     "pwd": $("#register_pwd").val(),
                     "nickName": $("#register_nickName").val(),
+                    "enabled": 1,
                     "${_csrf.parameterName}" : "${_csrf.token}"
                 },
                 success: function (data) { // 회원 가입 버튼 클릭 후 return

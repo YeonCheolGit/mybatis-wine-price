@@ -5,6 +5,8 @@ import main.DTO.MemberDTO;
 import main.service.member.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +26,7 @@ public class MemberController {
     private final MemberService memberService;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public MemberController(MemberService memberService, BCryptPasswordEncoder passwordEncoder) {
+    public MemberController(@Qualifier("memberServiceImpl") MemberService memberService, BCryptPasswordEncoder passwordEncoder) {
         this.memberService = memberService;
         this.passwordEncoder = passwordEncoder;
     }

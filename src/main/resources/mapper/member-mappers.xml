@@ -9,6 +9,8 @@
         <result property="pwd" column="pwd" />
         <result property="nickName" column="nickName" />
         <result property="regDate" column="regDate" />
+        <result property="enabled" column="enabled" />
+        <result property="role" column="role" />
     </resultMap>
 
     <select id="selectAllMembers" resultMap="memberResult">
@@ -21,15 +23,10 @@
     <!-- 회원가입 -->
     <select id="registerMember" resultMap="memberResult">
         <![CDATA[
-        insert into MVC.member(email, pwd, nickName)
-        VALUES (#{email}, #{pwd}, #{nickName});
+        insert into MVC.member(email, pwd, nickName, enabled, regDate)
+        VALUES (#{email}, #{pwd}, #{nickName}, #{enabled}, #{regDate});
         ]]>
-<!--        <include refid="search" />-->
     </select>
-
-<!--    <sql id="search">-->
-<!--        insert into authorities(email, authority) VALUES (#{email}, #{authority})-->
-<!--    </sql>-->
 
     <!-- 로그인 -->
     <select id="login" resultMap="memberResult">
@@ -71,4 +68,12 @@
         where email = #{email};
         ]]>
     </update>
+
+    <select id="getUserById" resultMap="memberResult">
+        <![CDATA[
+        SELECT *
+        FROM member
+        WHERE email=#{email}
+        ]]>
+    </select>
 </mapper>

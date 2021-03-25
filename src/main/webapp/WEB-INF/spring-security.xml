@@ -2,40 +2,54 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
              xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:context="http://www.springframework.org/schema/context"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
              http://www.springframework.org/schema/beans/spring-beans.xsd
              http://www.springframework.org/schema/security
              http://www.springframework.org/schema/security/spring-security.xsd
-             http://www.springframework.org/schema/security">
+             http://www.springframework.org/schema/security http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
     <beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
-    <beans:bean id="userDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
-        <beans:property name="dataSource" ref="dataSource"/>
-    </beans:bean>
 
-    <authentication-manager>
-        <authentication-provider>
-            <jdbc-user-service
-                    data-source-ref="dataSource"
-                    users-by-username-query="select email, pwd, nickName from member where email = ?"
-                    authorities-by-username-query="select authority from authorities where email = ?"
-            />
-        </authentication-provider>
-    </authentication-manager>
+    <!--    <beans:bean id="userDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">-->
+<!--        <beans:property name="dataSource" ref="dataSource"/>-->
+<!--    </beans:bean>-->
 
-    <http use-expressions="true">
+<!--    <authentication-manager>-->
+<!--        <authentication-provider>-->
+<!--            <jdbc-user-service-->
+<!--                    data-source-ref="dataSource"-->
+<!--                    users-by-username-query="select email, pwd, enabled from member m where email=?"-->
+<!--                    authorities-by-username-query= "SELECT email, role FROM member WHERE email=?"-->
+<!--            />-->
+<!--        </authentication-provider>-->
+<!--    </authentication-manager>-->
+
+<!--    <context:component-scan base-package="main.DAO.member"/>-->
+
+    <http use-expressions="true" auto-config="true">
         <intercept-url pattern="/main" access="permitAll" />
         <intercept-url pattern="/member/**" access="permitAll" />
-<!--        <intercept-url pattern="/wine/**" access="hasRole('USER')" />-->
+        <intercept-url pattern="/**" access="permitAll" />
+<!--        <intercept-url pattern="/wine/**" access="hasRole('ROLE_USER')" />-->
         <csrf/>
 
         <form-login
                 login-page="/main"
                 default-target-url="/main"
-                username-parameter="login_email"
-                password-parameter="login_pwd"
+                login-processing-url="/main"
+                username-parameter="email"
+                password-parameter="pwd"
         />
     </http>
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="userService"/>
+        <authentication-provider ref="userAuthProvider" />
+    </authentication-manager>
+
+    <beans:bean id="userService" class="main.service.member.MemberServiceImpl"/>
+    <beans:bean id="userAuthProvider" class="main.service.member.CustomAuthenticationProvider"/>
 
 </beans:beans>

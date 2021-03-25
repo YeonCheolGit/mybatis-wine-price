@@ -2,24 +2,36 @@ package main.service.member;
 
 import main.DAO.member.MemberDAO;
 import main.DTO.MemberDTO;
-import org.apache.commons.exec.ExecuteException;
 import org.apache.commons.mail.HtmlEmail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-
 @Service
-public class MemberServiceImpl implements MemberService {
-    private final BCryptPasswordEncoder passwordEncoder;
+public class MemberServiceImpl implements MemberService{
+    private BCryptPasswordEncoder passwordEncoder;
 
-    private final MemberDAO memberDAO;
+    private MemberDAO memberDAO;
 
+    public MemberServiceImpl() {
+    }
+
+    @Autowired
     public MemberServiceImpl(BCryptPasswordEncoder passwordEncoder, MemberDAO memberDAO) {
         this.passwordEncoder = passwordEncoder;
         this.memberDAO = memberDAO;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        MemberDTO memberDTO = memberDAO.getUserById(username);
+        if (memberDTO == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return memberDTO;
     }
 
     @Override

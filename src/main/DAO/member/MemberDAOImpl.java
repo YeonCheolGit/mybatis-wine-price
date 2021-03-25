@@ -2,15 +2,20 @@ package main.DAO.member;
 
 import main.DTO.MemberDTO;
 import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
 
     private final SqlSession sqlSession;
+    private final SqlSessionTemplate sqlSessionTemplate;
 
-    public MemberDAOImpl(SqlSession sqlSession) {
+    @Autowired
+    public MemberDAOImpl(SqlSession sqlSession, SqlSessionTemplate sqlSessionTemplate) {
         this.sqlSession = sqlSession;
+        this.sqlSessionTemplate = sqlSessionTemplate;
     }
 
     private static final String nameSpace = "mapper.member";
@@ -43,5 +48,10 @@ public class MemberDAOImpl implements MemberDAO {
     @Override
     public void updateMember(MemberDTO memberDTO) {
         sqlSession.update(nameSpace + ".memberUpdate", memberDTO);
+    }
+
+    @Override
+    public MemberDTO getUserById(String userName) {
+        return sqlSession.selectOne(nameSpace + "getUserById", userName);
     }
 }
