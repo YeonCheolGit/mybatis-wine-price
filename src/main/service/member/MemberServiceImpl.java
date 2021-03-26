@@ -26,15 +26,6 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MemberDTO memberDTO = memberDAO.getUserById(username);
-        if (memberDTO == null) {
-            throw new UsernameNotFoundException(username);
-        }
-        return memberDTO;
-    }
-
-    @Override
     public void registerMember(MemberDTO memberDTO) {
         memberDAO.registerMember(memberDTO);
     }
