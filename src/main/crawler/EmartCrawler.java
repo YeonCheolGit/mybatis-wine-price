@@ -1,26 +1,21 @@
 package main.crawler;
 
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import main.DTO.WineDTO;
-import main.controller.WineController;
 import main.service.wine.WineService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
-@Slf4j
+@Log4j2
 public class EmartCrawler implements Runnable {
-    private static final Logger logger = LoggerFactory.getLogger(WineController.class);
 
     private final WineService wineService;
 
@@ -28,10 +23,10 @@ public class EmartCrawler implements Runnable {
         this.wineService = wineService;
     }
 
-    @SneakyThrows
+    @SneakyThrows // throws, try-catch 생략
     @Override
     public final void run() {
-        logger.debug("===================== emart 크롤링 시작 =====================");
+        log.debug("===================== emart 크롤링 시작 =====================");
 
         int number = 1; // 페이지 번호
 
@@ -47,7 +42,7 @@ public class EmartCrawler implements Runnable {
         List<Integer> priceList = new ArrayList<>(1000); // 와인 가격을 저장 할 배열
 
         while (number < 8) {
-            System.out.println("이마트 " + number + "페이지 넘어왔습니다.");
+            log.debug("이마트 " + number + "페이지 넘어왔습니다.");
             Document doc1 = Jsoup
                     .connect("http://www.ssg.com/search.ssg?target=all&query=" +
                             "와인&ctgId=6000099422&ctgLv=3&ctgLast=Y&parentCtgId=6000099420&" +
@@ -67,7 +62,7 @@ public class EmartCrawler implements Runnable {
             }
 
             number++;
-            System.out.println("이마트 " + number + "페이지 넘어가는 중...");
+            log.debug("이마트 " + number + "페이지 넘어가는 중...");
 
             Thread.sleep(5000); // 다음 페이지 로딩 시간 대기 및 해당 사이트 에러 페이지 방지
         }
@@ -76,6 +71,6 @@ public class EmartCrawler implements Runnable {
             wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
         }
 
-        logger.debug("===================== emart 크롤링 끝 =====================");
+        log.debug("===================== emart 크롤링 끝 =====================");
     }
 }

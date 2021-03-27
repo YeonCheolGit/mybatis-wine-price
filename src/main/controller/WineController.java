@@ -1,24 +1,23 @@
 package main.controller;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import main.paging.PageMaker;
 import main.paging.SearchCriteria;
 import main.service.wine.WineService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@SessionAttributes("member")
 @Controller
-@Slf4j
+@Log4j2 // log field 생성 lombok 애노테이션
 @RequestMapping(value = "/wine")
 public class WineController {
-    private static final Logger logger = LoggerFactory.getLogger(WineController.class);
 
     private final WineService wineService;
 
@@ -32,7 +31,7 @@ public class WineController {
     @GetMapping(value = "/searchBarAndPagination")
     public String searchBarAndPagination(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
                                          Model model) {
-        logger.debug("==================== searchBar ====================");
+        log.debug("==================== searchBar ====================");
 
         wineService.wineSearchCount(searchCriteria.getKeyword()); // 검색 마다 조회수 카운트 +1
         wineService.realtimeWineSearchCount(); // 실시간 상위 검색 와인 목록 3개 가지고 옴
@@ -55,7 +54,7 @@ public class WineController {
     @GetMapping(value = "/orderByPrice")
     public String orderByPrice(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
                             Model model) {
-        logger.debug("==================== prices ====================");
+        log.debug("==================== prices ====================");
 
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCriteria(searchCriteria);
@@ -76,7 +75,7 @@ public class WineController {
     @GetMapping(value = "/autocomplete")
     @ResponseBody
     public List<String> autocomplete(HttpServletRequest request) {
-        logger.debug("==================== search ====================");
+        log.debug("==================== search ====================");
         return wineService.search(request.getParameter("term"));
     }
 }

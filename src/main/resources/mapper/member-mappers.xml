@@ -31,7 +31,7 @@
     <!-- 로그인 -->
     <select id="login" resultMap="memberResult">
         <![CDATA[
-        select email, pwd, nickName
+        select email, pwd, nickName, role
         from MVC.member
         where email = #{email};
         ]]>

@@ -1,16 +1,15 @@
 package main.service.member;
 
+import lombok.extern.log4j.Log4j2;
 import main.DAO.member.MemberDAO;
 import main.DTO.MemberDTO;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@Log4j2
 public class MemberServiceImpl implements MemberService{
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -105,28 +104,35 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public String findPwd(MemberDTO memberDTO) {
 
-        MemberDTO ck = memberDAO.readMember(memberDTO.getNickName());
-
-        // 가입된 아이디가 없으면
-        if (memberDAO.duplicatedNickNameChk(memberDTO) == 0) {
-            System.out.println("==================== 등록 X 아이디 =================");
-
-            return "idNull";
+        // 아이디 && 닉네임 없으면
+        if (memberDAO.duplicatedEmailChk(memberDTO) == 0 && memberDAO.duplicatedNickNameChk(memberDTO) == 0) {
+            log.debug("==================== 등록 X 이메일 & 닉네임 =================");
+            return "3";
         }
-        // 가입된 이메일이 아니면
-        else if (!memberDTO.getEmail().equals(ck.getEmail())) {
-            System.out.println("==================== 등록 X 이메일 =================");
+        // 가입된 이메일이 없으면
+        if (memberDAO.duplicatedEmailChk(memberDTO) == 0) {
+            log.debug("==================== 등록 X 이메일 =================");
 
-            return "emailNull";
+            return "1";
+        }
+        // 가입된 아이디가 없으면
+        else if (memberDAO.duplicatedNickNameChk(memberDTO) == 0) {
+            log.debug("==================== 등록 X 닉네임 =================");
+
+            return "2";
         }
         // 이메일, 아이디 다 있으면
         else {
             // 임시 비밀번호 생성
-            String rawPwd = "";
+            String rawPwd;
+            StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 6; i++) {
-                rawPwd += (char) ((Math.random() * 26) + 97); // ASCII 코드 규칙상 97 = a, 즉 알파벳 26개 랜덤 출력
-                rawPwd += String.valueOf((int) (Math.random() * 26)); // 알파벳 뒤 정수 섞기
+                stringBuilder.append((char) ((Math.random() * 26) + 97));
+                stringBuilder.append((int) (Math.random() * 26));
+//                rawPwd += (char) ((Math.random() * 26) + 97); // ASCII 코드 규칙상 97 = a, 즉 알파벳 26개 랜덤 출력
+//                rawPwd += String.valueOf((int) (Math.random() * 26)); // 알파벳 뒤 정수 섞기
             }
+            rawPwd = stringBuilder.toString();
 
             // raw 임시 비밀번호 이메일 발송
             memberDTO.setPwd(rawPwd);

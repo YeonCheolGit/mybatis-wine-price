@@ -1,15 +1,8 @@
 package main.controller;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import main.DTO.MemberDTO;
 import main.service.member.MemberService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,15 +14,14 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Controller
-@Slf4j
+@Log4j2 // log field 생성 lombok 애노테이션
 @RequestMapping(value = "/member")
 public class MemberController {
-    private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
     private final MemberService memberService;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public MemberController(@Qualifier("memberServiceImpl") MemberService memberService, BCryptPasswordEncoder passwordEncoder) {
+    public MemberController(MemberService memberService, BCryptPasswordEncoder passwordEncoder) {
         this.memberService = memberService;
         this.passwordEncoder = passwordEncoder;
     }
@@ -39,21 +31,19 @@ public class MemberController {
      */
     @PostMapping(value = "/registerMember")
     @ResponseBody
-    public String registerMember(MemberDTO memberDTO,
-                                 HttpServletRequest req) {
-        logger.debug("==================== registerMember ====================");
+    public String registerMember(MemberDTO memberDTO) {
+        log.debug("==================== registerMember ====================");
 
-        int resultNickName = memberService.duplicatedNickNameChk(memberDTO);
-        int resultEmail = memberService.duplicatedEmailChk(memberDTO);
+        int resultEmail = memberService.duplicatedEmailChk(memberDTO); // 중복 email 체크
+        int resultNickName = memberService.duplicatedNickNameChk(memberDTO); // 중복 nickName 체크
 
-        if (resultNickName == 0 && resultEmail == 0) {
+        if (resultNickName == 0 && resultEmail == 0) { // 중복된 email && nickName X 경우
             String rawPwd = memberDTO.getPwd(); // 사용자가 입력한 raw 비밀번호
             String encodedPwd = passwordEncoder.encode(rawPwd); // raw 비밀번호를 인코딩
             memberDTO.setPwd(encodedPwd);
 
             memberService.registerMember(memberDTO);
             return "true";
-
         } else {
             return "null";
         }
@@ -63,35 +53,77 @@ public class MemberController {
      * 로그인 클릭 시 동작
      * return <-- 로그인 결과 (true | null)
      */
+//    @PostMapping(value = "/login")
+//    @ResponseBody
+//    public String login(MemberDTO memberDTO, HttpServletRequest req) {
+//        log.debug("==================== login debug ====================");
+//
+//        HttpSession session = req.getSession();
+//
+//        try {
+//            MemberDTO login = memberService.login(memberDTO); // 없는 email 입력 시 에러 발생 시킴
+//
+//            if (login.getEmail() == null) {
+//                throw new Exception();
+//            }
+//            boolean pwdMatch = passwordEncoder.matches(memberDTO.getPwd(), login.getPwd()); // 잘못 된 pw 입력 시 에러 발생 시킴
+//            if (!pwdMatch) {
+//                throw new Exception();
+//            }
+//            session.setAttribute("member", login); // email, pw 일치할 시 true 반환, 세션 등록
+//
+//            if (login.getRole().equals("ROLE_ADMIN")) {
+//                session.setAttribute("admin_session", login.getRole());
+//            }
+//
+//            return "true";
+//
+//        } catch (Exception e) {
+//            log.debug("=============== 로그인 에러 ===============");
+//            log.debug(e.getMessage());
+//
+//            session.setAttribute("member", null); // 세션 null
+//            return "null";
+//        }
+//    }
+
+    /*
+     * 로그인 클릭 시 동작
+     * return <-- 로그인 결과 (true | null)
+     */
     @PostMapping(value = "/login")
     @ResponseBody
-    public String login(MemberDTO memberDTO, HttpServletRequest req) {
-        logger.debug("==================== login debug ====================");
+    public String login(MemberDTO memberDTO, HttpServletRequest request) {
+        log.debug("==================== login ====================");
 
-        HttpSession session = req.getSession();
+        HttpSession session = request.getSession();
 
         try {
-            MemberDTO login = memberService.login(memberDTO); // 없는 email 입력 시 에러 발생 시킴
-            if (login.getNickName() == null) {
-                throw new Exception();
-            }
-            boolean pwdMatch = passwordEncoder.matches(memberDTO.getPwd(), login.getPwd()); // 잘못 된 pw 입력 시 에러 발생 시킴
-            if (!pwdMatch) {
-                throw new Exception();
-            }
-            session.setAttribute("member", login); // nickName, pw 일치할 시 true 반환, 세션 등록
-            return "true";
+            MemberDTO login = memberService.login(memberDTO); // 사용자가 입력한 정보 바탕 DB 조회
+            boolean pwdMatch = passwordEncoder.matches(memberDTO.getPwd(), login.getPwd()); // 찾아온 DB pwd, 사용자 입력 pwd 비교
 
+            if (login.getEmail() == null || !pwdMatch) { // 사용자 입력 정보 DB의 email || pwd 일치 X 경우
+                session.setAttribute("member", null); // 세션 null
+                return "null";
+            } else {
+                session.setAttribute("member", login); // 일치한 경우
+                if (login.getRole().equals("ROLE_ADMIN")) { // 일치 && ROLE_ADMIN 경우
+                    session.setAttribute("admin_session", login.getRole()); // admin session 등록
+                }
+                return "true";
+            }
         } catch (Exception e) {
-            System.out.println("===== 로그인 에러 =====");
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+            log.debug("=============== 로그인 에러 ===============");
+            log.debug(e.getMessage());
 
             session.setAttribute("member", null); // 세션 null
-            return "null";
+            return "redirect:/main/errorPage"; // 예기치 못 한 에러 발생시 에러 페이지
         }
     }
 
+    /*
+     * 로그아웃 버튼 클릭 시 동작
+     */
     @RequestMapping(value = "logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -106,7 +138,7 @@ public class MemberController {
     @PostMapping(value = "/duplicatedEmailChk")
     @ResponseBody
     public int duplicatedNickNameChk(MemberDTO memberDTO) {
-        logger.debug("==================== duplicatedEmailChk ====================");
+        log.debug("==================== duplicatedEmailChk ====================");
         return memberService.duplicatedEmailChk(memberDTO);
     }
 
@@ -119,14 +151,14 @@ public class MemberController {
     @ResponseBody
     public String updateMember(MemberDTO memberDTO,
                                HttpServletRequest req) {
-        logger.debug("==================== updateMember ====================");
+        log.debug("==================== updateMember ====================");
 
-        String rawPwd = memberDTO.getPwd();
+        String rawPwd = memberDTO.getPwd(); // 사용자 입력 비밀번호
         String encodedPwd = passwordEncoder.encode(rawPwd); // 비밀번호 인코딩
-        memberDTO.setPwd(encodedPwd);
+        memberDTO.setPwd(encodedPwd); // 인코딩 된 비밀번호 저장
 
         try {
-            memberService.updateMember(memberDTO); // 회원정보 업데이트
+            memberService.updateMember(memberDTO); // 인코딩 된 비밀번호로 회원정보 업데이트
             HttpSession session = req.getSession();
             session.invalidate();
             return "true";
@@ -146,8 +178,8 @@ public class MemberController {
     @PostMapping(value = "/findPwd")
     @ResponseBody
     public String findPw(MemberDTO memberDTO) throws IOException {
-        logger.debug("==================== findPwd ====================");
-
+        log.debug("==================== findPwd ====================");
+        System.out.println(memberService.findPwd(memberDTO));
         return memberService.findPwd(memberDTO);
     }
 }

@@ -1,9 +1,8 @@
 package main.crawler;
 
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import main.DTO.WineDTO;
-import main.controller.WineController;
 import main.service.wine.WineService;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -12,18 +11,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
-@Slf4j
+@Log4j2
 public class LotteCrawler implements Runnable {
-    private static final Logger logger = LoggerFactory.getLogger(WineController.class);
 
     private final WineService wineService;
 
@@ -31,10 +26,10 @@ public class LotteCrawler implements Runnable {
         this.wineService = wineService;
     }
 
-    @SneakyThrows
+    @SneakyThrows // throws, try-catch 생략
     @Override
     public final void run() {
-        logger.debug("===================== lotte 크롤링 시작 =====================");
+        log.debug("===================== lotte 크롤링 시작 =====================");
 
         WebDriver driver = new SafariDriver();
         driver.get("https://www.lotteon.com/search/render/render.ecn?render=nqapi&platform=" + // 롯데마트 와인코너 초기 화면
@@ -50,7 +45,7 @@ public class LotteCrawler implements Runnable {
 
         int page = 1; // 시작 페이지
         while (page < 4) { // 총 와인 페이지
-            System.out.println("롯데마트 " + page + "페이지 넘어왔습니다.");
+            log.debug("롯데마트 " + page + "페이지 넘어왔습니다.");
             List<WebElement> wineNamesElement = driver.findElements(By.xpath("//div[@class='srchProductUnitTitle']")); // 와인 이름
             List<WebElement> winePricesElement = driver.findElements(By.xpath("//span[@class='srchCurrentPrice']")); // 와인 가격
 
@@ -74,17 +69,16 @@ public class LotteCrawler implements Runnable {
                 nextButton.sendKeys(Keys.ENTER); // 다음 페이지 버튼 클릭
                 page++;
 
-                System.out.println("롯데마트 " + page + "페이지 넘어가는 중...");
+                log.debug("롯데마트 " + page + "페이지 넘어가는 중...");
                 Thread.sleep(5000); // 다음 페이지 로딩 시간 대기 및 해당 사이트 에러 페이지 방지
             } catch (Exception e) { // 다음 버튼 찾을 수 없는 에러 발생 시, 그동안 가지고 온 데이터 저장
-                System.out.println("================ 다음 버튼을 찾을 수 없습니다 ================");
-                System.out.println(e.getMessage());
-                e.printStackTrace();
+                log.debug("================ 다음 버튼을 찾을 수 없습니다 ================");
+                log.debug(e.getMessage());
 
                 for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 3페이지 분량, 한번에 DB에 저장
                     wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
                 }
-                logger.debug("===================== lotte 마트 크롤링 끝 =====================");
+                log.debug("===================== lotte 마트 크롤링 끝 =====================");
                 driver.close();
             }
         }
@@ -96,7 +90,7 @@ public class LotteCrawler implements Runnable {
             wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
         }
 
-        logger.debug("===================== lotte 마트 크롤링 끝 =====================");
+        log.debug("===================== lotte 마트 크롤링 끝 =====================");
         driver.close();
     }
 }

@@ -2,8 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"/>
 <html>
 <link>
 <head>
@@ -11,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <style>
-        #modal_login, #modal_logout, #modal_register, #modal_update {
+        #modal_login, #modal_logout, #modal_register, #modal_update, #page_admin {
             margin-left: 2px;
             border: 1px solid lightsalmon;
             background-color: rgba(0, 0, 0, 0); color: lightsalmon;
@@ -20,6 +19,9 @@
             -webkit-text-size-adjust: auto;
             font-weight: bold;
             position: relative;
+        }
+        #modal_findPw {
+            background-color: dodgerblue;
         }
         #modal_login:hover, #modal_register:hover {
             color: white; background-color: lightsalmon;
@@ -106,8 +108,17 @@
                         <button class="btn btn-primary" type="button" id="modal_logout"
                                 onclick="location.href='${contextPath}/member/logout'">로그아웃</button>
                         <button class="btn btn-primary" id="modal_update" type="button">마이페이지</button>
-                        <span class="navbar-text" style="margin-left: 4px">${member.nickName}님 안녕하세요.</span>
+                        <%--@elvariable id="admin_session" type="main.DTO.MemberDTO"--%>
+                        <c:if test="${admin_session != null}"> <%-- 관리자 로그인 시 보여질 버튼 --%>
+                            <button class="btn btn-primary" id="page_admin" type="button">관리자권한</button>
+                            <span class="navbar-text" style="margin-left: 4px">관리자 계정 입니다</span>
+                        </c:if>
+                        <c:if test="${admin_session == null}"> <%-- 일반 유저 로그인 시 보여질 버튼 --%>
+                            <span class="navbar-text" style="margin-left: 4px">${member.nickName}님 안녕하세요.</span>
+                        </c:if>
                     </c:if>
+
+
                 </div>
             </div>
             <div id="dark-mode-div" class="dark-mode-div">
@@ -290,7 +301,6 @@
                 dataType: "json",
                 data: {
                     "email": $("#register_email").val(),
-                    "${_csrf.parameterName}" : "${_csrf.token}"
                 },
                 success: function (data) { // 버튼 클릭 후 return
                     if (data === 1) {
@@ -312,7 +322,6 @@
                     "pwd": $("#register_pwd").val(),
                     "nickName": $("#register_nickName").val(),
                     "enabled": 1,
-                    "${_csrf.parameterName}" : "${_csrf.token}"
                 },
                 success: function (data) { // 회원 가입 버튼 클릭 후 return
                     if (data === null) {
@@ -332,7 +341,6 @@
                 data: {
                     "email": $("#login_email").val(),
                     "pwd": $("#login_pwd").val(),
-                    "${_csrf.parameterName}" : "${_csrf.token}"
                 },
                 success: function (data) { // 로그인 버튼 클릭 후 return
                     if (data === null) {
@@ -354,7 +362,6 @@
                     "email": $("#update_email").val(),
                     "pwd": $("#update_pwd").val(),
                     "nickName": $("#update_nickName").val(),
-                    "${_csrf.parameterName}" : "${_csrf.token}"
                 },
                 success: function (data) { // 회원정보 수정 후 return
                     if (data === null) {
@@ -378,18 +385,22 @@
                 data: {
                     "email": $("#findPw_email").val(),
                     "nickName": $("#findPw_nickName").val(),
-                    "${_csrf.parameterName}" : "${_csrf.token}"
                 },
                 success: function (result) {
-                    if (result === "nickNameNull") { // nickName 일치 X 경우
-                        alert("가입되지 않은 아이디 입니다")
-                    } else if (result === "emailNull") { // email 일치 X 경우
-                        alert("가입되지 않은 이메일 입니다");
-                    } else { // nickName, email 일치
-                        alert("임시 비밀번호를 발송했습니다")
+                    if (result === 1) { // email 일치 X 경우
+                        alert("가입되지 않은 이메일 입니다")
+                    } else if (result === 2) { // nickName 일치 X 경우
+                        alert("가입되지 않은 아이디 입니다");
+                    } else if (result === 3) { // email && nickName 일치 X 경우
+                        alert("가입되지 않은 이메일과 아이디 입니다");
+                    } else { // nickName && email 일치
+                        alert("임시 비밀번호를 발송했습니다");
                     }
                 }
             });
+        });
+        $('#page_admin').click(function () {
+            location.href = "${contextPath}/admin";
         });
     });
 </script>
