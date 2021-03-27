@@ -4,7 +4,7 @@
 + MySQL 8.0.22
 + MyBatis 3.5.6
 + Lombok 1.18.16
-+ Log4j2 
++ Log4j2 2.14.1
 + Commons Email 1.5
 + AWS EC2
 
