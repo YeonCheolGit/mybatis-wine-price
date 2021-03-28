@@ -74,7 +74,7 @@ public class MemberServiceImpl implements MemberService{
             msg += memberDTO.getPwd() + "</p></div>";
         }
 
-        // 받는 사람 E-Mail 주소
+        // 받는 사람 E-Mail 주소 (회원가입 시 email로)
         String mail = memberDTO.getEmail();
         try {
             HtmlEmail email = new HtmlEmail();
@@ -124,22 +124,19 @@ public class MemberServiceImpl implements MemberService{
         // 이메일, 아이디 다 있으면
         else {
             // 임시 비밀번호 생성
-            String rawPwd;
+//            String rawPwd;
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 6; i++) {
-                stringBuilder.append((char) ((Math.random() * 26) + 97));
-                stringBuilder.append((int) (Math.random() * 26));
-//                rawPwd += (char) ((Math.random() * 26) + 97); // ASCII 코드 규칙상 97 = a, 즉 알파벳 26개 랜덤 출력
-//                rawPwd += String.valueOf((int) (Math.random() * 26)); // 알파벳 뒤 정수 섞기
+                stringBuilder.append((char) ((Math.random() * 26) + 97)); // ASCII 코드 규칙상 97 = a, 즉 알파벳 26개 랜덤 출력
+                stringBuilder.append((int) (Math.random() * 26)); // 알파벳 뒤 정수 섞기
             }
-            rawPwd = stringBuilder.toString();
 
             // raw 임시 비밀번호 이메일 발송
-            memberDTO.setPwd(rawPwd);
+            memberDTO.setPwd(stringBuilder.toString());
             sendEmail(memberDTO, "findPwd");
 
             // raw 비밀번호 encode 후 DB 저장
-            String encodedPwd = passwordEncoder.encode(rawPwd);
+            String encodedPwd = passwordEncoder.encode(stringBuilder);
             memberDTO.setPwd(encodedPwd);
             memberDAO.updateMember(memberDTO);
 
