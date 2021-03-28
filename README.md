@@ -4,16 +4,18 @@
 + MySQL 8.0.22
 + MyBatis 3.5.6
 + Lombok 1.18.16
++ Log4j2 2.14.1
 + Commons Email 1.5
 + AWS EC2
 
 ## 구현된 기능
 
-### 회원 (Spring MVC/Security, Rest API, Ajax, Modal 적용)
+### 회원 (Spring MVC/Security, Rest API, InterCeptor, Ajax, Modal 적용)
 + 가입 / 탈퇴 / 수정 / 로그인 / 로그아웃
 + 가입 시 이메일 중복 체크
 + 가입 시 비밀번호 암호화
 + 로그인 / 회원가입 시 미기입 정보 체크
++ 미로그인 시 와인 게시판 접근 차단
 
 ### 크롤러 (Jsoup, Selenium, Multithreading)
 + 롯데마트, 이마트의 와인들 크롤링 (이미 존재하는 경우 가격만 업데이트)
@@ -28,6 +30,7 @@
 + 와인 가격 순서대로 정렬 가능
 
 ### 관리자
++ 관리자 계정 로그인 시 관리자 버튼 나타냄
 + 와인 검색 기록 통계 확인
 
 ### 디자인 (JS, JQuery, BootStrap)
