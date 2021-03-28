@@ -124,7 +124,6 @@ public class MemberServiceImpl implements MemberService{
         // 이메일, 아이디 다 있으면
         else {
             // 임시 비밀번호 생성
-//            String rawPwd;
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 6; i++) {
                 stringBuilder.append((char) ((Math.random() * 26) + 97)); // ASCII 코드 규칙상 97 = a, 즉 알파벳 26개 랜덤 출력
