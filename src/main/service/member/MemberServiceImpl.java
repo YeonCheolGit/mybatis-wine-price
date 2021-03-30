@@ -92,7 +92,7 @@ public class MemberServiceImpl implements MemberService{
             email.setHtmlMsg(msg);
             email.send();
         } catch (Exception e) {
-            System.out.println("메일발송 실패 : " + e);
+            log.debug(e);
         }
     }
 
@@ -103,7 +103,6 @@ public class MemberServiceImpl implements MemberService{
      */
     @Override
     public String findPwd(MemberDTO memberDTO) {
-
         // 아이디 && 닉네임 없으면
         if (memberDAO.duplicatedEmailChk(memberDTO) == 0 && memberDAO.duplicatedNickNameChk(memberDTO) == 0) {
             log.debug("==================== 등록 X 이메일 & 닉네임 =================");
@@ -125,6 +124,7 @@ public class MemberServiceImpl implements MemberService{
         else {
             // 임시 비밀번호 생성
             StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.setLength(10);
             for (int i = 0; i < 6; i++) {
                 stringBuilder.append((char) ((Math.random() * 26) + 97)); // ASCII 코드 규칙상 97 = a, 즉 알파벳 26개 랜덤 출력
                 stringBuilder.append((int) (Math.random() * 26)); // 알파벳 뒤 정수 섞기

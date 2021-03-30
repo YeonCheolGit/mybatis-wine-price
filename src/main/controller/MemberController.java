@@ -3,8 +3,11 @@ package main.controller;
 import lombok.extern.log4j.Log4j2;
 import main.DTO.MemberDTO;
 import main.service.member.MemberService;
+import org.apache.logging.log4j.LogManager;
+import org.codehaus.plexus.logging.LoggerManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,6 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @Log4j2 // log field 생성 lombok 애노테이션
@@ -48,44 +55,6 @@ public class MemberController {
             return "null";
         }
     }
-
-    /*
-     * 로그인 클릭 시 동작
-     * return <-- 로그인 결과 (true | null)
-     */
-//    @PostMapping(value = "/login")
-//    @ResponseBody
-//    public String login(MemberDTO memberDTO, HttpServletRequest req) {
-//        log.debug("==================== login debug ====================");
-//
-//        HttpSession session = req.getSession();
-//
-//        try {
-//            MemberDTO login = memberService.login(memberDTO); // 없는 email 입력 시 에러 발생 시킴
-//
-//            if (login.getEmail() == null) {
-//                throw new Exception();
-//            }
-//            boolean pwdMatch = passwordEncoder.matches(memberDTO.getPwd(), login.getPwd()); // 잘못 된 pw 입력 시 에러 발생 시킴
-//            if (!pwdMatch) {
-//                throw new Exception();
-//            }
-//            session.setAttribute("member", login); // email, pw 일치할 시 true 반환, 세션 등록
-//
-//            if (login.getRole().equals("ROLE_ADMIN")) {
-//                session.setAttribute("admin_session", login.getRole());
-//            }
-//
-//            return "true";
-//
-//        } catch (Exception e) {
-//            log.debug("=============== 로그인 에러 ===============");
-//            log.debug(e.getMessage());
-//
-//            session.setAttribute("member", null); // 세션 null
-//            return "null";
-//        }
-//    }
 
     /*
      * 로그인 클릭 시 동작
@@ -137,7 +106,7 @@ public class MemberController {
      */
     @PostMapping(value = "/duplicatedEmailChk")
     @ResponseBody
-    public int duplicatedNickNameChk(MemberDTO memberDTO) {
+    public int duplicatedEmailChk(MemberDTO memberDTO) {
         log.debug("==================== duplicatedEmailChk ====================");
         return memberService.duplicatedEmailChk(memberDTO);
     }
@@ -179,7 +148,6 @@ public class MemberController {
     @ResponseBody
     public String findPw(MemberDTO memberDTO) throws IOException {
         log.debug("==================== findPwd ====================");
-        System.out.println(memberService.findPwd(memberDTO));
         return memberService.findPwd(memberDTO);
     }
 }

@@ -23,8 +23,8 @@
     <!-- 회원가입 -->
     <select id="registerMember" resultMap="memberResult">
         <![CDATA[
-        insert into MVC.member(email, pwd, nickName, enabled, regDate)
-        VALUES (#{email}, #{pwd}, #{nickName}, #{enabled}, #{regDate});
+        insert into MVC.member(email, pwd, nickName)
+        VALUES (#{email}, #{pwd}, #{nickName});
         ]]>
     </select>
 
