@@ -13,23 +13,23 @@ public class WineDTO {
     BigInteger id;
     String name;
     int price;
-    String URL;
+    String url;
     int searchCount;
 
     public WineDTO() {
     }
 
-    public WineDTO(String name, int price, String URL) {
+    public WineDTO(String name, int price, String url) {
         this.name = name;
         this.price = price;
-        this.URL = URL;
+        this.url = url;
     }
 
-    public WineDTO(BigInteger id, String name, int price, String URL, int searchCount) {
+    public WineDTO(BigInteger id, String name, int price, String url, int searchCount) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.URL = URL;
+        this.url = url;
         this.searchCount = searchCount;
     }
 }

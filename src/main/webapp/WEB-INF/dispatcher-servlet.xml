@@ -15,7 +15,6 @@
 
     <context:component-scan base-package="main"/>
 
-<!--    <mvc:resources mapping="/resources/**" location="/main/resources/"/>-->
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -25,12 +24,12 @@
 
     <!-- 로그인 세션 확인 인터셉터 -->
     <bean id="authInterceptor"
-                class="main.service.member.AuthInterceptor"/>
+                class="main.service.interceptor.AuthInterceptor"/>
 
     <mvc:interceptors>
         <mvc:interceptor>
             <!-- wine 페이지는 로그인 세션 있어야 볼 수 있음 -->
-            <mvc:mapping path="/wine/**"/>
+            <mvc:mapping path="/**"/>
             <ref bean="authInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

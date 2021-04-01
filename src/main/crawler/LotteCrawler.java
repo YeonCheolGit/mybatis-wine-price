@@ -41,7 +41,7 @@ public class LotteCrawler implements Runnable {
          */
         List<String> nameList = new ArrayList<>(300); // 와인 이름 저장 할 배열
         List<Integer> priceList = new ArrayList<>(300); // 와인 가격 저장 할 배열
-        String URL = "https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q="; // 각 와인 이동 링크
+        String url = "https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q="; // 각 와인 이동 링크
 
         int page = 1; // 시작 페이지
         while (page < 4) { // 총 와인 페이지
@@ -76,7 +76,7 @@ public class LotteCrawler implements Runnable {
                 log.debug(e.getMessage());
 
                 for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 3페이지 분량, 한번에 DB에 저장
-                    wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
+                    wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), url));
                 }
                 log.debug("===================== lotte 마트 크롤링 끝 =====================");
                 driver.close();
@@ -87,7 +87,7 @@ public class LotteCrawler implements Runnable {
          * 에러 없이 정상적으로 실행될 때
          */
         for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 3페이지 분량, 한번에 DB에 저장
-            wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
+            wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), url));
         }
 
         log.debug("===================== lotte 마트 크롤링 끝 =====================");

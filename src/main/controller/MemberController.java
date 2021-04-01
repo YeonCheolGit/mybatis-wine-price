@@ -3,11 +3,8 @@ package main.controller;
 import lombok.extern.log4j.Log4j2;
 import main.DTO.MemberDTO;
 import main.service.member.MemberService;
-import org.apache.logging.log4j.LogManager;
-import org.codehaus.plexus.logging.LoggerManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,10 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Controller
 @Log4j2 // log field 생성 lombok 애노테이션

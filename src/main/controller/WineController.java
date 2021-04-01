@@ -3,6 +3,7 @@ package main.controller;
 import lombok.extern.log4j.Log4j2;
 import main.paging.PageMaker;
 import main.paging.SearchCriteria;
+import main.service.interceptor.Auth;
 import main.service.wine.WineService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,9 +26,11 @@ public class WineController {
         this.wineService = wineService;
     }
 
-    /*
-     * 와인 리스트 전체 보여줌
+    /**
+     * @Auth "ROLE_USER" 권한 접속 허용
+     * 전체 와인 리스트
      */
+    @Auth(role = Auth.Role.ROLE_USER)
     @GetMapping(value = "/searchBarAndPagination")
     public String searchBarAndPagination(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
                                          Model model) {
@@ -60,8 +63,6 @@ public class WineController {
         pageMaker.setCriteria(searchCriteria);
         pageMaker.setTotalCount(wineService.countWines(searchCriteria));
 
-//        boolean price = true;
-
         model.addAttribute("allWineList", wineService.orderByPrice(searchCriteria));
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("orderByPrice", true);
@@ -70,7 +71,7 @@ public class WineController {
     }
 
     /*
-     * 검색창에서 검색 시 autocomplete 동작
+     * 검색창 자동완성(autocomplete) 동작
      */
     @GetMapping(value = "/autocomplete")
     @ResponseBody

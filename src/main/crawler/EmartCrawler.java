@@ -32,7 +32,7 @@ public class EmartCrawler implements Runnable {
 
         String name, price;
         int priceInt;
-        String URL = "http://www.ssg.com/search.ssg?target=all&query=";
+        String url = "http://www.ssg.com/search.ssg?target=all&query=";
 
         /*
          * LinkedList --> ArrayList 변경
@@ -51,6 +51,7 @@ public class EmartCrawler implements Runnable {
             Elements wineNames = doc1.select("a.clickable > em.tx_ko"); // 와인 이름
             Elements winePrices = doc1.select("div.opt_price > em.ssg_price"); // 와인 가격
 
+
             for (Element element : wineNames) { // 와인 이름만 배열에 저장
                 name = element.text();
                 nameList.add(name);
@@ -68,7 +69,7 @@ public class EmartCrawler implements Runnable {
         }
 
         for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 8페이지 분량, 한번에 DB 저장
-            wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), URL));
+            wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), url));
         }
 
         log.debug("===================== emart 크롤링 끝 =====================");

@@ -8,13 +8,13 @@
         <result property="id" column="id" />
         <result property="name" column="name" />
         <result property="price" column="price" />
-        <result property="URL" column="URL" />
+        <result property="url" column="url" />
         <result property="searchCount" column="searchCount" />
     </resultMap>
 
     <select id="selectAllWines" resultMap="wineResult">
         <![CDATA[
-        select *
+        select distinct *
         from MVC.wine
         order by id;
         ]]>
@@ -22,15 +22,15 @@
 
     <insert id="addWineNamePrice">
         <![CDATA[
-        insert into MVC.wine (name, price, URL)
-        values (#{name}, #{price}, #{URL})
-        on duplicate key update name = #{name};
+        insert into MVC.wine (name, price, url)
+        values (#{name}, #{price}, #{url})
+        on duplicate key update price = #{price};
         ]]>
     </insert>
 
     <select id="listPaging" resultMap="wineResult">
         <![CDATA[
-        select *
+        select distinct *
         from MVC.wine
         where id > 0
         ]]>
@@ -43,7 +43,7 @@
 
     <select id="orderByPrice" resultMap="wineResult">
         <![CDATA[
-        select *
+        select distinct *
         from MVC.wine
         where id > 0
         ]]>
@@ -56,7 +56,7 @@
 
     <select id="countWines" resultType="int">
         <![CDATA[
-        select COUNT(id)
+        select distinct COUNT(id)
         from MVC.wine
         where id > 0
         ]]>
@@ -76,7 +76,7 @@
 
     <select id="autocomplete" resultType="String" parameterType="String">
         <![CDATA[
-        select name
+        select distinct name
         from MVC.wine
         where name like concat('%', #{keyword}, '%')
         order by name
@@ -91,6 +91,7 @@
         where name like concat('%', #{keyword}, '%')
         ]]>
     </update>
+
     <!-- 실시간으로 가장 많이 검색한 와인 목록 3개 -->
     <select id="realtimeWineSearchCount" resultMap="wineResult">
         <![CDATA[
