@@ -13,13 +13,20 @@
         <result property="role" column="role" />
     </resultMap>
 
-    <select id="selectAllMembers" resultMap="memberResult">
+    <select id="allMemberList" resultMap="memberResult">
         <![CDATA[
             select *
             from MVC.member
             order by regDate;
         ]]>
     </select>
+    <update id="enabledPause">
+        <![CDATA[
+        update MVC.member
+        set enabled = #{enabled}
+        where email = #{email};
+        ]]>
+    </update>
     <!-- 회원가입 -->
     <select id="registerMember" resultMap="memberResult">
         <![CDATA[
@@ -27,11 +34,10 @@
         VALUES (#{email}, #{pwd}, #{nickName});
         ]]>
     </select>
-
     <!-- 로그인 -->
     <select id="login" resultMap="memberResult">
         <![CDATA[
-        select email, pwd, nickName, role
+        select email, pwd, nickName, role, enabled
         from MVC.member
         where email = #{email};
         ]]>
@@ -68,7 +74,6 @@
         where email = #{email};
         ]]>
     </update>
-
     <select id="getUserById" resultMap="memberResult">
         <![CDATA[
         SELECT *

@@ -3,6 +3,7 @@ package main.service.member;
 import main.DTO.MemberDTO;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface MemberService {
 
@@ -19,4 +20,8 @@ public interface MemberService {
     void sendEmail(MemberDTO memberDTO, String div);
 
     String findPwd(MemberDTO memberDTO) throws IOException;
+
+    List<MemberDTO> allMemberList();
+
+    void enabledPause(MemberDTO memberDTO);
 }

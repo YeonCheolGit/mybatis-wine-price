@@ -2,6 +2,8 @@ package main.DAO.member;
 
 import main.DTO.MemberDTO;
 
+import java.util.List;
+
 public interface MemberDAO {
 
     void registerMember(MemberDTO memberDTO) ;
@@ -12,9 +14,9 @@ public interface MemberDAO {
 
     int duplicatedNickNameChk(MemberDTO memberDTO);
 
-    MemberDTO readMember(String memberDTO);
-
     void updateMember(MemberDTO memberDTO);
 
-    MemberDTO getUserById(String userName);
+    List<MemberDTO> allMemberList();
+
+    void enabledPause(MemberDTO memberDTO);
 }

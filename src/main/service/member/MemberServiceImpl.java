@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Log4j2
 public class MemberServiceImpl implements MemberService{
@@ -16,6 +18,16 @@ public class MemberServiceImpl implements MemberService{
     private MemberDAO memberDAO;
 
     public MemberServiceImpl() {
+    }
+
+    @Override
+    public List<MemberDTO> allMemberList() {
+        return memberDAO.allMemberList();
+    }
+
+    @Override
+    public void enabledPause(MemberDTO memberDTO) {
+        memberDAO.enabledPause(memberDTO);
     }
 
     @Autowired
@@ -125,6 +137,7 @@ public class MemberServiceImpl implements MemberService{
             // 임시 비밀번호 생성
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.setLength(10);
+            String rawPwd = "";
             for (int i = 0; i < 6; i++) {
                 stringBuilder.append((char) ((Math.random() * 26) + 97)); // ASCII 코드 규칙상 97 = a, 즉 알파벳 26개 랜덤 출력
                 stringBuilder.append((int) (Math.random() * 26)); // 알파벳 뒤 정수 섞기

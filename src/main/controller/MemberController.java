@@ -51,7 +51,10 @@ public class MemberController {
 
     /*
      * 로그인 클릭 시 동작
-     * return <-- 로그인 결과 (true | null)
+     * if 이메일 일치 X || 비밀번호 일치 X || 정지 회원 경우
+     *  return null;
+     * else
+     *  return true;
      */
     @PostMapping(value = "/login")
     @ResponseBody
@@ -63,8 +66,24 @@ public class MemberController {
         try {
             MemberDTO login = memberService.login(memberDTO); // 사용자가 입력한 정보 바탕 DB 조회
             boolean pwdMatch = passwordEncoder.matches(memberDTO.getPwd(), login.getPwd()); // 찾아온 DB pwd, 사용자 입력 pwd 비교
+            System.out.println(login.getEnabled());
 
-            if (login.getEmail() == null || !pwdMatch) { // 사용자 입력 정보 DB의 email || pwd 일치 X 경우
+//            if (login.getEmail() == null) { // 사용자 입력 정보 DB의 email || pwd 일치 X 경우
+//                session.setAttribute("member", null); // 세션 null
+//                return "null";
+//            }
+//
+//            if (!pwdMatch) { // 사용자 입력 정보 DB의 email || pwd 일치 X 경우
+//                session.setAttribute("member", null); // 세션 null
+//                return "null";
+//            }
+//
+//            if (login.getEnabled() == 0) {
+//                session.setAttribute("member", null); // 세션 null
+//                return "null";
+//            }
+
+            if (login.getEmail() == null || !pwdMatch || login.getEnabled() == 0) {
                 session.setAttribute("member", null); // 세션 null
                 return "null";
             } else {
@@ -78,8 +97,8 @@ public class MemberController {
             log.debug("=============== 로그인 에러 ===============");
             log.debug(e.getMessage());
 
-            session.setAttribute("member", null); // 세션 null
-            return "redirect:/main/errorPage"; // 예기치 못 한 에러 발생시 에러 페이지
+            session.setAttribute("member", null);
+            return "redirect:/main/errorPage";
         }
     }
 

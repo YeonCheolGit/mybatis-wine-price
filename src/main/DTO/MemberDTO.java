@@ -13,13 +13,13 @@ public class MemberDTO {
     private String pwd;
     private String nickName;
     private Date regDate;
-    private Boolean enabled;
+    private int enabled;
     private String role;
 
     public MemberDTO() {
     }
 
-    public MemberDTO(String email, String pwd, String nickName, Date regDate, Boolean enabled, String role) {
+    public MemberDTO(String email, String pwd, String nickName, Date regDate, int enabled, String role) {
         this.email = email;
         this.pwd = pwd;
         this.nickName = nickName;

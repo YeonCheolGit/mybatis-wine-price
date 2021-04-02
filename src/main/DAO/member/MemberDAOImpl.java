@@ -6,19 +6,29 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class MemberDAOImpl implements MemberDAO {
 
     private final SqlSession sqlSession;
-    private final SqlSessionTemplate sqlSessionTemplate;
 
     @Autowired
-    public MemberDAOImpl(SqlSession sqlSession, SqlSessionTemplate sqlSessionTemplate) {
+    public MemberDAOImpl(SqlSession sqlSession) {
         this.sqlSession = sqlSession;
-        this.sqlSessionTemplate = sqlSessionTemplate;
     }
 
     private static final String nameSpace = "mapper.member";
+
+    @Override
+    public List<MemberDTO> allMemberList() {
+        return sqlSession.selectList(nameSpace + ".allMemberList");
+    }
+
+    @Override
+    public void enabledPause(MemberDTO memberDTO) {
+        sqlSession.update(nameSpace + ".enabledPause", memberDTO);
+    }
 
     @Override
     public void registerMember(MemberDTO memberDTO) {
@@ -28,11 +38,6 @@ public class MemberDAOImpl implements MemberDAO {
     @Override
     public MemberDTO login(MemberDTO memberDTO) {
         return sqlSession.selectOne(nameSpace + ".login", memberDTO);
-    }
-
-    @Override
-    public MemberDTO readMember(String memberDTO) {
-        return sqlSession.selectOne(nameSpace + ".readMember", memberDTO);
     }
 
     @Override
@@ -48,10 +53,5 @@ public class MemberDAOImpl implements MemberDAO {
     @Override
     public void updateMember(MemberDTO memberDTO) {
         sqlSession.update(nameSpace + ".memberUpdate", memberDTO);
-    }
-
-    @Override
-    public MemberDTO getUserById(String userName) {
-        return sqlSession.selectOne(nameSpace + "getUserById", userName);
     }
 }

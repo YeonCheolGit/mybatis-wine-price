@@ -154,10 +154,9 @@
         $('#close_modal').click(function () {
             $('#exampleModal').modal("hide");
         });
-
         // Admin 페이지 버튼 클릭 시
         $('#page_admin').click(function () {
-            location.href = "${contextPath}/admin";
+            location.href = "${contextPath}/admin/adminPage.do";
         });
     });
 </script>
