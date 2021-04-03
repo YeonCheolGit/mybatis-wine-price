@@ -1,3 +1,4 @@
+<%--@elvariable id="member" type="main.DTO.MemberDTO"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"/>
@@ -22,6 +23,7 @@
                 <div class="mb-3">
                     <label for="update_pwd" class="form-label">비밀번호</label>
                     <input type="password" id="update_pwd" name="pwd" class="form-control">
+                    <div id="update_pwd_validation_chk"></div>
                 </div>
                 <div class="mb-3">
                     <label for="update_nickName" class="form-label">아이디</label>
@@ -40,30 +42,53 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        /*
+         * 비밀번호 규칙
+         * - 최소 8글자
+         * - 최소 1개의 소문자 && 대문자
+         * - 최소 1개의 숫자
+         * - 최소 1개의 특수문자
+         */
+        let pwdRegex = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
+        let update_pwdChk_boolean = false;
+        $('#update_pwd').on("propertychange change keyup paste input", function () { // 회원가입 비밀번호 입력 시 타이핑 마다 검사
+            if (pwdRegex.test($('#update_pwd').val())) {
+                $('#update_pwd_validation_chk').text('비밀번호로 적합합니다.');
+                update_pwdChk_boolean = true;
+            } else {
+                $('#update_pwd_validation_chk').text('1개의 대문자 / 특수기호가 포함되어야 합니다.');
+                update_pwdChk_boolean = false;
+            }
+        });
+
         /**
          * 회원수정 모달 form - 수정 버튼
          * 1. 누락된 비밀번호 체크
          * 2. 비밀번호 변경 후 /main redirect
          */
         $('#update_submit').click(function () {
-            $.ajax({
-                url: "${contextPath}/member/updateMember",
-                type: "post",
-                dataType: "json",
-                data: {
-                    "email": $("#update_email").val(),
-                    "pwd": $("#update_pwd").val(),
-                    "nickName": $("#update_nickName").val(),
-                },
-                success: function (data) { // 회원정보 수정 후 return
-                    if (data === false) {
-                        alert("비밀번호를 확인해주세요.");
-                    } else if (data === true) {
-                        alert("회원정보 수정이 완료 됐습니다.");
-                        self.location = "${contextPath}/main";
+            if (update_pwdChk_boolean === true) {
+                $.ajax({
+                    url: "${contextPath}/member/updateMember",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        "email": $("#update_email").val(),
+                        "pwd": $("#update_pwd").val(),
+                        "nickName": $("#update_nickName").val(),
+                    },
+                    success: function (data) { // 회원정보 수정 후 return
+                        if (data === false) {
+                            alert("비밀번호를 확인해주세요.");
+                        } else if (data === true) {
+                            alert("회원정보 수정이 완료 됐습니다.");
+                            self.location = "${contextPath}/main";
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                alert("유효한 비밀번호 양식이 아닙니다.");
+            }
         });
     });
 </script>
