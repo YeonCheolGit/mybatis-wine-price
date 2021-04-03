@@ -56,7 +56,7 @@
                     "nickName": $("#update_nickName").val(),
                 },
                 success: function (data) { // 회원정보 수정 후 return
-                    if (data === null) {
+                    if (data === false) {
                         alert("비밀번호를 확인해주세요.");
                     } else if (data === true) {
                         alert("회원정보 수정이 완료 됐습니다.");

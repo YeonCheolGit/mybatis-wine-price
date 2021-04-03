@@ -7,6 +7,6 @@
 </head>
 <body>
     <p>예기치 못 한 에러가 발생 했습니다.</p>
-    <button type="button"><a href="${pageContext.request.contextPath}/main/">첫 화면으로 이동하시겠습니까?</a></button>
+    <button type="button"><a href="${contextPath}/main">첫 화면으로 이동하시겠습니까?</a></button>
 </body>
 </html>

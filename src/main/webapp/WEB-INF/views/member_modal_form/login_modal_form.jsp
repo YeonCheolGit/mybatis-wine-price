@@ -59,7 +59,8 @@
         /**
          * 로그인 모달 form - 로그인 버튼
          * 1. 누락된 데이터 체크
-         * 2. 로그인 후 /main redirect
+         * 2. 로그인 성공 (data) 시 /main redirect
+         * 3. 로그인 실패 (data === null) 시 alert
          */
         $('#login_submit').click(function () {
             $.ajax({
@@ -70,10 +71,10 @@
                     "email": $("#login_email").val(),
                     "pwd": $("#login_pwd").val(),
                 },
-                success: function (data) { // 로그인 버튼 클릭 후 return
-                    if (data === null) {
+                success: function (data) {
+                    if (data === null) { // 실패
                         alert("이메일 또는 비밀번호를 확인해주세요.");
-                    } else if (data === true) {
+                    } else if (data) { // 성공
                         $("#login_submit").attr("value", "Y");
                         alert("환영합니다.");
                         self.location = "${contextPath}/main";

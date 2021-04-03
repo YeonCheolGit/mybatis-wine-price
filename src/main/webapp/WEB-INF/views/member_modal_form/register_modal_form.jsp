@@ -85,7 +85,7 @@
         $('#emailChk').click(function () {
             if (emailChk_boolean === true) {
                 $.ajax({
-                    url: "${contextPath}/member/duplicatedEmailChk",
+                    url: "${contextPath}/member/duplicated_email_chk",
                     type: "post",
                     dataType: "json",
                     data: {
@@ -141,7 +141,7 @@
                         "nickName": $("#register_nickName").val(),
                     },
                     success: function (data) { // 회원 가입 버튼 클릭 후 return
-                        if (data === null) {
+                        if (data === false) {
                             alert("중복되는 이메일 혹은 아이디 입니다!");
                         } else if (data === true) {
                             alert("환영합니다!");

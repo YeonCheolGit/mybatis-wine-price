@@ -86,7 +86,9 @@ public class AuthInterceptor extends WebContentInterceptor {
          * 3. else return true; (접근 허용)
          */
         if ("ROLE_USER".equals(role)) {
-            if (!"ROLE_USER".equals(memberSession.getRole())) {
+            if ("ROLE_USER".equals(memberSession.getRole()) || "ROLE_ADMIN".equals(memberSession.getRole())) {
+                return true;
+            } else {
                 response.setContentType("text/html; charset=UTF-8");
                 PrintWriter out = response.getWriter();
 
@@ -97,6 +99,17 @@ public class AuthInterceptor extends WebContentInterceptor {
 
                 return false; // 인터셉터 false
             }
+//            if (!"ROLE_USER".equals(memberSession.getRole())) {
+//                response.setContentType("text/html; charset=UTF-8");
+//                PrintWriter out = response.getWriter();
+//
+//                // 로그인 필요 팝업 후 /main redirect
+//                out.println("<script>alert(\"로그인이 필요합니다.\");</script>");
+//                request.getRequestDispatcher("/main").include(request, response);
+//                out.close();
+//
+//                return false; // 인터셉터 false
+//            }
         }
         return true;
     }

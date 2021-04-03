@@ -56,7 +56,7 @@
                 <div>
                     <c:forEach items="${realtimeWineSearchCount}" var="realtimeWineSearchCount">
                         <tr>
-                            <td><a href="#" onclick="window.open('${realtimeWineSearchCount.URL}' + '${realtimeWineSearchCount.name}')">${realtimeWineSearchCount.name}</a></td>
+                            <td><a href="#" onclick="window.open('${realtimeWineSearchCount.url}' + '${realtimeWineSearchCount.name}')">${realtimeWineSearchCount.name}</a></td>
                             <td>${realtimeWineSearchCount.price}</td>
                         </tr>
                     </c:forEach>
@@ -75,7 +75,7 @@
                 <div>
                 <c:forEach items="${allWineList}" var="allWineList">
                     <tr>
-                        <td><a href="#" onclick="window.open('${allWineList.URL}' + '${allWineList.name}')">${allWineList.name}</a></td>
+                        <td><a href="#" onclick="window.open('${allWineList.url}' + '${allWineList.name}')">${allWineList.name}</a></td>
                         <td>${allWineList.price}</td>
                     </tr>
                 </c:forEach>

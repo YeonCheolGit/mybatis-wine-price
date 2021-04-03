@@ -23,8 +23,8 @@ public class AdminController {
     }
 
     @GetMapping(value = "/adminPage.do")
-    public ModelAndView allMemberList(Model model) {
-        System.out.println("===================== allMemberList =================");
+    public ModelAndView adminPage(Model model) {
+        System.out.println("===================== adminPage =================");
         model.addAttribute("allMemberList", memberService.allMemberList());
         return new ModelAndView("admin");
     }
@@ -40,7 +40,18 @@ public class AdminController {
         System.out.println("===================== enabledPause =================");
 
         memberDTO.setEnabled(0);
-        memberService.enabledPause(memberDTO);
+        memberService.enabled_control(memberDTO);
+
+        return true;
+    }
+
+    @PostMapping(value = "/enabled_active")
+    @ResponseBody
+    public Boolean enabledActive(MemberDTO memberDTO) {
+        System.out.println("===================== enabledActive =================");
+
+        memberDTO.setEnabled(1);
+        memberService.enabled_control(memberDTO);
 
         return true;
     }

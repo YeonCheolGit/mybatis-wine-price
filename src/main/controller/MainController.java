@@ -26,6 +26,6 @@ public class MainController {
     @GetMapping(value = "/errorPage")
     public String errorPage() {
         log.info("==================== main debug ==================== ");
-        return "errorPage";
+        return "commons/errorPage";
     }
 }

@@ -19,11 +19,9 @@ import java.io.IOException;
 public class MemberController {
 
     private final MemberService memberService;
-    private final BCryptPasswordEncoder passwordEncoder;
 
-    public MemberController(MemberService memberService, BCryptPasswordEncoder passwordEncoder) {
+    public MemberController(MemberService memberService) {
         this.memberService = memberService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     /*
@@ -31,22 +29,10 @@ public class MemberController {
      */
     @PostMapping(value = "/registerMember")
     @ResponseBody
-    public String registerMember(MemberDTO memberDTO) {
+    public Boolean registerMember(MemberDTO memberDTO) {
         log.debug("==================== registerMember ====================");
 
-        int resultEmail = memberService.duplicatedEmailChk(memberDTO); // 중복 email 체크
-        int resultNickName = memberService.duplicatedNickNameChk(memberDTO); // 중복 nickName 체크
-
-        if (resultNickName == 0 && resultEmail == 0) { // 중복된 email && nickName X 경우
-            String rawPwd = memberDTO.getPwd(); // 사용자가 입력한 raw 비밀번호
-            String encodedPwd = passwordEncoder.encode(rawPwd); // raw 비밀번호를 인코딩
-            memberDTO.setPwd(encodedPwd);
-
-            memberService.registerMember(memberDTO);
-            return "true";
-        } else {
-            return "null";
-        }
+        return memberService.registerMember(memberDTO);
     }
 
     /*
@@ -54,52 +40,14 @@ public class MemberController {
      * if 이메일 일치 X || 비밀번호 일치 X || 정지 회원 경우
      *  return null;
      * else
-     *  return true;
+     *  return MemberDTO 객체;
      */
     @PostMapping(value = "/login")
     @ResponseBody
-    public String login(MemberDTO memberDTO, HttpServletRequest request) {
+    public Object login(MemberDTO memberDTO, HttpServletRequest request) {
         log.debug("==================== login ====================");
 
-        HttpSession session = request.getSession();
-
-        try {
-            MemberDTO login = memberService.login(memberDTO); // 사용자가 입력한 정보 바탕 DB 조회
-            boolean pwdMatch = passwordEncoder.matches(memberDTO.getPwd(), login.getPwd()); // 찾아온 DB pwd, 사용자 입력 pwd 비교
-            System.out.println(login.getEnabled());
-
-//            if (login.getEmail() == null) { // 사용자 입력 정보 DB의 email || pwd 일치 X 경우
-//                session.setAttribute("member", null); // 세션 null
-//                return "null";
-//            }
-//
-//            if (!pwdMatch) { // 사용자 입력 정보 DB의 email || pwd 일치 X 경우
-//                session.setAttribute("member", null); // 세션 null
-//                return "null";
-//            }
-//
-//            if (login.getEnabled() == 0) {
-//                session.setAttribute("member", null); // 세션 null
-//                return "null";
-//            }
-
-            if (login.getEmail() == null || !pwdMatch || login.getEnabled() == 0) {
-                session.setAttribute("member", null); // 세션 null
-                return "null";
-            } else {
-                session.setAttribute("member", login); // 일치한 경우
-                if (login.getRole().equals("ROLE_ADMIN")) { // 일치 && ROLE_ADMIN 경우
-                    session.setAttribute("admin_session", login.getRole()); // admin session 등록
-                }
-                return "true";
-            }
-        } catch (Exception e) {
-            log.debug("=============== 로그인 에러 ===============");
-            log.debug(e.getMessage());
-
-            session.setAttribute("member", null);
-            return "redirect:/main/errorPage";
-        }
+        return memberService.login(memberDTO, request);
     }
 
     /*
@@ -116,37 +64,27 @@ public class MemberController {
      * 회원가입 중 중복체크 클릭 시 동작
      * return <-- true | false
      */
-    @PostMapping(value = "/duplicatedEmailChk")
+    @PostMapping(value = "/duplicated_email_chk")
     @ResponseBody
-    public int duplicatedEmailChk(MemberDTO memberDTO) {
+    public int duplicated_email_chk(MemberDTO memberDTO) {
         log.debug("==================== duplicatedEmailChk ====================");
-        return memberService.duplicatedEmailChk(memberDTO);
+        return memberService.duplicated_email_chk(memberDTO);
     }
 
     /*
-     1. 회원정보 받아서 비밀번호 업데이트
-     2. DB에 저장
-     3. 로그아웃 세션
+     * 회원정보 받아서 비밀번호 업데이트
+     * 1. 사용자 입력 새 pwd 인코딩
+     * 2. DB에 새 pwd 저장
+     * 3. 로그아웃 - 세션 만료
+     * 4. return main 페이지
      */
     @PostMapping(value = "/updateMember")
     @ResponseBody
-    public String updateMember(MemberDTO memberDTO,
-                               HttpServletRequest req) {
+    public Boolean updateMember(MemberDTO memberDTO,
+                               HttpServletRequest request) {
         log.debug("==================== updateMember ====================");
 
-        String rawPwd = memberDTO.getPwd(); // 사용자 입력 비밀번호
-        String encodedPwd = passwordEncoder.encode(rawPwd); // 비밀번호 인코딩
-        memberDTO.setPwd(encodedPwd); // 인코딩 된 비밀번호 저장
-
-        try {
-            memberService.updateMember(memberDTO); // 인코딩 된 비밀번호로 회원정보 업데이트
-            HttpSession session = req.getSession();
-            session.invalidate();
-            return "true";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "false";
-        }
+        return  memberService.updateMember(memberDTO, request); // 인코딩 된 비밀번호로 회원정보 업데이트
     }
 
     /*

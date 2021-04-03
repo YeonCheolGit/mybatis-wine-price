@@ -1,27 +1,30 @@
 package main.service.member;
 
 import main.DTO.MemberDTO;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
 public interface MemberService {
 
-    void registerMember(MemberDTO memberDTO);
+    Boolean registerMember(MemberDTO memberDTO);
 
-    MemberDTO login(MemberDTO memberDTO);
+    Object login(MemberDTO memberDTO, HttpServletRequest request);
 
-    int duplicatedNickNameChk(MemberDTO memberDTO);
+    int duplicated_nickName_chk(MemberDTO memberDTO);
 
-    int duplicatedEmailChk(MemberDTO memberDTO);
+    int duplicated_email_chk(MemberDTO memberDTO);
 
-    void updateMember(MemberDTO memberDTO);
+    Boolean updateMember(MemberDTO memberDTO, HttpServletRequest request);
 
     void sendEmail(MemberDTO memberDTO, String div);
 
+    @Transactional
     String findPwd(MemberDTO memberDTO) throws IOException;
 
     List<MemberDTO> allMemberList();
 
-    void enabledPause(MemberDTO memberDTO);
+    void enabled_control(MemberDTO memberDTO);
 }
