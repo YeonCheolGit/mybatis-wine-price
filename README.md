@@ -45,7 +45,7 @@
 ------------
 
 ## Clone the repository
-"""
+'''
 $ git clone git://github.com/YeonCheolGit/mybatis_wine_price.git
 
-"""
+'''
