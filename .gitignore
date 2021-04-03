@@ -1,6 +1,6 @@
 # Project exclude paths
-/target/
+target
 CNAME
-/out/
-/.idea/
+out
+.idea
 *.iml
