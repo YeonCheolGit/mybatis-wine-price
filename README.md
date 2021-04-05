@@ -58,5 +58,5 @@ git clone https://github.com/YeonCheolGit/spring-kafka-message-app.git
 ```
 ## Clone the repository
 ```
-git clone git://github.com/YeonCheolGit/mybatis_wine_price.git
+git clone https://github.com/YeonCheolGit/mybatis_wine_price.git
 ```
