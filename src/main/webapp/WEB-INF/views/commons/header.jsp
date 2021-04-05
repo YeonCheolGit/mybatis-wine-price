@@ -94,6 +94,8 @@
                         <button class="btn btn-primary" type="button" id="modal_logout"
                                 onclick="location.href='${contextPath}/member/logout'">로그아웃</button>
                         <button class="btn btn-primary" id="update_modal_button" type="button">마이페이지</button>
+                        <button class="btn btn-primary" type="button" id="chatButton"
+                                onclick="location.href='${contextPath}/main/kafkaPort'">채팅방</button>
                         <%--@elvariable id="admin_session" type="main.DTO.MemberDTO"--%>
                         <c:if test="${admin_session != null}"> <%-- 관리자 로그인 시 보여질 버튼 --%>
                             <button class="btn btn-primary" id="page_admin" type="button">관리자권한</button>
@@ -102,8 +104,6 @@
                         <c:if test="${admin_session == null}"> <%-- 일반 유저 로그인 시 보여질 버튼 --%>
                             <span class="navbar-text" style="margin-left: 4px">${member.nickName}님 안녕하세요.</span>
                         </c:if>
-                        <button class="btn btn-primary" type="button" id="chatButton"
-                                onclick="location.href='${contextPath}/main/kafkaPort'">채팅방</button>
                     </c:if>
 
                 </div>

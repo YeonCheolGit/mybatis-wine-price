@@ -15,11 +15,14 @@ import java.util.List;
 @Service
 @Log4j2
 public class MemberServiceImpl implements MemberService {
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    private MemberDAO memberDAO;
+    private final MemberDAO memberDAO;
 
-    public MemberServiceImpl() {
+    @Autowired
+    public MemberServiceImpl(BCryptPasswordEncoder passwordEncoder, MemberDAO memberDAO) {
+        this.passwordEncoder = passwordEncoder;
+        this.memberDAO = memberDAO;
     }
 
     @Override
@@ -27,11 +30,6 @@ public class MemberServiceImpl implements MemberService {
         return memberDAO.allMemberList();
     }
 
-    @Autowired
-    public MemberServiceImpl(BCryptPasswordEncoder passwordEncoder, MemberDAO memberDAO) {
-        this.passwordEncoder = passwordEncoder;
-        this.memberDAO = memberDAO;
-    }
 
     /*
      * 회원가입 버튼 클릭 시 동작
@@ -133,7 +131,7 @@ public class MemberServiceImpl implements MemberService {
         String charSet = "utf-8";
         String hostSMTP = "smtp.gmail.com";
         String hostSMTPid = "yeoncheol.jang@gmail.com";
-        String hostSMTPpwd = "duscjf135789**";
+        String hostSMTPpwd = "*****";
 
         // 보내는 사람 EMail, 제목, 내용
         String fromEmail = "yeoncheol.jang@gmail.com";
@@ -170,10 +168,10 @@ public class MemberServiceImpl implements MemberService {
         } catch (Exception e) {
             log.debug(e);
         }
-    }
+    } // sendEmail() 끝
 
     /*
-     * 1. 찾으려는 비밀번호의 이메일, 아이디 검증
+     * 1. 찾으려는 비밀번호의 이메일, 닉네임 검증
      * 2. 임시 비밀번호 생성
      * 3. sendEmail() <-- raw 비밀번호 전송
      * 4. 인코딩 된 비밀번호 DB 저장
@@ -181,22 +179,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public String findPwd(MemberDTO memberDTO) {
         try {
-            // 아이디 && 닉네임 없으면
+            // 아이디 && 닉네임 일치 X
             if (memberDAO.duplicated_email_chk(memberDTO) == 0 && memberDAO.duplicated_nickName_chk(memberDTO) == 0) {
                 log.debug("==================== 등록 X 이메일 & 닉네임 =================");
-                return "3";
-            }
-            // 가입된 이메일이 없으면
-            if (memberDAO.duplicated_email_chk(memberDTO) == 0) {
-                log.debug("==================== 등록 X 이메일 =================");
-
                 return "1";
-            }
-            // 가입된 아이디가 없으면
-            else if (memberDAO.duplicated_nickName_chk(memberDTO) == 0) {
-                log.debug("==================== 등록 X 닉네임 =================");
-
-                return "2";
             }
             // 이메일, 아이디 다 있으면
             else {
@@ -221,7 +207,7 @@ public class MemberServiceImpl implements MemberService {
             }
         } catch (Exception e) {
             log.debug(e);
-            return "4";
+            return "2";
         }
-    }
+    } // findPwd() 끝
 }

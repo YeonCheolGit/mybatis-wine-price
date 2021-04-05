@@ -52,12 +52,8 @@
                 },
                 success: function (result) {
                     if (result === 1) { // email 일치 X 경우
-                        alert("가입되지 않은 이메일 입니다")
-                    } else if (result === 2) { // nickName 일치 X 경우
-                        alert("가입되지 않은 아이디 입니다");
-                    } else if (result === 3) { // email && nickName 일치 X 경우
-                        alert("가입되지 않은 이메일과 아이디 입니다");
-                    } else if (result === 4) { // 에러 발생 경우
+                        alert("이메일 혹은 닉네임을 다시 확인해주세요.")
+                    } else if (result === 2) { // 에러 발생 경우
                         self.location = "${contextPath}/main/errorPage";
                     } else { // nickName && email 일치
                         alert("임시 비밀번호를 발송 했습니다");
