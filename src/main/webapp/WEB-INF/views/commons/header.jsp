@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <style>
-        #login_modal_button, #modal_logout, #register_modal_button, #update_modal_button, #page_admin {
+        #login_modal_button, #modal_logout, #register_modal_button, #update_modal_button, #page_admin, #chatButton {
             margin-left: 2px;
             border: 1px solid lightsalmon;
             background-color: rgba(0, 0, 0, 0); color: lightsalmon;
@@ -102,7 +102,10 @@
                         <c:if test="${admin_session == null}"> <%-- 일반 유저 로그인 시 보여질 버튼 --%>
                             <span class="navbar-text" style="margin-left: 4px">${member.nickName}님 안녕하세요.</span>
                         </c:if>
+                        <button class="btn btn-primary" type="button" id="chatButton"
+                                onclick="location.href='${contextPath}/main/kafkaPort'">채팅방</button>
                     </c:if>
+
                 </div>
             </div>
             <div id="dark-mode-div" class="dark-mode-div">

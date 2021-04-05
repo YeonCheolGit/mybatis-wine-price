@@ -47,7 +47,7 @@ public class WineController {
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("realtimeWineSearchCount", wineService.realtimeWineSearchCount());
 
-        return "wine/allWineList";
+        return "winePages/allWineList";
     }
 
     /*
@@ -67,7 +67,7 @@ public class WineController {
         model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("orderByPrice", true);
 
-        return "wine/allWineList";
+        return "winePages/allWineList";
     }
 
     /*

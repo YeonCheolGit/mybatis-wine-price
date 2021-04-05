@@ -3,6 +3,7 @@
 + Spring Security 5.4.4
 + MySQL 8.0.22
 + MyBatis 3.5.6
++ Kafka 2.12 - 2.50
 + Lombok 1.18.16
 + Log4j2 2.14.1
 + Commons Email 1.5
@@ -34,6 +35,10 @@
 + 관리자 계정 로그인 시 관리자 전용 버튼 보여줌
 + 회원 계정 일시 정지 
 
+### 채팅 (Kafka, React)
++ Kafka, React 활용한 메세지 시스템
+  + localhost:3000
+
 ### 디자인 (JS, JQuery, BootStrap)
 + 다크 모드 버튼 - 회원의 컴퓨터 설정 값이 다크모드일 경우 자동 ON
 + 전체 디자인 - BootStrap
@@ -42,7 +47,16 @@
 ### 호스팅 (AWS)
 + AWS EC2 
 
+## Clone Kafka image repository
+```
+git clone https://github.com/wurstmeister/kafka-docker
+```
+
+## Clone Kafka-React message app (front-end)
+```
+git clone https://github.com/YeonCheolGit/spring-kafka-message-app.git
+```
 ## Clone the repository
 ```
-$ git clone git://github.com/YeonCheolGit/mybatis_wine_price.git
+git clone git://github.com/YeonCheolGit/mybatis_wine_price.git
 ```

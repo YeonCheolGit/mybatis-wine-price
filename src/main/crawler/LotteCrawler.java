@@ -75,7 +75,8 @@ public class LotteCrawler implements Runnable {
                 log.debug("================ 다음 버튼을 찾을 수 없습니다 ================");
                 log.debug(e.getMessage());
 
-                for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 3페이지 분량, 한번에 DB에 저장
+                int nameList_size = nameList.size();
+                for (int i = 0; i < nameList_size; i++) { // 배열에 저장된 3페이지 분량, 한번에 DB에 저장
                     wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), url));
                 }
                 log.debug("===================== lotte 마트 크롤링 끝 =====================");
@@ -86,7 +87,8 @@ public class LotteCrawler implements Runnable {
         /*
          * 에러 없이 정상적으로 실행될 때
          */
-        for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 3페이지 분량, 한번에 DB에 저장
+        int nameList_size = nameList.size();
+        for (int i = 0; i < nameList_size; i++) { // 배열에 저장된 3페이지 분량, 한번에 DB에 저장
             wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), url));
         }
 

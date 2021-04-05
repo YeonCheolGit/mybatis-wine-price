@@ -67,13 +67,11 @@ public class EmartCrawler implements Runnable {
 
             Thread.sleep(5000); // 다음 페이지 로딩 시간 대기 및 해당 사이트 에러 페이지 방지
         }
-        long start = System.currentTimeMillis();
-        for (int i = 0; i < nameList.size(); i++) { // 배열에 저장된 8페이지 분량, 한번에 DB 저장
+
+        int nameList_size = nameList.size(); // size() call 한 번으로 줄이기 위해 객체변수 할당
+        for (int i = 0; i < nameList_size; i++) { // 배열에 저장된 8페이지 분량, 한번에 DB 저장
             wineService.addWineNamePrice(new WineDTO(nameList.get(i), priceList.get(i), url));
         }
-        long end = System.currentTimeMillis();
-        System.out.println("===================== end - start =====================");
-        System.out.println(end - start);
 
         log.debug("===================== emart 크롤링 끝 =====================");
     }
