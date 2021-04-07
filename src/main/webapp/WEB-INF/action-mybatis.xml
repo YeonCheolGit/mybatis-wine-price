@@ -13,8 +13,6 @@
     jdbc 설정 외부 파일 위치
     같은 애플리케이션에 다른 설정 파일로 작업 가능
     -->
-<!--    <bean id="propertyPlaceholderConfigurer"-->
-<!--          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
     <bean id="propertyPlaceholderConfigurer"
           class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="locations" value="/WEB-INF/jdbc.properties"/>

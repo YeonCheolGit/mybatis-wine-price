@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.lang.invoke.StringConcatFactory;
+import java.lang.reflect.Member;
 import java.util.List;
 
 @Service
@@ -19,7 +21,6 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberDAO memberDAO;
 
-    @Autowired
     public MemberServiceImpl(BCryptPasswordEncoder passwordEncoder, MemberDAO memberDAO) {
         this.passwordEncoder = passwordEncoder;
         this.memberDAO = memberDAO;
@@ -69,9 +70,12 @@ public class MemberServiceImpl implements MemberService {
             MemberDTO dbMember = memberDAO.login(memberDTO);
             boolean pwdMatch = passwordEncoder.matches(memberDTO.getPwd(), dbMember.getPwd()); // 사용자 입력 pwd, 찾아온 DB pwd 비교
 
-            if (dbMember.getEmail() == null || !pwdMatch || dbMember.getEnabled() == 0) { // 일치 X 경우
+            if (dbMember.getEmail() == null || !pwdMatch) { // 일치 X 경우
                 session.setAttribute("member", null); // session null
                 return "null";
+            } if (dbMember.getEnabled() == 0) { // 일치 X 경우
+                session.setAttribute("member", null); // session null
+                return "1";
             } else { // 일치한 경우
                 session.setAttribute("member", dbMember);
                 if (dbMember.getRole().equals("ROLE_ADMIN")) { // 일치 && ROLE_ADMIN 경우
@@ -96,8 +100,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void enabled_control(MemberDTO memberDTO) {
-        memberDAO.enabledPause(memberDTO);
+    public int enabledControl(MemberDTO memberDTO) {
+         return memberDAO.enabledPause(memberDTO);
     }
 
     /*
@@ -187,6 +191,7 @@ public class MemberServiceImpl implements MemberService {
             // 이메일, 아이디 다 있으면
             else {
                 // 임시 비밀번호 생성
+
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.setLength(10);
                 for (int i = 0; i < 6; i++) {

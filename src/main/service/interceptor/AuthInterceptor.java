@@ -99,17 +99,6 @@ public class AuthInterceptor extends WebContentInterceptor {
 
                 return false; // 인터셉터 false
             }
-//            if (!"ROLE_USER".equals(memberSession.getRole())) {
-//                response.setContentType("text/html; charset=UTF-8");
-//                PrintWriter out = response.getWriter();
-//
-//                // 로그인 필요 팝업 후 /main redirect
-//                out.println("<script>alert(\"로그인이 필요합니다.\");</script>");
-//                request.getRequestDispatcher("/main").include(request, response);
-//                out.close();
-//
-//                return false; // 인터셉터 false
-//            }
         }
         return true;
     }

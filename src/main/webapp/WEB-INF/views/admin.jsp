@@ -9,28 +9,30 @@
 <div id="table_content">
     <table class="table table-hover" id="recommend-table-hover">
         <thead>
-        <tr>
-            <th>이메일</th>
-            <th>아이디</th>
-            <th>가입 날짜</th>
-            <th>정지 여부</th>
-        </tr>
+            <tr>
+                <th>이메일</th>
+                <th>아이디</th>
+                <th>가입 날짜</th>
+                <th>정지 여부</th>
+            </tr>
         </thead>
-        <%-- 상위 검색어 기반 추천 와인 목록 3개 --%>
         <tbody>
         <div>
             <c:forEach items="${allMemberList}" var="allMemberList">
                 <tr>
-                    <td><input id="email" value="${allMemberList.email}" readonly="readonly"></td>
+                    <td>
+                        <label for="email"></label>
+                        <input id="email" value="${allMemberList.email}" readonly="readonly">
+                    </td>
                     <td>${allMemberList.nickName}</td>
                     <td>${allMemberList.regDate}</td>
                     <c:if test="${allMemberList.enabled == 1}"> <%-- 계정 활성화 중이라면 --%>
                         <td>활동 중</td>
-                        <td><button id="enabled_pause">활동 정지 시키기</button></td>
+                        <td><button id="enabledPause" type="button">활동 정지 시키기</button></td>
                     </c:if>
                     <c:if test="${allMemberList.enabled == 0}"> <%-- 계정 정지 중이라면 --%>
                         <td>활동 정지 됨</td>
-                        <td><button id="enabled_active">활동 정지 해제</button></td>
+                        <td><button id="enabledActive" type="button">활동 정지 해제</button></td>
                     </c:if>
                 </tr>
             </c:forEach>
@@ -47,17 +49,17 @@
         /*
          * 계정 정지 버튼
          */
-        $('#enabled_pause').click(function () {
+        $('#enabledPause').click(function () {
                 $.ajax({
-                    url: "${contextPath}/admin/enabled_pause",
+                    url: "${contextPath}/admin/enabledPause",
                     type: "post",
                     dataType: "json",
                     data: {
                         "email": $("#email").val(),
                     },
                     success: function (data) {
-                        if (data === true) {
-                            alert("정지 처리 되었습니다.");
+                        if (data) {
+                            alert("계정 정지 처리 되었습니다.");
                             self.location = "${contextPath}/admin/adminPage.do";
                         } else {
                             alert("알 수 없는 에러")
@@ -69,18 +71,17 @@
         /*
          * 계정 활성화 버튼
          */
-        $('#enabled_active').click(function () {
+        $('#enabledActive').click(function () {
             $.ajax({
-                url: "${contextPath}/admin/enabled_active",
+                url: "${contextPath}/admin/enabledActive",
                 type: "post",
                 dataType: "json",
                 data: {
                     "email": $("#email").val(),
                 },
                 success: function (data) {
-                    console.log("================ 데이터 처리 완료2 ================");
-                    if (data === true) {
-                        alert("정지 처리 되었습니다.");
+                    if (data) {
+                        alert("계정 활성화 되었습니다.");
                         self.location = "${contextPath}/admin/adminPage.do";
                     } else {
                         alert("알 수 없는 에러")

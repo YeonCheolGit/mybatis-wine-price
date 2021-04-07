@@ -83,7 +83,7 @@
             </tbody>
         </table>
     </div>
-    <%-- 와인 버튼 --%>
+    <%-- 와인 목록 --%>
     <div class="text-center" id="pagination_buttons">
         <nav>
             <ul class="pagination justify-content-center" id="pagination">

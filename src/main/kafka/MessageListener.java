@@ -1,7 +1,6 @@
 package main.kafka;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
@@ -27,8 +26,8 @@ public class MessageListener {
     /*
      * 목적지(web socket)로 메세지 보냄.
      */
-    public void listen(Message message) {
-        log.info("sending via kafka listener..");
-        template.convertAndSend("/topic/group", message);
+    public void listen(MessageModel messageModel) {
+        log.info("카프카 리스너를 통해 메세지 보냄");
+        template.convertAndSend("/topic/group", messageModel);
     }
 }

@@ -16,10 +16,10 @@ import java.time.LocalDateTime;
 @RequestMapping(value = "/kafka")
 public class ChatController {
 
-    private final KafkaTemplate<String, Message> kafkaTemplate;
+    private final KafkaTemplate<String, MessageModel> kafkaTemplate;
 
     @Autowired
-    public ChatController(KafkaTemplate<String, Message> kafkaTemplate) {
+    public ChatController(KafkaTemplate<String, MessageModel> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
@@ -27,11 +27,11 @@ public class ChatController {
      * sned(): Topic으로 데이터 보냄
      */
     @RequestMapping(value = "/publish")
-    public void sendMessage(@RequestBody Message message) {
-        log.info("Produce message : " + message.toString());
-        message.setTimestamp(LocalDateTime.now().toString());
+    public void sendMessage(@RequestBody MessageModel messageModel) {
+        log.info("생산된 메세지 : " + messageModel.toString());
+        messageModel.setTimestamp(LocalDateTime.now().toString());
         try {
-            kafkaTemplate.send(KafkaConstants.KAFKA_TOPIC, message).get();
+            kafkaTemplate.send(KafkaConstants.KAFKA_TOPIC, messageModel).get();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -39,7 +39,10 @@ public class ChatController {
 
     @MessageMapping("/sendMessage")
     @SendTo("/topic/group")
-    public Message broadcastGroupMessage(@Payload Message message) {
-        return message;
+    public MessageModel broadcastGroupMessage(@Payload MessageModel messageModel) {
+        return messageModel;
     }
 }
+
+
+

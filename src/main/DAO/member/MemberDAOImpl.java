@@ -14,7 +14,6 @@ public class MemberDAOImpl implements MemberDAO {
 
     private final SqlSession sqlSession;
 
-    @Autowired
     public MemberDAOImpl(SqlSession sqlSession) {
         this.sqlSession = sqlSession;
     }
@@ -27,8 +26,8 @@ public class MemberDAOImpl implements MemberDAO {
     }
 
     @Override
-    public void enabledPause(MemberDTO memberDTO) {
-        sqlSession.update(nameSpace + ".enabledPause", memberDTO);
+    public int enabledPause(MemberDTO memberDTO) {
+        return sqlSession.update(nameSpace + ".enabledPause", memberDTO);
     }
 
 

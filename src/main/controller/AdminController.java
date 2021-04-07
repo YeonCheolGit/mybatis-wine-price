@@ -34,25 +34,27 @@ public class AdminController {
      * 해당 계정 enabled <- 0
      * return true;
      */
-    @PostMapping(value = "/enabled_pause")
+    @PostMapping(value = "/enabledPause")
     @ResponseBody
-    public Boolean enabledPause(MemberDTO memberDTO) {
+    public int enabledPause(MemberDTO memberDTO) {
         System.out.println("===================== enabledPause =================");
 
         memberDTO.setEnabled(0);
-        memberService.enabled_control(memberDTO);
 
-        return true;
+        return memberService.enabledControl(memberDTO);
     }
-
-    @PostMapping(value = "/enabled_active")
+    /*
+     * Admin.jsp 계정 활성화 버튼 클릭 시
+     * 해당 계정 enabled <- 1
+     * return true;
+     */
+    @PostMapping(value = "/enabledActive")
     @ResponseBody
-    public Boolean enabledActive(MemberDTO memberDTO) {
+    public int enabledActive(MemberDTO memberDTO) {
         System.out.println("===================== enabledActive =================");
 
         memberDTO.setEnabled(1);
-        memberService.enabled_control(memberDTO);
 
-        return true;
+        return memberService.enabledControl(memberDTO);
     }
 }

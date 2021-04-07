@@ -23,7 +23,7 @@ public class ProducerConfiguration {
      * producer 인스턴스 생성
      */
     @Bean
-    public ProducerFactory<String, Message> producerFactory() {
+    public ProducerFactory<String, MessageModel> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigurations());
     }
 
@@ -46,7 +46,7 @@ public class ProducerConfiguration {
      * Thread - safe
      */
     @Bean
-    public KafkaTemplate<String, Message> kafkaTemplate() {
+    public KafkaTemplate<String, MessageModel> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

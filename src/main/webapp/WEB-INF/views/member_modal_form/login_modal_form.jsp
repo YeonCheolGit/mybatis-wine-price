@@ -74,6 +74,8 @@
                 success: function (data) {
                     if (data === null) { // 실패
                         alert("이메일 또는 비밀번호를 확인해주세요.");
+                    } if (data === 1) { // 정지된 회원
+                        alert("정지된 회원 입니다.");
                     } else if (data) { // 성공
                         $("#login_submit").attr("value", "Y");
                         alert("환영합니다.");

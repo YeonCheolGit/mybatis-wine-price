@@ -26,10 +26,10 @@ public class CrawlerController {
     @GetMapping
     @Auth(role = Auth.Role.ROLE_ADMIN)
     public void crawler() {
-//        Thread lotteThread = new Thread(new LotteCrawler(wineService));
+        Thread lotteThread = new Thread(new LotteCrawler(wineService));
         Thread emartThread = new Thread(new EmartCrawler(wineService));
 
-//        lotteThread.start();
+        lotteThread.start();
         emartThread.start();
     }
 }

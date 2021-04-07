@@ -3,7 +3,6 @@
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%-5level %logger{36} - %msg%n"/>
-<!--            <PatternLayout pattern="[%d{yyyy/MM/dd HH:mm}] %-5level %logger{36} - %msg%n"/>-->
         </Console>
     </Appenders>
     <Loggers>
@@ -12,3 +11,7 @@
         </Root>
     </Loggers>
 </Configuration>
+
+
+
+

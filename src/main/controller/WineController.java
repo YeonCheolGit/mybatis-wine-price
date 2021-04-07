@@ -39,6 +39,7 @@ public class WineController {
         wineService.wineSearchCount(searchCriteria.getKeyword()); // 검색 마다 조회수 카운트 +1
         wineService.realtimeWineSearchCount(); // 실시간 상위 검색 와인 목록 3개 가지고 옴
 
+        // 실제 페이지 만드는 작업
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCriteria(searchCriteria);
         pageMaker.setTotalCount(wineService.countWines(searchCriteria));
@@ -77,6 +78,7 @@ public class WineController {
     @ResponseBody
     public List<String> autocomplete(HttpServletRequest request) {
         log.debug("==================== search ====================");
+
         return wineService.search(request.getParameter("term"));
     }
 }

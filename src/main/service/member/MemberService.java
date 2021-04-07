@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface MemberService {
 
+    @Transactional
     Boolean registerMember(MemberDTO memberDTO);
 
     Object login(MemberDTO memberDTO, HttpServletRequest request);
@@ -26,5 +27,5 @@ public interface MemberService {
 
     List<MemberDTO> allMemberList();
 
-    void enabled_control(MemberDTO memberDTO);
+    int enabledControl(MemberDTO memberDTO);
 }

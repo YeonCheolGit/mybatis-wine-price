@@ -24,7 +24,7 @@
 
     <!-- 로그인 세션 확인 인터셉터 -->
     <bean id="authInterceptor"
-                class="main.service.interceptor.AuthInterceptor"/>
+          class="main.service.interceptor.AuthInterceptor"/>
 
     <mvc:interceptors>
         <mvc:interceptor>

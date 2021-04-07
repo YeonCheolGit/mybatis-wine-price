@@ -18,5 +18,5 @@ public interface MemberDAO {
 
     List<MemberDTO> allMemberList();
 
-    void enabledPause(MemberDTO memberDTO);
+    int enabledPause(MemberDTO memberDTO);
 }

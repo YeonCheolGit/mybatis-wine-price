@@ -52,9 +52,9 @@
 git clone https://github.com/wurstmeister/kafka-docker
 ```
 
-## Clone Kafka-React message app (front-end)
+## Clone Kafka-React messageModel app (front-end)
 ```
-git clone https://github.com/YeonCheolGit/spring-kafka-message-app.git
+git clone https://github.com/YeonCheolGit/spring-kafka-messageModel-app.git
 ```
 ## Clone the repository
 ```
