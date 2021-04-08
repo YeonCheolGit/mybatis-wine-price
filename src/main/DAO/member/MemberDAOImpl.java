@@ -44,13 +44,13 @@ public class MemberDAOImpl implements MemberDAO {
     }
 
     @Override
-    public int duplicated_email_chk(MemberDTO memberDTO) {
-        return sqlSession.selectOne(nameSpace + ".duplicated_email_chk", memberDTO);
+    public int duplicatedEmailChk(MemberDTO memberDTO) {
+        return sqlSession.selectOne(nameSpace + ".duplicatedEmailChk", memberDTO);
     }
 
     @Override
-    public int duplicated_nickName_chk(MemberDTO memberDTO) {
-        return sqlSession.selectOne(nameSpace + ".duplicated_nickName_chk", memberDTO);
+    public int duplicatedNickNameChk(MemberDTO memberDTO) {
+        return sqlSession.selectOne(nameSpace + ".duplicatedNickNameChk", memberDTO);
     }
 
     @Override

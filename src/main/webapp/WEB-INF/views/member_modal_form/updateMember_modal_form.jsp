@@ -8,7 +8,7 @@
 </head>
 <body>
 <%-- 회원정보 업데이트 모달 --%>
-<div class="modal fade" id="updateMember_modal_form" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+<div class="modal fade" id="updateMember-modal-form" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" id="modal-content-update">
             <div class="modal-header">
@@ -17,17 +17,17 @@
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <label for="update_email" class="form-label">이메일</label>
-                    <input type="email" id="update_email" name="email" class="form-control" value="${member.email}" readonly="readonly">
+                    <label for="update-email" class="form-label">이메일</label>
+                    <input type="email" id="update-email" name="email" class="form-control" value="${member.email}" readonly="readonly">
                 </div>
                 <div class="mb-3">
-                    <label for="update_pwd" class="form-label">비밀번호</label>
-                    <input type="password" id="update_pwd" name="pwd" class="form-control">
-                    <div id="update_pwd_validation_chk"></div>
+                    <label for="update-pwd" class="form-label">비밀번호</label>
+                    <input type="password" id="update-pwd" name="pwd" class="form-control">
+                    <div id="update-pwd-validation-chk"></div>
                 </div>
                 <div class="mb-3">
-                    <label for="update_nickName" class="form-label">아이디</label>
-                    <input type="text" id="update_nickName" name="nickName" class="form-control" value="${member.nickName}" readonly="readonly">
+                    <label for="update-nickname" class="form-label">아이디</label>
+                    <input type="text" id="update-nickname" name="nickName" class="form-control" value="${member.nickName}" readonly="readonly">
                 </div>
             </div>
             <div class="modal-footer">
@@ -42,6 +42,11 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        let updateEmail = document.getElementById("update-email");
+        let updatePwd = document.getElementById("update-pwd");
+        let updateNickName = document.getElementById("update-nickname");
+        let updatePwdValidChk = document.getElementById("update-pwd-validation-chk");
+
         /*
          * 비밀번호 규칙
          * - 최소 8글자
@@ -50,14 +55,14 @@
          * - 최소 1개의 특수문자
          */
         let pwdRegex = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
-        let update_pwdChk_boolean = false;
+        let updatePwdChkBoolean = false;
         $('#update_pwd').on("propertychange change keyup paste input", function () { // 회원가입 비밀번호 입력 시 타이핑 마다 검사
             if (pwdRegex.test($('#update_pwd').val())) {
-                $('#update_pwd_validation_chk').text('비밀번호로 적합합니다.');
-                update_pwdChk_boolean = true;
+                $(updatePwdValidChk).text('비밀번호로 적합합니다.');
+                updatePwdChkBoolean = true;
             } else {
-                $('#update_pwd_validation_chk').text('1개의 대문자 / 특수기호가 포함되어야 합니다.');
-                update_pwdChk_boolean = false;
+                $(updatePwdValidChk).text('1개의 대문자 / 특수기호가 포함되어야 합니다.');
+                updatePwdChkBoolean = false;
             }
         });
 
@@ -66,16 +71,17 @@
          * 1. 누락된 비밀번호 체크
          * 2. 비밀번호 변경 후 /main redirect
          */
+
         $('#update_submit').click(function () {
-            if (update_pwdChk_boolean === true) {
+            if (updatePwdChkBoolean === true) {
                 $.ajax({
                     url: "${contextPath}/member/updateMember",
                     type: "post",
                     dataType: "json",
                     data: {
-                        "email": $("#update_email").val(),
-                        "pwd": $("#update_pwd").val(),
-                        "nickName": $("#update_nickName").val(),
+                        "email": $(updateEmail).val(),
+                        "pwd": $(updatePwd).val(),
+                        "nickName": $(updateNickName).val(),
                     },
                     success: function (data) { // 회원정보 수정 후 return
                         if (data === false) {

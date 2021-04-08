@@ -7,7 +7,7 @@
 </head>
 <body>
 <%-- 회원가입 모달 --%>
-<div class="modal fade" id="register_modal_form" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+<div class="modal fade" id="register-modal-form" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" id="modal-content-register">
             <div class="modal-header">
@@ -16,24 +16,24 @@
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <label for="register_email" class="form-label">이메일</label>
-                    <input type="email" id="register_email" name="email" class="form-control" placeholder="example@email.com">
-                    <div id="register_email_validation_chk"></div>
+                    <label for="register-email" class="form-label">이메일</label>
+                    <input type="email" id="register-email" name="email" class="form-control" placeholder="example@email.com">
+                    <div id="register-email-validation-chk"></div>
                     <button type="button" class="btn btn-outline-warning" id="emailChk" value="N">중복확인</button>
                 </div>
                 <div class="mb-3">
-                    <label for="register_pwd" class="form-label">비밀번호</label>
-                    <input type="password" id="register_pwd" name="pwd" class="form-control">
-                    <div id="pwd_validation_chk"></div>
+                    <label for="register-pwd" class="form-label">비밀번호</label>
+                    <input type="password" id="register-pwd" name="pwd" class="form-control">
+                    <div id="pwd-validation-chk"></div>
                 </div>
                 <div class="mb-3">
-                    <label for="register_nickName" class="form-label">아이디</label>
-                    <input type="text" id="register_nickName" name="nickName" class="form-control">
+                    <label for="register-nickname" class="form-label">아이디</label>
+                    <input type="text" id="register-nickname" name="nickName" class="form-control">
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="submit" class="btn btn-primary" id="register_submit">회원가입</button>
+                <button type="submit" class="btn btn-primary" id="register-submit">회원가입</button>
             </div>
         </div>
     </div>
@@ -43,6 +43,12 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        let registerEmail = document.getElementById("register-email")
+        let registerPwd = document.getElementById("register-pwd");
+        let registerNickName = document.getElementById("register-nickname");
+        let registerSubmit = document.getElementById("register-submit");
+        let registerEmailValidChk = document.getElementById("register-email-validation-chk");
+        let pwdValidChk = document.getElementById("pwd-validation-chk")
         /*
          * 이메일 규칙
          * -영문으로 이루어짐
@@ -50,14 +56,15 @@
          * - @ 반드시 와야 함
          * - co.kr / com 상관 X
          */
+
         let emailRegex = /^[a-zA-Z0-9]+(\.)?[a-zA-Z0-9]*@[a-zA-Z]+\.[a-zA-Z]+\.?[a-zA-Z]*$/;
         let emailChk_boolean = false;
-        $('#register_email').on("propertychange change keyup paste input", function () { // 회원가입 비밀번호 입력 시 타이핑 마다 검사
-            if (emailRegex.test($('#register_email').val())) {
-                $('#register_email_validation_chk').text('이메일로 적합합니다.');
+        $(registerEmail).on("propertychange change keyup paste input", function () { // 회원가입 비밀번호 입력 시 타이핑 마다 검사
+            if (emailRegex.test($(registerEmail).val())) {
+                $(registerEmailValidChk).text('이메일로 적합합니다.');
                 emailChk_boolean = true;
             } else {
-                $('#register_email_validation_chk').text('유효한 이메일이 아닙니다.');
+                $(registerEmailValidChk).text('유효한 이메일이 아닙니다.');
                 emailChk_boolean = false;
             }
         });
@@ -69,14 +76,15 @@
          * - 최소 1개의 숫자
          * - 최소 1개의 특수문자
          */
+
         let pwdRegex = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
         let pwdChk_boolean = false;
-        $('#register_pwd').on("propertychange change keyup paste input", function () { // 회원가입 비밀번호 입력 시 타이핑 마다 검사
-            if (pwdRegex.test($('#register_pwd').val())) {
-                $('#pwd_validation_chk').text('비밀번호로 적합합니다.');
+        $(registerPwd).on("propertychange change keyup paste input", function () { // 회원가입 비밀번호 입력 시 타이핑 마다 검사
+            if (pwdRegex.test($(registerPwd).val())) {
+                $(pwdValidChk).text('비밀번호로 적합합니다.');
                 pwdChk_boolean = true;
             } else {
-                $('#pwd_validation_chk').text('1개의 대문자 / 특수기호가 포함되어야 합니다.');
+                $(pwdValidChk).text('1개의 대문자 / 특수기호가 포함되어야 합니다.');
                 pwdChk_boolean = false;
             }
         });
@@ -89,7 +97,7 @@
                     type: "post",
                     dataType: "json",
                     data: {
-                        "email": $("#register_email").val(),
+                        "email": $(registerEmail).val(),
                     },
                     success: function (data) { // 버튼 클릭 후 return
                         if (data === 1) {
@@ -112,22 +120,23 @@
          * 3. 중복 이메일 체크
          * 4. 회원 가입 완료
          */
-        $('#register_submit').click(function () {
+
+        $(registerSubmit).click(function () {
             // 회원가입 시 미입력 정보 팝업
-            if ($("#register_email").val() === "") {
+            if ($(registerEmail).val() === "") {
                 alert("이메일을 입력해주세요.");
-                $("#register_email").focus();
+                $(registerEmail).focus();
                 return false;
             }
-            else if ($("#register_pwd").val() === "") {
+            else if ($(registerPwd).val() === "") {
                 alert("비밀번호를 입력해주세요.");
-                $("#register_pwd").focus();
+                $(registerPwd).focus();
                 return false;
 
             }
-            else if ($("#register_nickName").val() === "") {
+            else if ($(registerNickName).val() === "") {
                 alert("아이디를 입력해주세요.");
-                $("#register_nickName").focus();
+                $(registerNickName).focus();
                 return false;
             }
             else if (pwdChk_boolean === true && emailChk_boolean === true) { // 유효한 이메일 && 비밀번호 입력 시
@@ -136,9 +145,9 @@
                     type: "post",
                     dataType: "json",
                     data: {
-                        "email": $("#register_email").val(),
-                        "pwd": $("#register_pwd").val(),
-                        "nickName": $("#register_nickName").val(),
+                        "email": $(registerEmail).val(),
+                        "pwd": $(registerPwd).val(),
+                        "nickName": $(registerNickName).val(),
                     },
                     success: function (data) { // 회원 가입 버튼 클릭 후 return
                         if (data === false) {

@@ -10,9 +10,9 @@ public interface MemberDAO {
 
     MemberDTO login(MemberDTO memberDTO);
 
-    int duplicated_email_chk(MemberDTO memberDTO);
+    int duplicatedEmailChk(MemberDTO memberDTO);
 
-    int duplicated_nickName_chk(MemberDTO memberDTO);
+    int duplicatedNickNameChk(MemberDTO memberDTO);
 
     void updateMember(MemberDTO memberDTO);
 

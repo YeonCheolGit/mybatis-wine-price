@@ -7,7 +7,7 @@
 </head>
 <body>
 <%-- 비밀번호 찾기 모달 --%>
-<div class="modal fade" id="findPw_modal_form" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+<div class="modal fade" id="find-pw-modal-button" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" id="modal-content-findPw">
             <div class="modal-header">
@@ -16,16 +16,16 @@
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <label for="findPw_email" class="form-label">이메일</label>
-                    <input type="email" id="findPw_email" name="email" class="form-control" placeholder="example@email.com">
+                    <label for="find-pw-email" class="form-label">이메일</label>
+                    <input type="email" id="find-pw-email" name="email" class="form-control" placeholder="example@email.com">
                 </div>
                 <div class="mb-3">
-                    <label for="findPw_nickName" class="form-label">아이디</label>
-                    <input type="text" id="findPw_nickName" name="nickName" class="form-control">
+                    <label for="find-pw-nickName" class="form-label">아이디</label>
+                    <input type="text" id="find-pw-nickName" name="nickName" class="form-control">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="sendNewPwd">비밀번호 찾기</button>
+                <button type="button" class="btn btn-primary" id="send-new-pwd">비밀번호 찾기</button>
             </div>
         </div>
     </div>
@@ -35,20 +35,23 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        let findPwEmail = document.getElementById("find-pw-email");
+        let findPwNickName = document.getElementById("find-pw-nickName");
         /**
          * 비밀번호 찾기 모달 form - 새 비밀번호 전송 버튼
          * 1. 가입된 이메일 체크
          * 2. 가입된 아이디 체크
          * 3. 임시 비밀번호 전송 후 /main redirect
          */
-        $('#sendNewPwd').click(function () {
+        let sendNewPwd = document.getElementById("send-new-pwd");
+        $(sendNewPwd).click(function () {
             $.ajax({
                 url: "${contextPath}/member/findPwd",
                 type: "post",
                 dataType: "json",
                 data: {
-                    "email": $("#findPw_email").val(),
-                    "nickName": $("#findPw_nickName").val(),
+                    "email": $(findPwEmail).val(),
+                    "nickName": $(findPwNickName).val(),
                 },
                 success: function (result) {
                     if (result === 1) { // email 일치 X 경우

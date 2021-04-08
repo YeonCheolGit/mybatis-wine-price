@@ -58,7 +58,7 @@
     </select>
 
     <!-- 이메일 중복 체크 -->
-    <select id="duplicated_email_chk" resultType="int">
+    <select id="duplicatedEmailChk" resultType="int">
         <![CDATA[
         select COUNT(email)
         from MVC.member
@@ -67,7 +67,7 @@
     </select>
 
     <!-- 아이디 중복 체크 -->
-    <select id="duplicated_nickName_chk" resultType="int">
+    <select id="duplicatedNickNameChk" resultType="int">
         <![CDATA[
         select COUNT(nickName)
         from MVC.member

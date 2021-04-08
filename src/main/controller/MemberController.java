@@ -68,7 +68,7 @@ public class MemberController {
     @ResponseBody
     public int duplicated_email_chk(MemberDTO memberDTO) {
         log.debug("==================== duplicatedEmailChk ====================");
-        return memberService.duplicated_email_chk(memberDTO);
+        return memberService.duplicatedEmailChk(memberDTO);
     }
 
     /*

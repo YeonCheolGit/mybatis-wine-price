@@ -14,9 +14,9 @@ public interface MemberService {
 
     Object login(MemberDTO memberDTO, HttpServletRequest request);
 
-    int duplicated_nickName_chk(MemberDTO memberDTO);
+    int duplicatedNickNameChk(MemberDTO memberDTO);
 
-    int duplicated_email_chk(MemberDTO memberDTO);
+    int duplicatedEmailChk(MemberDTO memberDTO);
 
     Boolean updateMember(MemberDTO memberDTO, HttpServletRequest request);
 

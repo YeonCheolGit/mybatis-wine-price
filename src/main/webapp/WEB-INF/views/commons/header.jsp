@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <style>
-        #login_modal_button, #modal_logout, #register_modal_button, #update_modal_button, #page_admin, #chatButton {
+        #login-modal-button, #modal_logout, #register-modal-button, #update-modal-button, #admin-page-button, #chat-button {
             margin-left: 2px;
             border: 1px solid lightsalmon;
             background-color: rgba(0, 0, 0, 0); color: lightsalmon;
@@ -20,15 +20,15 @@
             font-weight: bold;
             position: relative;
         }
-        #findPw_modal_button { background-color: dodgerblue; }
-        #login_modal_button:hover, #register_modal_button:hover { color: white; background-color: lightsalmon; }
+        #find-pw-modal-button { background-color: dodgerblue; }
+        #login-modal-button:hover, #register-modal-button:hover { color: white; background-color: lightsalmon; }
         #emailChk {
             margin-top: 1px;
             padding-top: 1px; padding-bottom: 1px;
             color: lightcoral; font-weight: bold;
         }
         #emailChk:hover{ color: white; }
-        #dark_mode_button {
+        #dark-mode-button {
             border: 1px solid black;
             background-color: white;
             color: black;
@@ -52,7 +52,7 @@
         a, th, td { color: var(--text-color); }
         #modal-content-login, #modal-content-register, #modal-content-update { background: var(--bg-color); color: var(--text-color); }
         #text { color: black; }
-        #pwd_validation_chk, #register_email_validation_chk, #login_email_validation_chk { color: dodgerblue; font-weight: bold; }
+        #pwd-validation-chk, #register-email-validation-chk, #login-email-validation-chk { color: dodgerblue; font-weight: bold; }
 
         <%-- 화면 사이즈 조정 시 헤더 크기 조정 --%>
         @media (max-width: 1100px) {
@@ -87,29 +87,28 @@
                             onclick="location.href='${contextPath}/wine/searchBarAndPagination'">와인목록</button>
                     <%--@elvariable id="member" type="main.DTO.MemberDTO"--%>
                     <c:if test="${member == null}"> <%-- 미 로그인 시 보여질 버튼--%>
-                        <button class="btn btn-primary" data-bs-toggle="modal" id="login_modal_button" type="button" >로그인</button>
-                        <button class="btn btn-primary" data-bs-toggle="modal" id="register_modal_button" type="button" >회원가입</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" id="login-modal-button" type="button" >로그인</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" id="register-modal-button" type="button" >회원가입</button>
                     </c:if>
                     <c:if test="${member != null}"> <%-- 로그인 시 보여질 버튼 --%>
                         <button class="btn btn-primary" type="button" id="modal_logout"
                                 onclick="location.href='${contextPath}/member/logout'">로그아웃</button>
-                        <button class="btn btn-primary" id="update_modal_button" type="button">마이페이지</button>
-                        <button class="btn btn-primary" type="button" id="chatButton"
+                        <button class="btn btn-primary" id="update-modal-button" type="button">마이페이지</button>
+                        <button class="btn btn-primary" type="button" id="chat-button"
                                 onclick="location.href='${contextPath}/main/kafkaPort'">채팅방</button>
                         <%--@elvariable id="admin_session" type="main.DTO.MemberDTO"--%>
                         <c:if test="${admin_session != null}"> <%-- 관리자 로그인 시 보여질 버튼 --%>
-                            <button class="btn btn-primary" id="page_admin" type="button">관리자권한</button>
+                            <button class="btn btn-primary" id="admin-page-button" type="button">관리자권한</button>
                             <span class="navbar-text" style="margin-left: 4px">관리자 계정 입니다</span>
                         </c:if>
                         <c:if test="${admin_session == null}"> <%-- 일반 유저 로그인 시 보여질 버튼 --%>
                             <span class="navbar-text" style="margin-left: 4px">${member.nickName}님 안녕하세요.</span>
                         </c:if>
                     </c:if>
-
                 </div>
             </div>
             <div id="dark-mode-div" class="dark-mode-div">
-                <button id="dark_mode_button" class="btn btn-primary">다크모드</button>
+                <button id="dark-mode-button" class="btn btn-primary">다크모드</button>
             </div>
         </div>
     </nav>
@@ -123,16 +122,22 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        document.getElementById("dark_mode_button").addEventListener("click", () => { // 다크모드 버튼 클릭 시 리스너
+        let loginModalButton = document.getElementById("login-modal-button");
+        let registerModalButton = document.getElementById("register-modal-button");
+        let updateModalButton = document.getElementById("update-modal-button");
+        let adminPageButton = document.getElementById("admin-page-button");
+        let darkModeButton = document.getElementById("dark-mode-button");
+
+        darkModeButton.addEventListener("click", () => { // 다크모드 버튼 클릭 시 리스너
             const html = document.documentElement;
             if (html.classList.contains("dark")) { // 현재 다크 모드가 켜져있을 때
                 html.classList.remove("dark");
                 localStorage.setItem("darkTheme", "false");
-                $("#dark_mode_button").text("다크모드 켜기");
+                $(darkModeButton).text("다크모드 켜기");
             } else { // 다크모드 꺼진 상태
                 html.classList.add("dark");
                 localStorage.setItem("darkTheme", "true");
-                $("#dark_mode_button").text("다크모드 끄기");
+                $(darkModeButton).text("다크모드 끄기");
             }
         });
         const storedTheme = localStorage.getItem("darkTheme");
@@ -140,25 +145,25 @@
         if (storedTheme !== null) {
             if (storedTheme === "true") {
                 document.documentElement.classList.add("dark");
-                $("#dark_mode_button").text("다크모드 끄기");
+                $(darkModeButton).text("다크모드 끄기");
             }
         }
 
         // 로그인, 회원가입, 회원수정, 비밀번호 찾기 모달 form 버튼
-        $('#login_modal_button').click(function () {
-            $('#login_modal_form').modal("show");
+        $(loginModalButton).click(function () {
+            $('#login-modal-form').modal("show");
         });
-        $('#register_modal_button').click(function () {
-            $('#register_modal_form').modal("show");
+        $(registerModalButton).click(function () {
+            $("#register-modal-form").modal("show");
         });
-        $('#update_modal_button').click(function () {
-            $('#updateMember_modal_form').modal("show")
+        $(updateModalButton).click(function () {
+            $('#updateMember-modal-form').modal("show")
         });
         $('#close_modal').click(function () {
             $('#exampleModal').modal("hide");
         });
         // Admin 페이지 버튼 클릭 시
-        $('#page_admin').click(function () {
+        $(adminPageButton).click(function () {
             location.href = "${contextPath}/admin/adminPage.do";
         });
     });

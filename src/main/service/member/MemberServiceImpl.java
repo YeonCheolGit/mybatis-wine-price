@@ -42,8 +42,8 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public Boolean registerMember(MemberDTO memberDTO) {
-        int resultEmail = memberDAO.duplicated_email_chk(memberDTO); // 중복 email 체크
-        int resultNickName = memberDAO.duplicated_nickName_chk(memberDTO); // 중복 nickName 체크
+        int resultEmail = memberDAO.duplicatedEmailChk(memberDTO); // 중복 email 체크
+        int resultNickName = memberDAO.duplicatedNickNameChk(memberDTO); // 중복 nickName 체크
 
         if (resultNickName == 0 && resultEmail == 0) { // 중복된 email && nickName X 경우
             String rawPwd = memberDTO.getPwd(); // 사용자가 입력한 raw 비밀번호
@@ -90,13 +90,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public int duplicated_nickName_chk(MemberDTO memberDTO) {
-        return memberDAO.duplicated_nickName_chk(memberDTO);
+    public int duplicatedNickNameChk(MemberDTO memberDTO) {
+        return memberDAO.duplicatedNickNameChk(memberDTO);
     }
 
     @Override
-    public int duplicated_email_chk(MemberDTO memberDTO) {
-        return memberDAO.duplicated_email_chk(memberDTO);
+    public int duplicatedEmailChk(MemberDTO memberDTO) {
+        return memberDAO.duplicatedEmailChk(memberDTO);
     }
 
     @Override
@@ -135,7 +135,7 @@ public class MemberServiceImpl implements MemberService {
         String charSet = "utf-8";
         String hostSMTP = "smtp.gmail.com";
         String hostSMTPid = "yeoncheol.jang@gmail.com";
-        String hostSMTPpwd = "*****";
+        String hostSMTPpwd = "duscjf135*";
 
         // 보내는 사람 EMail, 제목, 내용
         String fromEmail = "yeoncheol.jang@gmail.com";
@@ -184,7 +184,7 @@ public class MemberServiceImpl implements MemberService {
     public String findPwd(MemberDTO memberDTO) {
         try {
             // 아이디 && 닉네임 일치 X
-            if (memberDAO.duplicated_email_chk(memberDTO) == 0 && memberDAO.duplicated_nickName_chk(memberDTO) == 0) {
+            if (memberDAO.duplicatedEmailChk(memberDTO) == 0 && memberDAO.duplicatedNickNameChk(memberDTO) == 0) {
                 log.debug("==================== 등록 X 이메일 & 닉네임 =================");
                 return "1";
             }
