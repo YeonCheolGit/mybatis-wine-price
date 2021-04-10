@@ -6,6 +6,7 @@ import main.DTO.MemberDTO;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +18,11 @@ import java.util.List;
 @Service
 @Log4j2
 public class MemberServiceImpl implements MemberService {
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     private final MemberDAO memberDAO;
 
-    public MemberServiceImpl(BCryptPasswordEncoder passwordEncoder, MemberDAO memberDAO) {
+    public MemberServiceImpl(PasswordEncoder passwordEncoder, MemberDAO memberDAO) {
         this.passwordEncoder = passwordEncoder;
         this.memberDAO = memberDAO;
     }
@@ -135,7 +136,7 @@ public class MemberServiceImpl implements MemberService {
         String charSet = "utf-8";
         String hostSMTP = "smtp.gmail.com";
         String hostSMTPid = "yeoncheol.jang@gmail.com";
-        String hostSMTPpwd = "duscjf135*";
+        String hostSMTPpwd = "duscjf135789**";
 
         // 보내는 사람 EMail, 제목, 내용
         String fromEmail = "yeoncheol.jang@gmail.com";

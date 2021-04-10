@@ -64,7 +64,7 @@ public class MemberController {
      * 회원가입 중 중복체크 클릭 시 동작
      * return <-- true | false
      */
-    @PostMapping(value = "/duplicated_email_chk")
+    @PostMapping(value = "/duplicatedEmailChk")
     @ResponseBody
     public int duplicated_email_chk(MemberDTO memberDTO) {
         log.debug("==================== duplicatedEmailChk ====================");

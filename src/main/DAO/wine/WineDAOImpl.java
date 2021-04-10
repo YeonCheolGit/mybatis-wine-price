@@ -3,6 +3,7 @@ package main.DAO.wine;
 import main.DTO.WineDTO;
 import main.paging.SearchCriteria;
 import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,9 +11,9 @@ import java.util.List;
 @Repository
 public class WineDAOImpl implements WineDAO {
 
-    private final SqlSession sqlSession;
+    private final SqlSessionTemplate sqlSession;
 
-    public WineDAOImpl(SqlSession sqlSession) {
+    public WineDAOImpl(SqlSessionTemplate sqlSession) {
         this.sqlSession = sqlSession;
     }
 

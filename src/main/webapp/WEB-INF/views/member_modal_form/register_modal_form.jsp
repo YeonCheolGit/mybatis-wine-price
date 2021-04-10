@@ -93,7 +93,7 @@
         $('#emailChk').click(function () {
             if (emailChk_boolean === true) {
                 $.ajax({
-                    url: "${contextPath}/member/duplicated_email_chk",
+                    url: "${contextPath}/member/duplicatedEmailChk",
                     type: "post",
                     dataType: "json",
                     data: {

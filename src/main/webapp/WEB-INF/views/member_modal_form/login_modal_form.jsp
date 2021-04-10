@@ -41,11 +41,12 @@
         let loginEmail = document.getElementById("login-email");
         let loginPwd = document.getElementById("login-pwd");
         let loginValidChk = document.getElementById("login-email-validation-chk");
+        let findPwModalButton = document.getElementById("find-pw-modal-button");
+        let findPwModalForm = document.getElementById("find-pw-modal-form");
 
         // 비밀번호 찾기 모달 form 버튼
-        let findPwModalButton = document.getElementById("find-pw-modal-button");
         $(findPwModalButton).click(function () {
-            $(findPwModalButton).modal("show")
+            $(findPwModalForm).modal("show")
         });
 
         // 로그인 이메일 입력 시 유효한 이메일 검증

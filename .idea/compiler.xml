@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="mybatis_board" />
+        <module name="mybatis_wine_price" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11" />

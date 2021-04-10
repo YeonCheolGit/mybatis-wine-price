@@ -12,9 +12,9 @@ import java.util.List;
 @Repository
 public class MemberDAOImpl implements MemberDAO {
 
-    private final SqlSession sqlSession;
+    private final SqlSessionTemplate sqlSession;
 
-    public MemberDAOImpl(SqlSession sqlSession) {
+    public MemberDAOImpl(SqlSessionTemplate sqlSession) {
         this.sqlSession = sqlSession;
     }
 
