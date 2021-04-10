@@ -66,7 +66,7 @@ public class MemberController {
      */
     @PostMapping(value = "/duplicatedEmailChk")
     @ResponseBody
-    public int duplicated_email_chk(MemberDTO memberDTO) {
+    public int duplicatedEmailChk(MemberDTO memberDTO) {
         log.debug("==================== duplicatedEmailChk ====================");
         return memberService.duplicatedEmailChk(memberDTO);
     }

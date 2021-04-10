@@ -7,7 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -25,7 +25,6 @@ import javax.sql.DataSource;
 @EnableWebMvc
 @Configuration
 @ComponentScan (basePackages = {"main"})
-@PropertySource("classpath:jdbc.properties")
 public class AppConfig implements WebMvcConfigurer {
 
     @Bean
@@ -37,8 +36,8 @@ public class AppConfig implements WebMvcConfigurer {
     }
 
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").
-                addResourceLocations("/main/resources/", "/main/webapp/resources/static/js");
+        registry.addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/");
     }
 
     @Bean

@@ -1,4 +1,4 @@
-window.onload = function () {
+$(document).ready(function () {
     let findPwEmail = document.getElementById("find-pw-email");
     let findPwNickName = document.getElementById("find-pw-nickName");
     /**
@@ -9,9 +9,8 @@ window.onload = function () {
      */
     let sendNewPwd = document.getElementById("send-new-pwd");
     $(sendNewPwd).click(function () {
-        console.log("눌렸음!~")
         $.ajax({
-            url: "${contextPath}/member/findPwd",
+            url: "/member/findPwd",
             type: "post",
             dataType: "json",
             data: {
@@ -22,12 +21,12 @@ window.onload = function () {
                 if (result === 1) { // email 일치 X 경우
                     alert("이메일 혹은 닉네임을 다시 확인해주세요.")
                 } else if (result === 2) { // 에러 발생 경우
-                    self.location = "${contextPath}/main/errorPage";
+                    self.location = "/main/errorPage";
                 } else { // nickName && email 일치
                     alert("임시 비밀번호를 발송 했습니다");
-                    self.location = "${contextPath}/main";
+                    self.location = "/main";
                 }
             }
         });
     }); // 새 비밀번호 전송 버튼 끝
-};
+});
