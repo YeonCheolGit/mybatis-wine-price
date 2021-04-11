@@ -11,6 +11,10 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+/*
+ * InternalResourceViewResolver - 뷰 이름을 실제로 찾음. 기본 설정은 JSP 파일을 찾음
+ * AuthInterceptor - 직접 만든 AuthInterceptor 클래스 등록
+ */
 @EnableWebMvc
 @Configuration
 @ComponentScan (basePackages = {"main"})

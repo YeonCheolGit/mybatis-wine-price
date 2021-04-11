@@ -5,6 +5,7 @@ $(document).ready(function () {
     let registerSubmit = document.getElementById("register-submit");
     let registerEmailValidChk = document.getElementById("register-email-validation-chk");
     let pwdValidChk = document.getElementById("pwd-validation-chk")
+    let emailChk = document.getElementById("emailChk");
     /*
      * 이메일 규칙
      * -영문으로 이루어짐
@@ -46,7 +47,7 @@ $(document).ready(function () {
     });
 
     // 회원가입 모달 form - 이메일 중복 체크 버튼
-    $('#emailChk').click(function () {
+    $(emailChk).click(function () {
         if (emailChk_boolean === true) {
             $.ajax({
                 url: "/member/duplicatedEmailChk",
@@ -59,7 +60,7 @@ $(document).ready(function () {
                     if (data === 1) {
                         alert("이미 사용하고 있는 이메일입니다.");
                     } else if (data === 0) {
-                        $("#emailChk").attr("value", "Y");
+                        $(emailChk).attr("value", "Y");
                         alert("사용 가능한 이메일입니다.");
                     }
                 }

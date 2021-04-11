@@ -143,18 +143,22 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#searchBtn').click(function() { // 검색 창 검색 버튼 클릭 시 동작
+        let searchBtn = document.getElementById("searchBtn");
+        let keywordInput = document.getElementById("keywordInput");
+        let price = document.getElementById("price");
+
+        $(searchBtn).click(function() { // 검색 창 검색 버튼 클릭 시 동작
             self.location = "${contextPath}/wine/searchBarAndPagination${pageMaker.makeQuery(1)}"
                 + "&searchType=" + $("select option:selected").val()
                 + "&keyword=" + encodeURIComponent($("#keywordInput").val());
         });
-        $('#price').click(function() { // 정렬 버튼 클릭 시 동작
+        $(price).click(function() { // 정렬 버튼 클릭 시 동작
             self.location = "${contextPath}/wine/orderByPrice${pageMaker.makeQuery(1)}"
                 + "&orderByPrice=" + $("select option:selected").val()
-                + "&keyword=" + encodeURIComponent($("#keywordInput").val());
+                + "&keyword=" + encodeURIComponent($(keywordInput).val());
         });
         let cache = {}; // 검색창에 입력한 글자를 저장하는 캐시
-        $( "#keywordInput" ).autocomplete ({ // 검색 창에 두글자 입력부터 동작
+        $(keywordInput).autocomplete ({ // 검색 창에 두글자 입력부터 동작
             minLength: 2,
             source: function( request, response ) {
                 let term = request.term;

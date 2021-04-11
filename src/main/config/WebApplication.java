@@ -9,6 +9,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
+/*
+ * ServletContext (ServletContainer - Tomcat) 설정
+ * AnnotationConfigWebApplicationContext - 애노테이션 기반 WebApplicationContext, IoC 컨테이너가 관리하는 객체 등록
+ */
 public class WebApplication implements WebApplicationInitializer {
 
     @Override
@@ -16,6 +20,7 @@ public class WebApplication implements WebApplicationInitializer {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.register(AppConfig.class);
         context.register(SecurityConfig.class);
+        context.register(JDBCConfig.class);
 
         servletContext.addListener(new ContextLoaderListener(context));
         context.setServletContext(servletContext);

@@ -6,6 +6,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/commons/header.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/commons" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/header/nav.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/header" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/member_modal_form/findPw_modal_form.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/wine/allWineList.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/wine" />
       </map>
     </option>

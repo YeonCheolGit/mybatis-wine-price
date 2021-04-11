@@ -2,7 +2,6 @@
   <artifact type="jar" name="mybatis_board:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/mybatis_board_jar</output-path>
     <root id="archive" name="mybatis_board.jar">
-      <element id="module-output" name="mybatis_board" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.3.2/spring-beans-5.3.2.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/seleniumhq/selenium/selenium-java/3.141.59/selenium-java-3.141.59.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/springframework/spring-web/5.3.2/spring-web-5.3.2.jar" path-in-jar="/" />
