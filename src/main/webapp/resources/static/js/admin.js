@@ -4,7 +4,7 @@ $(document).ready(function () {
      */
     $('#enabledPause').click(function () {
         $.ajax({
-            url: "${contextPath}/admin/enabledPause",
+            url: contextPath + "/admin/enabledPause",
             type: "post",
             dataType: "json",
             data: {
@@ -13,7 +13,7 @@ $(document).ready(function () {
             success: function (data) {
                 if (data) {
                     alert("계정 정지 처리 되었습니다.");
-                    self.location = "${contextPath}/admin/adminPage.do";
+                    self.location = contextPath + "/admin/adminPage.do";
                 } else {
                     alert("알 수 없는 에러")
                 }
@@ -26,7 +26,7 @@ $(document).ready(function () {
      */
     $('#enabledActive').click(function () {
         $.ajax({
-            url: "${contextPath}/admin/enabledActive",
+            url: contextPath + "/admin/enabledActive",
             type: "post",
             dataType: "json",
             data: {
@@ -35,7 +35,7 @@ $(document).ready(function () {
             success: function (data) {
                 if (data) {
                     alert("계정 활성화 되었습니다.");
-                    self.location = "${contextPath}/admin/adminPage.do";
+                    self.location = contextPath + "/admin/adminPage.do";
                 } else {
                     alert("알 수 없는 에러")
                 }

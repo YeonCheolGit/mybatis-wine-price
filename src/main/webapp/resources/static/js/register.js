@@ -6,6 +6,7 @@ $(document).ready(function () {
     let registerEmailValidChk = document.getElementById("register-email-validation-chk");
     let pwdValidChk = document.getElementById("pwd-validation-chk")
     let emailChk = document.getElementById("emailChk");
+
     /*
      * 이메일 규칙
      * -영문으로 이루어짐
@@ -50,7 +51,7 @@ $(document).ready(function () {
     $(emailChk).click(function () {
         if (emailChk_boolean === true) {
             $.ajax({
-                url: "/member/duplicatedEmailChk",
+                url: contextPath + "/member/duplicatedEmailChk",
                 type: "post",
                 dataType: "json",
                 data: {
@@ -98,7 +99,7 @@ $(document).ready(function () {
         }
         else if (pwdChk_boolean === true && emailChk_boolean === true) { // 유효한 이메일 && 비밀번호 입력 시
             $.ajax({
-                url: "/member/registerMember",
+                url: contextPath + "/member/registerMember",
                 type: "post",
                 dataType: "json",
                 data: {
@@ -111,7 +112,7 @@ $(document).ready(function () {
                         alert("중복되는 이메일 혹은 아이디 입니다!");
                     } else if (data === true) {
                         alert("환영합니다!");
-                        self.location = "/main";
+                        self.location = contextPath + "/main";
                     }
                 }
             });

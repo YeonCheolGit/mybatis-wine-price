@@ -10,7 +10,7 @@ $(document).ready(function () {
     let sendNewPwd = document.getElementById("send-new-pwd");
     $(sendNewPwd).click(function () {
         $.ajax({
-            url: "/member/findPwd",
+            url: contextPath + "/member/findPwd",
             type: "post",
             dataType: "json",
             data: {
@@ -24,7 +24,7 @@ $(document).ready(function () {
                     self.location = "/main/errorPage";
                 } else { // nickName && email 일치
                     alert("임시 비밀번호를 발송 했습니다");
-                    self.location = "/main";
+                    self.location = contextPath + "/main";
                 }
             }
         });

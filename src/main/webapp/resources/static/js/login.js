@@ -32,7 +32,7 @@ $(document).ready(function () {
     let loginSubmit = document.getElementById("login-submit");
     $(loginSubmit).click(function () {
         $.ajax({
-            url: "/member/login",
+            url: contextPath + "/member/login",
             type: "post",
             dataType: "json",
             data: {
@@ -47,7 +47,7 @@ $(document).ready(function () {
                 } else if (data) { // 성공
                     $(loginSubmit).attr("value", "Y");
                     alert("환영합니다.");
-                    self.location = "/main";
+                    self.location = contextPath + "/main";
                 }
             }
         });

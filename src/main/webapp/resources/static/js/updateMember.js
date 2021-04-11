@@ -13,7 +13,7 @@ $(document).ready(function () {
      */
     let pwdRegex = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
     let updatePwdChkBoolean = false;
-    $('#update_pwd').on("propertychange change keyup paste input", function () { // 회원가입 비밀번호 입력 시 타이핑 마다 검사
+    $(updatePwd).on("propertychange change keyup paste input", function () { // 회원가입 비밀번호 입력 시 타이핑 마다 검사
         if (pwdRegex.test($('#update_pwd').val())) {
             $(updatePwdValidChk).text('비밀번호로 적합합니다.');
             updatePwdChkBoolean = true;
@@ -32,7 +32,7 @@ $(document).ready(function () {
     $('#update_submit').click(function () {
         if (updatePwdChkBoolean === true) {
             $.ajax({
-                url: "/member/updateMember",
+                url: contextPath + "/member/updateMember",
                 type: "post",
                 dataType: "json",
                 data: {
@@ -45,7 +45,7 @@ $(document).ready(function () {
                         alert("비밀번호를 확인해주세요.");
                     } else if (data === true) {
                         alert("회원정보 수정이 완료 됐습니다.");
-                        self.location = "/main";
+                        self.location = contextPath + "/main";
                     }
                 }
             });
