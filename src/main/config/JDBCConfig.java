@@ -19,8 +19,8 @@ public class JDBCConfig {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://15.164.46.83:3306/MVC?characterEncoding=UTF-8&amp&serverTimezone=UTC");
-        dataSource.setUsername("mysqluser");
-        dataSource.setPassword("root");
+        dataSource.setUsername("아이디");
+        dataSource.setPassword("비밀번호");
 
         return dataSource;
     }
