@@ -1,6 +1,9 @@
 package main.service.member;
 
 import main.DTO.MemberDTO;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +11,8 @@ import java.io.IOException;
 import java.util.List;
 
 public interface MemberService {
+
+    MemberDTO securityLogin(String username);
 
     @Transactional
     Boolean registerMember(MemberDTO memberDTO);

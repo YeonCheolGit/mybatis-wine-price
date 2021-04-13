@@ -55,7 +55,7 @@ $(document).ready(function () {
                 type: "post",
                 dataType: "json",
                 data: {
-                    "email": $(registerEmail).val(),
+                    "username": $(registerEmail).val(),
                 },
                 success: function (data) { // 버튼 클릭 후 return
                     if (data === 1) {
@@ -103,8 +103,8 @@ $(document).ready(function () {
                 type: "post",
                 dataType: "json",
                 data: {
-                    "email": $(registerEmail).val(),
-                    "pwd": $(registerPwd).val(),
+                    "username": $(registerEmail).val(),
+                    "password": $(registerPwd).val(),
                     "nickName": $(registerNickName).val(),
                 },
                 success: function (data) { // 회원 가입 버튼 클릭 후 return

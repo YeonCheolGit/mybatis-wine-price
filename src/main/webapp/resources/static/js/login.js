@@ -15,7 +15,7 @@ $(document).ready(function () {
     let emailChkBoolean;
     $(loginEmail).on("propertychange change keyup paste input", function () { // 회원가입 비밀번호 입력 시 타이핑 마다 검사
         if (emailRegex.test($(loginEmail).val()) === false) {
-            $(loginValidChk).text('유요한 이메일이 아닙니다.');
+            $(loginValidChk).text('유효한 이메일이 아닙니다.');
             emailChkBoolean = false;
         } else {
             $(loginValidChk).text('');
@@ -31,15 +31,17 @@ $(document).ready(function () {
      */
     let loginSubmit = document.getElementById("login-submit");
     $(loginSubmit).click(function () {
+        console.log("로그인")
         $.ajax({
             url: contextPath + "/member/login",
             type: "post",
             dataType: "json",
             data: {
-                "email": $(loginEmail).val(),
-                "pwd": $(loginPwd).val(),
+                "username": $(loginEmail).val(),
+                "password": $(loginPwd).val(),
             },
             success: function (data) {
+                console.log("로그인 완료")
                 if (data === null) { // 실패
                     alert("이메일 또는 비밀번호를 확인해주세요.");
                 } if (data === 1) { // 정지된 회원
@@ -49,6 +51,11 @@ $(document).ready(function () {
                     alert("환영합니다.");
                     self.location = contextPath + "/main";
                 }
+            },
+            error: function (request, status, error) {
+                console.log("status: " + request.status + "\n"
+                    + "message: " + request.responseText + "\n"
+                    + "error: " + error);
             }
         });
     }); // 로그인 버튼 끝

@@ -17,12 +17,12 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="login-email" class="form-label">이메일</label>
-                    <input type="email" id="login-email" name="email" class="form-control" placeholder="example@email.com">
+                    <input type="email" id="login-email" name="username" class="form-control" placeholder="example@email.com">
                     <div id="login-email-validation-chk"></div>
                 </div>
                 <div class="mb-3">
                     <label for="login-pwd" class="form-label">비밀번호</label>
-                    <input type="password" id="login-pwd" name="pwd" class="form-control">
+                    <input type="password" id="login-pwd" name="password" class="form-control">
                 </div>
             </div>
             <div class="modal-footer">
@@ -33,7 +33,6 @@
         </div>
     </div>
 </div>
-<script>let contextPath = "${pageContext.request.contextPath}"</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>

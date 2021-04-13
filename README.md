@@ -23,6 +23,8 @@
 + 롯데마트, 이마트의 와인들 크롤링 (이미 존재하는 경우 가격만 업데이트)
 + 와인 데이터 저장 배열 (LinkedList 대신 ArrayList inital capacity 변경으로 수행 시간 단축)
   +  전문: https://yeon-kr.tistory.com/152?category=857330
++ 와인 데이터 for loop get() 연산 수행 시간 단축  
+  +  전문: : https://yeon-kr.tistory.com/158?category=857330
 + 마트 크롤러 각각 작성 후 쓰레드로 등록해 멀티스레드 실행 (크롤링 속도 향상 위함)
 
 ### 본문 내용 (Spring MVC, Paging, Ajax)

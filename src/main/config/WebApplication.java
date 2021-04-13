@@ -1,13 +1,14 @@
 package main.config;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
+import javax.servlet.*;
+import java.util.EnumSet;
 
 /*
  * ServletContext (ServletContainer - Tomcat) 설정
@@ -30,5 +31,8 @@ public class WebApplication implements WebApplicationInitializer {
         ServletRegistration.Dynamic servlet = servletContext.addServlet("dispatcher", dispatcherServlet);
         servlet.setLoadOnStartup(1);
         servlet.addMapping("/");
+
+        FilterRegistration securityFilter = servletContext.addFilter("springSecurityFilterChain", DelegatingFilterProxy.class);
+        securityFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD), true, "/*");
     }
 }

@@ -8,7 +8,7 @@ $(document).ready(function () {
             type: "post",
             dataType: "json",
             data: {
-                "email": $("#email").val(),
+                "username": $("#email").val(),
             },
             success: function (data) {
                 if (data) {
@@ -30,7 +30,7 @@ $(document).ready(function () {
             type: "post",
             dataType: "json",
             data: {
-                "email": $("#email").val(),
+                "username": $("#email").val(),
             },
             success: function (data) {
                 if (data) {

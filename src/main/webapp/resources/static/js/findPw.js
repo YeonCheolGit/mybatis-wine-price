@@ -14,7 +14,7 @@ $(document).ready(function () {
             type: "post",
             dataType: "json",
             data: {
-                "email": $(findPwEmail).val(),
+                "username": $(findPwEmail).val(),
                 "nickName": $(findPwNickName).val(),
             },
             success: function (result) {

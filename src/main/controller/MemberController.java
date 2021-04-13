@@ -47,7 +47,8 @@ public class MemberController {
     public Object login(MemberDTO memberDTO, HttpServletRequest request) {
         log.debug("==================== login ====================");
 
-        return memberService.login(memberDTO, request);
+        return memberService.securityLogin(memberDTO.getUsername());
+//        return memberService.login(memberDTO, request);
     }
 
     /*

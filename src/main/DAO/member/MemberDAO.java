@@ -19,4 +19,6 @@ public interface MemberDAO {
     List<MemberDTO> allMemberList();
 
     int enabledPause(MemberDTO memberDTO);
+
+    MemberDTO securityLogin(String username);
 }

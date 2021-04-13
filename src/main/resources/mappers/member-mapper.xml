@@ -5,8 +5,8 @@
 
 <mapper namespace="mapper.member">
     <resultMap id="memberResult" type="main.DTO.MemberDTO">
-        <result property="email" column="email" />
-        <result property="pwd" column="pwd" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
         <result property="nickName" column="nickName" />
         <result property="regDate" column="regDate" />
         <result property="enabled" column="enabled" />
@@ -27,31 +27,39 @@
         <![CDATA[
         update MVC.member
         set enabled = #{enabled}
-        where email = #{email};
+        where username = #{username};
         ]]>
     </update>
 
     <!-- 회원가입 -->
     <select id="registerMember" resultMap="memberResult">
         <![CDATA[
-        insert into MVC.member(email, pwd, nickName)
-        VALUES (#{email}, #{pwd}, #{nickName});
+        insert into MVC.member(username, password, nickName)
+        VALUES (#{username}, #{password}, #{nickName});
+        ]]>
+    </select>
+
+    <select id="securityLogin" resultMap="memberResult" parameterType="String">
+        <![CDATA[
+        select *
+        from MVC.member
+        where username = #{username};
         ]]>
     </select>
 
     <!-- 로그인 -->
     <select id="login" resultMap="memberResult">
         <![CDATA[
-        select email, pwd, nickName, role, enabled
+        select username, password, nickName, role, enabled
         from MVC.member
-        where email = #{email};
+        where username = #{username};
         ]]>
     </select>
 
     <!-- 임시 비밀번호 이메일 전송 위해 id 기준으로 읽음 -->
     <select id="readMember" resultMap="memberResult">
         <![CDATA[
-        select email, pwd, nickName
+        select username, password, nickName
         from MVC.member
         where id = #{nickName};
         ]]>
@@ -60,9 +68,9 @@
     <!-- 이메일 중복 체크 -->
     <select id="duplicatedEmailChk" resultType="int">
         <![CDATA[
-        select COUNT(email)
+        select COUNT(username)
         from MVC.member
-        where email = #{email};
+        where username = #{username};
         ]]>
     </select>
 
@@ -79,8 +87,8 @@
     <update id="memberUpdate">
         <![CDATA[
         update MVC.member
-        set pwd  = #{pwd}
-        where email = #{email};
+        set password  = #{password}
+        where username = #{username};
         ]]>
     </update>
 </mapper>

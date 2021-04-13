@@ -1,9 +1,7 @@
 package main.DAO.member;
 
 import main.DTO.MemberDTO;
-import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +17,11 @@ public class MemberDAOImpl implements MemberDAO {
     }
 
     private static final String nameSpace = "mapper.member";
+
+    @Override
+    public MemberDTO securityLogin(String username) {
+        return sqlSession.selectOne(nameSpace + ".securityLogin", username);
+    }
 
     @Override
     public List<MemberDTO> allMemberList() {

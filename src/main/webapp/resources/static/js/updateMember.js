@@ -3,6 +3,7 @@ $(document).ready(function () {
     let updatePwd = document.getElementById("update-pwd");
     let updateNickName = document.getElementById("update-nickname");
     let updatePwdValidChk = document.getElementById("update-pwd-validation-chk");
+    let updateSubmit = document.getElementById("update_submit");
 
     /*
      * 비밀번호 규칙
@@ -29,15 +30,15 @@ $(document).ready(function () {
      * 2. 비밀번호 변경 후 /main redirect
      */
 
-    $('#update_submit').click(function () {
+    $(updateSubmit).click(function () {
         if (updatePwdChkBoolean === true) {
             $.ajax({
                 url: contextPath + "/member/updateMember",
                 type: "post",
                 dataType: "json",
                 data: {
-                    "email": $(updateEmail).val(),
-                    "pwd": $(updatePwd).val(),
+                    "username": $(updateEmail).val(),
+                    "password": $(updatePwd).val(),
                     "nickName": $(updateNickName).val(),
                 },
                 success: function (data) { // 회원정보 수정 후 return

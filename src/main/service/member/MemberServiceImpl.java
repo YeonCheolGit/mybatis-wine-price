@@ -3,28 +3,48 @@ package main.service.member;
 import lombok.extern.log4j.Log4j2;
 import main.DAO.member.MemberDAO;
 import main.DTO.MemberDTO;
+import main.security.PrincipalDetails;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.lang.invoke.StringConcatFactory;
-import java.lang.reflect.Member;
 import java.util.List;
 
 @Service
 @Log4j2
-public class MemberServiceImpl implements MemberService {
+public class MemberServiceImpl implements MemberService, UserDetailsService {
+
     private final PasswordEncoder passwordEncoder;
 
     private final MemberDAO memberDAO;
 
+    @Autowired
     public MemberServiceImpl(PasswordEncoder passwordEncoder, MemberDAO memberDAO) {
         this.passwordEncoder = passwordEncoder;
         this.memberDAO = memberDAO;
+    }
+
+    @Override
+    public MemberDTO securityLogin(String username) {
+        return memberDAO.securityLogin(username);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        log.debug("======================= loadUserByUsername ======================= ");
+
+        MemberDTO memberDTO = memberDAO.securityLogin(username);
+        if (memberDTO != null) {
+            return new PrincipalDetails(memberDTO);
+        }
+        return null;
     }
 
     @Override
@@ -47,9 +67,9 @@ public class MemberServiceImpl implements MemberService {
         int resultNickName = memberDAO.duplicatedNickNameChk(memberDTO); // 중복 nickName 체크
 
         if (resultNickName == 0 && resultEmail == 0) { // 중복된 email && nickName X 경우
-            String rawPwd = memberDTO.getPwd(); // 사용자가 입력한 raw 비밀번호
+            String rawPwd = memberDTO.getPassword(); // 사용자가 입력한 raw 비밀번호
             String encodedPwd = passwordEncoder.encode(rawPwd); // raw 비밀번호를 인코딩
-            memberDTO.setPwd(encodedPwd);
+            memberDTO.setPassword(encodedPwd);
 
             memberDAO.registerMember(memberDTO);
             return true;
@@ -69,9 +89,9 @@ public class MemberServiceImpl implements MemberService {
             HttpSession session = request.getSession();
 
             MemberDTO dbMember = memberDAO.login(memberDTO);
-            boolean pwdMatch = passwordEncoder.matches(memberDTO.getPwd(), dbMember.getPwd()); // 사용자 입력 pwd, 찾아온 DB pwd 비교
+            boolean pwdMatch = passwordEncoder.matches(memberDTO.getPassword(), dbMember.getPassword()); // 사용자 입력 pwd, 찾아온 DB pwd 비교
 
-            if (dbMember.getEmail() == null || !pwdMatch) { // 일치 X 경우
+            if (dbMember.getUsername() == null || !pwdMatch) { // 일치 X 경우
                 session.setAttribute("member", null); // session null
                 return "null";
             } if (dbMember.getEnabled() == 0) { // 일치 X 경우
@@ -114,8 +134,8 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public Boolean updateMember(MemberDTO memberDTO, HttpServletRequest request) {
-        String encodedPwd = passwordEncoder.encode(memberDTO.getPwd()); // 사용자 입력 비밀번호 인코딩
-        memberDTO.setPwd(encodedPwd); // 인코딩 된 비밀번호 저장
+        String encodedPwd = passwordEncoder.encode(memberDTO.getPassword()); // 사용자 입력 비밀번호 인코딩
+        memberDTO.setPassword(encodedPwd); // 인코딩 된 비밀번호 저장
 
         try {
             memberDAO.updateMember(memberDTO); // 인코딩 된 비밀번호로 회원정보 업데이트
@@ -150,11 +170,11 @@ public class MemberServiceImpl implements MemberService {
             msg += "<h3 style='color: blue;'>";
             msg += memberDTO.getNickName() + "님의 임시 비밀번호 입니다. 비밀번호를 변경하여 사용하세요.</h3>";
             msg += "<p>임시 비밀번호 : ";
-            msg += memberDTO.getPwd() + "</p></div>";
+            msg += memberDTO.getPassword() + "</p></div>";
         }
 
         // 받는 사람 E-Mail 주소 (회원가입 시 email로)
-        String mail = memberDTO.getEmail();
+        String mail = memberDTO.getUsername();
         try {
             HtmlEmail email = new HtmlEmail();
             email.setDebug(true);
@@ -201,12 +221,12 @@ public class MemberServiceImpl implements MemberService {
                 }
 
                 // raw 임시 비밀번호 이메일 발송
-                memberDTO.setPwd(stringBuilder.toString());
+                memberDTO.setPassword(stringBuilder.toString());
                 sendEmail(memberDTO, "findPwd");
 
                 // raw 비밀번호 encode 후 DB 저장
                 String encodedPwd = passwordEncoder.encode(stringBuilder);
-                memberDTO.setPwd(encodedPwd);
+                memberDTO.setPassword(encodedPwd);
                 memberDAO.updateMember(memberDTO);
 
                 return "true";
